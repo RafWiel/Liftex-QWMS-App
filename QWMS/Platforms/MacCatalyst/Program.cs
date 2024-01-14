@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Liftex_QWMS
+namespace QWMS
 {
     public class Program
     {

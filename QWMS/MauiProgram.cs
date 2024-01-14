@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Liftex_QWMS
+namespace QWMS
 {
     public static class MauiProgram
     {

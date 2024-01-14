@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Liftex_QWMS
+namespace QWMS
 {
     [Application]
     public class MainApplication : MauiApplication

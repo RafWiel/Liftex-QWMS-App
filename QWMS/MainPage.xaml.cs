@@ -1,7 +1,6 @@
-﻿using Liftex_QWMS.Services;
-using System.Threading.Tasks;
+﻿using QWMS.Services;
 
-namespace Liftex_QWMS
+namespace QWMS
 {
     public partial class MainPage : ContentPage
     {
@@ -13,18 +12,23 @@ namespace Liftex_QWMS
         {
             InitializeComponent();
 
-            _barcodeReader = new BarcodeReaderService();
+            _barcodeReader = new BarcodeReaderService();            
 
-            var x = _barcodeReader.GetOrientation();
-
-#if ANDROID
+            #if ANDROID
             _barcodeReader.BarcodeReceived += _barcodeReader_BarcodeReceived;  
-#endif
+            #endif
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            _barcodeReader.Dispose();
         }
 
         private void _barcodeReader_BarcodeReceived(string barcode)
         {
-            CounterBtn.Text = barcode;            
+            CounterBtn.Text = barcode;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

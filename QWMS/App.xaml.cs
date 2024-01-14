@@ -1,4 +1,4 @@
-﻿namespace Liftex_QWMS
+﻿namespace QWMS
 {
     public partial class App : Application
     {

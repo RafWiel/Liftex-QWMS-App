@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Liftex_QWMS
+namespace QWMS
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

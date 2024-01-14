@@ -2,18 +2,13 @@
 using Com.Cipherlab.Barcode;
 using Com.Cipherlab.Barcode.Decoder;
 using Com.Cipherlab.Barcode.Decoderparams;
-//using Liftex_QWMS.Tools;
+//using QWMS.Tools;
 
 
-namespace Liftex_QWMS.Services
+namespace QWMS.Services
 {
     public partial class BarcodeReaderService
-    {
-        public partial int GetOrientation()
-        {
-            return 1;
-        }
-
+    {        
         public delegate void BarcodeReceivedDelegate(string barcode);
         public event BarcodeReceivedDelegate? BarcodeReceived;
 
@@ -54,7 +49,7 @@ namespace Liftex_QWMS.Services
             _context.RegisterReceiver(_dataReceiver, _intentfilter);
         }
 
-        public void Dispose()
+        public partial void Dispose()
         {
             Console.WriteLine("Android dispose");
 
