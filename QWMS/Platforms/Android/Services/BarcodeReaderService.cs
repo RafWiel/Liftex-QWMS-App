@@ -1,7 +1,10 @@
 ﻿using Android.Content;
+using Android.Text;
+using AndroidX.Lifecycle;
 using Com.Cipherlab.Barcode;
 using Com.Cipherlab.Barcode.Decoder;
 using Com.Cipherlab.Barcode.Decoderparams;
+using System.Text.RegularExpressions;
 //using QWMS.Tools;
 
 
@@ -78,7 +81,7 @@ namespace QWMS.Services
 
             if (intent.Action.Equals(GeneralString.IntentPASSTOAPP))
             {
-                BarcodeReceived?.Invoke(intent.GetStringExtra(GeneralString.BcReaderData));
+                ProcessBarcode(intent.GetStringExtra(GeneralString.BcReaderData));                
                 return;
             }
 
@@ -104,8 +107,8 @@ namespace QWMS.Services
                 settings.AutoEnterChar = OutputEnterChar.None;
                 settings.ShowCodeLen = Enable_State.False;
                 settings.ShowCodeType = Enable_State.False;
-                settings.SzPrefixCode = "<EAN>";
-                settings.SzSuffixCode = "</EAN>";
+                settings.SzPrefixCode = "<ean>";
+                settings.SzSuffixCode = "</ean>";
 
                 ReaderManager.Set_ReaderOutputConfiguration(settings);
                 ReaderManager.SetActive(true);
@@ -116,6 +119,15 @@ namespace QWMS.Services
             {
                 //Log.Write(ex.ToString());
             }
+        }
+
+        private void ProcessBarcode(string barcode)
+        {
+            Match m = Regex.Match(barcode, "^<ean>\\w+</ean>$");
+            if (m.Success == false)
+                return;
+            
+            BarcodeReceived?.Invoke(Regex.Replace(barcode, "(?:^<ean>|</ean>$)", string.Empty));
         }
     }
 }
