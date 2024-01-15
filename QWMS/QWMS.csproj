@@ -84,6 +84,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="resources\raw\Orders.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -93,7 +97,6 @@
 	  <Folder Include="Platforms\Android\Services\" />
 	  <Folder Include="Platforms\MacCatalyst\Services\" />
 	  <Folder Include="Platforms\Windows\Servcices\" />
-	  <Folder Include="Services\" />
 	</ItemGroup>
 
 	<ItemGroup>

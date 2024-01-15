@@ -1,0 +1,5 @@
+Sprawdz czy mozna zrobic warunkowa klase partial tak jak Platforms
+
+
+*** 0.1.0 - 2024.01.07
+- Start projektu

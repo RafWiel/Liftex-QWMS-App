@@ -1,6 +1,6 @@
 ﻿using QWMS.Services;
 
-namespace QWMS
+namespace QWMS.Views
 {
     public partial class MainPage : ContentPage
     {
@@ -28,19 +28,19 @@ namespace QWMS
 
         private void _barcodeReader_BarcodeReceived(string barcode)
         {
-            CounterBtn.Text = barcode;
+            //CounterBtn.Text = barcode;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
         {
             count++;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+            //if (count == 1)
+            //    CounterBtn.Text = $"Clicked {count} time";
+            //else
+            //    CounterBtn.Text = $"Clicked {count} times";
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            //SemanticScreenReader.Announce(CounterBtn.Text);
         }
     }
 
