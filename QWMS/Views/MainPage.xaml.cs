@@ -45,3 +45,5 @@ namespace QWMS.Views
     }
 
 }
+
+https://www.youtube.com/watch?v=XmdBXuNPShs&list=PLfbOp004UaYVt1En4WW3pVuM-vm66OqZe&index=5&t=1180s

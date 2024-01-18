@@ -12,6 +12,24 @@ namespace QWMS.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set 
+            {
+                if (_isBusy == value)
+                    return;
+
+                _isBusy = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(IsNotBusy));
+            }
+        }
+
+        //todo: Add XAML Converter
+        public bool IsNotBusy => !IsBusy;        
+
         //protected void Set<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
         //{
         //    if (Equals(storage, value))

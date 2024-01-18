@@ -1,40 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:QWMS.Models"
-             x:Class="QWMS.Views.MainPage">
-    <CollectionView>
-        <CollectionView.ItemsSource>
-            <x:Array Type="{x:Type model:OrderListModel}">
-                <model:OrderListModel
-                    Order="O1"
-                    Contractor="K1" />
-                <model:OrderListModel
-                    Order="O1"
-                    Contractor="K1" />
-                <model:OrderListModel
-                    Order="O1"
-                    Contractor="K1" />
-                <model:OrderListModel
-                    Order="O1"
-                    Contractor="K1" />
-            </x:Array>
-        </CollectionView.ItemsSource>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="model:OrderListModel">
-                <HorizontalStackLayout Padding="0">
-                    <Label VerticalOptions="Center" >
-                        <Label.Text>
-                            <Binding Path="Order" />
-                        </Label.Text>
-                    </Label>
-                    <Label VerticalOptions="Center">
-                        <Label.Text>
-                            <Binding Path="Contractor" />
-                        </Label.Text>
-                    </Label>
-                </HorizontalStackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+<ContentPage
+    x:Class="QWMS.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:QWMS.Models"
+    xmlns:viewModel="clr-namespace:QWMS.ViewModels"
+    Title="Zamówienia"
+    x:DataType="viewModel:OrderListViewModel">
+    <Grid
+        ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="*,Auto"
+        RowSpacing="0">
+        <CollectionView
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding Orders}"
+            SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:OrderListModel">
+                    <Grid Padding="10">
+                        <Frame HeightRequest="125" Style="{StaticResource CardView}">
+                            <Grid Padding="0" ColumnDefinitions="25,*">
+                                <StackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label
+                                        Style="{StaticResource LargeLabel}"
+                                        Text="{Binding Order}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        Style="{StaticResource MediumLabel}"
+                                        Text="{Binding Contractor}"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="8"
+            Command="{Binding GetOrdersCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            Style="{StaticResource ButtonOutline}"
+            Text="Get Orders" />
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+    </Grid>
 </ContentPage>
