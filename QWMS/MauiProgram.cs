@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using QWMS.Services;
+using QWMS.ViewModels;
+using QWMS.Views;
 
 namespace QWMS
 {
@@ -18,6 +21,10 @@ namespace QWMS
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddSingleton<OrderListService>();
+            builder.Services.AddTransient<OrderListViewModel>();
 
             return builder.Build();
         }

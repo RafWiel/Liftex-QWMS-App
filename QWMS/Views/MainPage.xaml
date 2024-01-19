@@ -16,35 +16,40 @@
             Grid.ColumnSpan="2"
             ItemsSource="{Binding Orders}"
             SelectionMode="Single">
+            <!--<CollectionView.ItemsSource>
+                <x:Array Type="{x:Type model:OrderListModel}">
+                    <model:OrderListModel Contractor="K1" Order="O1" />
+                    <model:OrderListModel Contractor="K1" Order="O1" />
+                    <model:OrderListModel Contractor="K1" Order="O1" />
+                    <model:OrderListModel Contractor="K1" Order="O1" />
+                </x:Array>
+            </CollectionView.ItemsSource>-->
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:OrderListModel">
-                    <Grid Padding="10">
-                        <Frame HeightRequest="125" Style="{StaticResource CardView}">
-                            <Grid Padding="0" ColumnDefinitions="25,*">
-                                <StackLayout Grid.Column="1" VerticalOptions="Center">
-                                    <Label
-                                        Style="{StaticResource LargeLabel}"
-                                        Text="{Binding Order}"
-                                        VerticalOptions="Center" />
-                                    <Label
-                                        Style="{StaticResource MediumLabel}"
-                                        Text="{Binding Contractor}"
-                                        VerticalOptions="Center" />
-                                </StackLayout>
-                            </Grid>
-                        </Frame>
-                    </Grid>
+                    <HorizontalStackLayout Padding="10,5,0,5">
+                        <Label VerticalOptions="Center">
+                            <Label.Text>
+                                <Binding Path="Order" />
+                            </Label.Text>
+                        </Label>
+                        <Label Padding="10,0,0,0" VerticalOptions="Center">
+                            <Label.Text>
+                                <Binding Path="Contractor" />
+                            </Label.Text>
+                        </Label>
+                    </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
         <Button
             Grid.Row="1"
             Grid.Column="0"
             Margin="8"
             Command="{Binding GetOrdersCommand}"
             IsEnabled="{Binding IsNotBusy}"
-            Style="{StaticResource ButtonOutline}"
             Text="Get Orders" />
+        <!--  Style="{StaticResource ButtonOutline}"  -->
         <ActivityIndicator
             Grid.RowSpan="2"
             Grid.ColumnSpan="2"
@@ -54,3 +59,5 @@
             VerticalOptions="CenterAndExpand" />
     </Grid>
 </ContentPage>
+
+

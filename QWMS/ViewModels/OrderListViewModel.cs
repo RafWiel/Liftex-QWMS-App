@@ -39,7 +39,7 @@ namespace QWMS.ViewModels
                     Orders.Clear();
 
                 foreach (var order in orders)
-                    Orders.Add(order);
+                    Orders.Add(order);                
             }
             catch (Exception ex)
             {

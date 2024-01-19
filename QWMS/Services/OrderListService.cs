@@ -33,7 +33,9 @@ namespace QWMS.Services
             using var stream = await FileSystem.OpenAppPackageFileAsync("Orders.json");
             using var reader = new StreamReader(stream);
             var contents = await reader.ReadToEndAsync();
-            _orders = JsonSerializer.Deserialize<List<OrderListModel>>(contents);
+            _orders = JsonSerializer.Deserialize<List<OrderListModel>>(contents) ?? new();
+
+            Thread.Sleep(1000);
 
             return _orders;
         }
