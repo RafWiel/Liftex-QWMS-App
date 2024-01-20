@@ -16,28 +16,23 @@
             Grid.ColumnSpan="2"
             ItemsSource="{Binding Orders}"
             SelectionMode="Single">
-            <!--<CollectionView.ItemsSource>
-                <x:Array Type="{x:Type model:OrderListModel}">
-                    <model:OrderListModel Contractor="K1" Order="O1" />
-                    <model:OrderListModel Contractor="K1" Order="O1" />
-                    <model:OrderListModel Contractor="K1" Order="O1" />
-                    <model:OrderListModel Contractor="K1" Order="O1" />
-                </x:Array>
-            </CollectionView.ItemsSource>-->
+
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:OrderListModel">
-                    <HorizontalStackLayout Padding="10,5,0,5">
-                        <Label VerticalOptions="Center">
-                            <Label.Text>
-                                <Binding Path="Order" />
-                            </Label.Text>
-                        </Label>
-                        <Label Padding="10,0,0,0" VerticalOptions="Center">
-                            <Label.Text>
-                                <Binding Path="Contractor" />
-                            </Label.Text>
-                        </Label>
-                    </HorizontalStackLayout>
+                <DataTemplate x:DataType="model:OrderModel">
+                    <Grid Padding="10,5,0,5" ColumnDefinitions="*,*">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                        </Grid.GestureRecognizers>
+                        <Label
+                            Grid.Column="0"
+                            Text="{Binding Name}"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Column="1"
+                            Padding="10,0,0,0"
+                            Text="{Binding Contractor}"
+                            VerticalOptions="Center" />
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

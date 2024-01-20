@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace QWMS.Models
 {
-    public class OrderListModel //: INotifyPropertyChanged
+    public class OrderModel //: INotifyPropertyChanged
     {
         //public event PropertyChangedEventHandler? PropertyChanged;
 
-        [JsonPropertyName("order")]        
-        public string Order { get; set; } = string.Empty;
+        [JsonPropertyName("name")]        
+        public string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("contractor")]
         public string Contractor { get; set; } = string.Empty;

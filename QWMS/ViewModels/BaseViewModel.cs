@@ -28,18 +28,18 @@ namespace QWMS.ViewModels
         }
 
         //todo: Add XAML Converter
-        public bool IsNotBusy => !IsBusy;        
+        public bool IsNotBusy => !IsBusy;
 
-        //protected void Set<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
-        //{
-        //    if (Equals(storage, value))
-        //    {
-        //        return;
-        //    }
+        protected void Set<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
 
-        //    storage = value;
-        //    NotifyPropertyChanged(propertyName);
-        //}
+            storage = value;
+            NotifyPropertyChanged(propertyName);
+        }
 
         public void NotifyPropertyChanged([CallerMemberName] string? propertyName = null)
         {

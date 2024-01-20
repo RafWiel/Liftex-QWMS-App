@@ -1,5 +1,6 @@
 ﻿using QWMS.Models;
 using QWMS.Services;
+using QWMS.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,10 +12,11 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels
 {
-    public class OrderListViewModel : BaseViewModel
+    public partial class OrderListViewModel : BaseViewModel
     {
-        public ObservableCollection<OrderListModel> Orders { get; } = new();
+        public ObservableCollection<OrderModel> Orders { get; } = new();
         public Command GetOrdersCommand { get; }
+        public Command GoToDetailsCommand { get; }
 
         private OrderListService _ordersService;
 
@@ -22,7 +24,8 @@ namespace QWMS.ViewModels
         {
             _ordersService = ordersService;
 
-            GetOrdersCommand = new Command(async () => await GetOrdersAsync());
+            GetOrdersCommand = new Command(async () => await GetOrdersAsync());    
+            GoToDetailsCommand = new Command(async (Object order) => await GoToDetailsAsync((OrderModel)order));
         }
 
         async Task GetOrdersAsync()
@@ -49,6 +52,16 @@ namespace QWMS.ViewModels
             {
                 IsBusy = false;
             }
+        }
+        
+        async Task GoToDetailsAsync(OrderModel order)
+        {
+            await Shell.Current.GoToAsync(nameof(OrderDetailsPage), true, new Dictionary<string, object>
+            {
+                { "Order", order }
+
+                niech spierdala, szukaj inny kurs!
+            });
         }
     }
 }

@@ -11,7 +11,7 @@ namespace QWMS.Services
 {
     public class OrderListService
     {
-        List<OrderListModel> _orders = new();
+        List<OrderModel> _orders = new();
         HttpClient _httpClient;
 
         public OrderListService() 
@@ -19,7 +19,7 @@ namespace QWMS.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<OrderListModel>> GetOrders()
+        public async Task<List<OrderModel>> GetOrders()
         {
             if (_orders.Count > 0)
                 return _orders;
@@ -33,7 +33,7 @@ namespace QWMS.Services
             using var stream = await FileSystem.OpenAppPackageFileAsync("Orders.json");
             using var reader = new StreamReader(stream);
             var contents = await reader.ReadToEndAsync();
-            _orders = JsonSerializer.Deserialize<List<OrderListModel>>(contents) ?? new();
+            _orders = JsonSerializer.Deserialize<List<OrderModel>>(contents) ?? new();
 
             Thread.Sleep(1000);
 

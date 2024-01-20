@@ -25,6 +25,8 @@ namespace QWMS
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddSingleton<OrderListService>();
             builder.Services.AddTransient<OrderListViewModel>();
+            builder.Services.AddTransient<OrderDetailsPage>();
+            builder.Services.AddTransient<OrderDetailsViewModel>();
 
             return builder.Build();
         }

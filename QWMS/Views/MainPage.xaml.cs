@@ -1,5 +1,7 @@
-﻿using QWMS.Services;
+﻿using QWMS.Models;
+using QWMS.Services;
 using QWMS.ViewModels;
+using System.Diagnostics;
 
 namespace QWMS.Views
 {
@@ -44,7 +46,18 @@ namespace QWMS.Views
         private void _barcodeReader_BarcodeReceived(string barcode)
         {
             //CounterBtn.Text = barcode;
-        }        
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+        {
+            var order = ((VisualElement)sender).BindingContext as OrderModel;
+            if (order == null)
+                return;
+
+            _viewModel.GoToDetailsCommand.Execute(order);
+
+            Debug.WriteLine("tapped");
+        }
     }
 
 }
