@@ -48,16 +48,16 @@ namespace QWMS.Views
             //CounterBtn.Text = barcode;
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-        {
-            var order = ((VisualElement)sender).BindingContext as OrderModel;
-            if (order == null)
-                return;
+        //private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+        //{
+        //    var order = ((VisualElement)sender).BindingContext as OrderModel;
+        //    if (order == null)
+        //        return;
 
-            _viewModel.GoToDetailsCommand.Execute(order);
+        //    _viewModel.GoToDetailsCommand.Execute(order);
 
-            Debug.WriteLine("tapped");
-        }
+        //    Debug.WriteLine($"tapped order {order.Name}");
+        //}
     }
 
 }

@@ -8,20 +8,36 @@
     Title="Zamówienia"
     x:DataType="viewModel:OrderListViewModel">
     <Grid
+        Padding="10"
         ColumnDefinitions="*,*"
         ColumnSpacing="5"
-        RowDefinitions="*,Auto"
-        RowSpacing="0">
+        RowDefinitions="auto,*,auto"
+        RowSpacing="10">
+        <Grid
+            Grid.ColumnSpan="2"
+            ColumnDefinitions="*,120"
+            ColumnSpacing="10">
+            <Entry
+                Grid.Row="0"
+                Placeholder="Szukaj"
+                Text="{Binding SearchText}" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding GetOrdersCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+                Text="Szukaj" />
+        </Grid>
+
         <CollectionView
+            Grid.Row="1"
             Grid.ColumnSpan="2"
             ItemsSource="{Binding Orders}"
-            SelectionMode="Single">
-
+            SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:OrderModel">
                     <Grid Padding="10,5,0,5" ColumnDefinitions="*,*">
                         <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:OrderListViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
                         </Grid.GestureRecognizers>
                         <Label
                             Grid.Column="0"
@@ -36,14 +52,13 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
         <Button
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
-            Margin="8"
+            Grid.ColumnSpan="2"
             Command="{Binding GetOrdersCommand}"
             IsEnabled="{Binding IsNotBusy}"
-            Text="Get Orders" />
+            Text="Odśwież" />
         <!--  Style="{StaticResource ButtonOutline}"  -->
         <ActivityIndicator
             Grid.RowSpan="2"

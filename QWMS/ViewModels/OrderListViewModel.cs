@@ -18,6 +18,13 @@ namespace QWMS.ViewModels
         public Command GetOrdersCommand { get; }
         public Command GoToDetailsCommand { get; }
 
+        private string _searchText = string.Empty;
+        public string SearchText
+        {
+            get => _searchText;
+            set => Set(ref _searchText, value);
+        }
+
         private OrderListService _ordersService;
 
         public OrderListViewModel(OrderListService ordersService) 
@@ -58,9 +65,7 @@ namespace QWMS.ViewModels
         {
             await Shell.Current.GoToAsync(nameof(OrderDetailsPage), true, new Dictionary<string, object>
             {
-                { "Order", order }
-
-                niech spierdala, szukaj inny kurs!
+                { nameof(OrderDetailsViewModel.Order), order }
             });
         }
     }

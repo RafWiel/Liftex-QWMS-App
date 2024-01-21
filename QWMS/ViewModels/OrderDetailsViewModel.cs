@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels
 {
-    [QueryProperty(nameof(OrderModel), "Order")]
+    [QueryProperty(nameof(Order), nameof(Order))]
     public partial class OrderDetailsViewModel : BaseViewModel
     {
         private OrderModel _order = new();
@@ -19,5 +19,12 @@ namespace QWMS.ViewModels
             get => _order;
             set => Set(ref _order, value);
         }
+
+        async Task GoBackAsync()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
+        https://www.youtube.com/watch?v=gy7X1IZKeQQ&list=PLdo4fOcmZ0oUBAdL2NwBpDs32zwGqb9DY&index=7
     }
 }
