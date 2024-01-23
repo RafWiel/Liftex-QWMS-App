@@ -27,12 +27,25 @@
                 IsEnabled="{Binding IsNotBusy}"
                 Text="Szukaj" />
         </Grid>
-
+        <!--<RefreshView
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Command="{Binding GetOrdersCommand}"
+            IsRefreshing="{Binding IsRefreshing}">-->
         <CollectionView
             Grid.Row="1"
             Grid.ColumnSpan="2"
             ItemsSource="{Binding Orders}"
             SelectionMode="None">
+            <CollectionView.EmptyView>
+                <StackLayout>
+                    <Label
+                        Padding="10"
+                        HorizontalOptions="Center"
+                        Text="Brak danych"
+                        TextColor="LightGray" />
+                </StackLayout>
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:OrderModel">
                     <Grid Padding="10,5,0,5" ColumnDefinitions="*,*">
@@ -52,6 +65,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <!--</RefreshView>-->
         <Button
             Grid.Row="2"
             Grid.Column="0"

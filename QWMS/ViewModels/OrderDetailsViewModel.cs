@@ -20,11 +20,16 @@ namespace QWMS.ViewModels
             set => Set(ref _order, value);
         }
 
+        public async Task ShowMessage()
+        {
+            await Shell.Current.DisplayAlert("Zamówienie", Order.Name, "OK");
+        }
+
         async Task GoBackAsync()
         {
             await Shell.Current.GoToAsync("..");
         }
 
-        https://www.youtube.com/watch?v=gy7X1IZKeQQ&list=PLdo4fOcmZ0oUBAdL2NwBpDs32zwGqb9DY&index=7
+        
     }
 }

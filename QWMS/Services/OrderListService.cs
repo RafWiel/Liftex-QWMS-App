@@ -21,8 +21,8 @@ namespace QWMS.Services
 
         public async Task<List<OrderModel>> GetOrders()
         {
-            if (_orders.Count > 0)
-                return _orders;
+            //if (_orders.Count > 0)
+            //    return _orders;
 
             //var response = await _httpClient.GetAsync("https://xxx/orders.json");
             //if (response.IsSuccessStatusCode)

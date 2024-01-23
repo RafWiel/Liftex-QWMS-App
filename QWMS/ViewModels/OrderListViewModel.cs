@@ -25,6 +25,13 @@ namespace QWMS.ViewModels
             set => Set(ref _searchText, value);
         }
 
+        //private bool _isRefreshing;
+        //public bool IsRefreshing
+        //{
+        //    get => _isRefreshing;
+        //    set => Set(ref _isRefreshing, value);
+        //}
+
         private OrderListService _ordersService;
 
         public OrderListViewModel(OrderListService ordersService) 
@@ -58,6 +65,7 @@ namespace QWMS.ViewModels
             finally
             {
                 IsBusy = false;
+                //IsRefreshing = false;
             }
         }
         
