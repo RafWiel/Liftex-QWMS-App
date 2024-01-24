@@ -33,13 +33,29 @@ namespace QWMS.ViewModels
         //}
 
         private OrderListService _ordersService;
+        private BarcodeReaderService _barcodeReaderService;
 
-        public OrderListViewModel(OrderListService ordersService) 
+        public OrderListViewModel(OrderListService ordersService, BarcodeReaderService barcodeReaderService) 
         {
             _ordersService = ordersService;
-
+            _barcodeReaderService = barcodeReaderService;
+            
             GetOrdersCommand = new Command(async () => await GetOrdersAsync());    
             GoToDetailsCommand = new Command(async (Object order) => await GoToDetailsAsync((OrderModel)order));
+        }
+
+        public void Initialize()
+        {
+            #if ANDROID
+            _barcodeReaderService.BarcodeReceived += _barcodeReader_BarcodeReceived;
+            #endif
+        }
+
+        public void Uninitialize()
+        {
+            #if ANDROID
+            _barcodeReaderService.BarcodeReceived -= _barcodeReader_BarcodeReceived;
+            #endif
         }
 
         async Task GetOrdersAsync()
@@ -68,13 +84,18 @@ namespace QWMS.ViewModels
                 //IsRefreshing = false;
             }
         }
-        
-        async Task GoToDetailsAsync(OrderModel order)
+
+        private async Task GoToDetailsAsync(OrderModel order)
         {
             await Shell.Current.GoToAsync(nameof(OrderDetailsPage), true, new Dictionary<string, object>
             {
                 { nameof(OrderDetailsViewModel.Order), order }
             });
+        }
+
+        private async void _barcodeReader_BarcodeReceived(string barcode)
+        {
+            await Shell.Current.DisplayAlert("Barcode", barcode, "OK");
         }
     }
 }

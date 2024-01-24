@@ -22,11 +22,12 @@ namespace QWMS
     		builder.Logging.AddDebug();
 #endif
 
+            builder.Services.AddSingleton<BarcodeReaderService>();
             builder.Services.AddSingleton<OrderListService>();
-            builder.Services.AddTransient<MainPage>();            
-            builder.Services.AddTransient<OrderListViewModel>();
-            builder.Services.AddTransient<OrderDetailsPage>();
-            builder.Services.AddTransient<OrderDetailsViewModel>();
+            builder.Services.AddScoped<MainPage>();            
+            builder.Services.AddScoped<OrderListViewModel>();
+            builder.Services.AddScoped<OrderDetailsPage>();
+            builder.Services.AddScoped<OrderDetailsViewModel>();
 
             return builder.Build();
         }

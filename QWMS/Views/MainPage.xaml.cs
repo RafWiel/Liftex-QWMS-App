@@ -7,28 +7,21 @@ namespace QWMS.Views
 {
     public partial class MainPage : ContentPage
     {
-        OrderListViewModel _viewModel;
-        //private BarcodeReaderService _barcodeReader;
-
-        int count = 0;
+        OrderListViewModel _viewModel;               
 
         public MainPage(OrderListViewModel viewModel)
         {
             InitializeComponent();
 
             _viewModel = viewModel;
-            BindingContext = viewModel;
-
-            //_barcodeReader = new BarcodeReaderService();            
-
-            //#if ANDROID
-            //_barcodeReader.BarcodeReceived += _barcodeReader_BarcodeReceived;  
-            //#endif
+            BindingContext = viewModel;            
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            _viewModel.Initialize();
 
             Task.Run(() =>
             {
@@ -40,24 +33,8 @@ namespace QWMS.Views
         {
             base.OnDisappearing();
 
-            //_barcodeReader.Dispose();
-        }
-
-        private void _barcodeReader_BarcodeReceived(string barcode)
-        {
-            //CounterBtn.Text = barcode;
-        }
-
-        //private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-        //{
-        //    var order = ((VisualElement)sender).BindingContext as OrderModel;
-        //    if (order == null)
-        //        return;
-
-        //    _viewModel.GoToDetailsCommand.Execute(order);
-
-        //    Debug.WriteLine($"tapped order {order.Name}");
-        //}
+            _viewModel.Uninitialize();                     
+        }                
     }
 
 }

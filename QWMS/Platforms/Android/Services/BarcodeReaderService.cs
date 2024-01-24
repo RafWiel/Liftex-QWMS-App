@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace QWMS.Services
 {
-    public partial class BarcodeReaderService
+    public partial class BarcodeReaderService : IDisposable
     {        
         public delegate void BarcodeReceivedDelegate(string barcode);
         public event BarcodeReceivedDelegate? BarcodeReceived;
