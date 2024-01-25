@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using QWMS.Services;
 using QWMS.ViewModels;
 using QWMS.Views;
@@ -9,8 +10,9 @@ namespace QWMS
     {
         public static MauiApp CreateMauiApp()
         {
-            var builder = MauiApp.CreateBuilder();
-            builder
+            var builder = MauiApp
+                .CreateBuilder()
+                .UseMauiCommunityToolkit()
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
@@ -28,6 +30,7 @@ namespace QWMS
             builder.Services.AddScoped<OrderListViewModel>();
             builder.Services.AddScoped<OrderDetailsPage>();
             builder.Services.AddScoped<OrderDetailsViewModel>();
+            builder.Services.AddTransientPopup<ModalPopup, ModalPopupViewModel>();
 
             return builder.Build();
         }

@@ -1,4 +1,5 @@
-﻿using QWMS.Models;
+﻿using CommunityToolkit.Maui.Core;
+using QWMS.Models;
 using QWMS.Services;
 using QWMS.Views;
 using System;
@@ -34,11 +35,13 @@ namespace QWMS.ViewModels
 
         private OrderListService _ordersService;
         private BarcodeReaderService _barcodeReaderService;
+        private readonly IPopupService _popupService;
 
-        public OrderListViewModel(OrderListService ordersService, BarcodeReaderService barcodeReaderService) 
+        public OrderListViewModel(OrderListService ordersService, BarcodeReaderService barcodeReaderService, IPopupService popupService) 
         {
             _ordersService = ordersService;
             _barcodeReaderService = barcodeReaderService;
+            _popupService = popupService;
             
             GetOrdersCommand = new Command(async () => await GetOrdersAsync());    
             GoToDetailsCommand = new Command(async (Object order) => await GoToDetailsAsync((OrderModel)order));
@@ -46,6 +49,8 @@ namespace QWMS.ViewModels
 
         public void Initialize()
         {
+            //if (Device.RuntimePlatform == Device.Android)
+            
             #if ANDROID
             _barcodeReaderService.BarcodeReceived += _barcodeReader_BarcodeReceived;
             #endif
@@ -87,15 +92,22 @@ namespace QWMS.ViewModels
 
         private async Task GoToDetailsAsync(OrderModel order)
         {
-            await Shell.Current.GoToAsync(nameof(OrderDetailsPage), true, new Dictionary<string, object>
-            {
-                { nameof(OrderDetailsViewModel.Order), order }
-            });
+            DisplayPopup();
+
+            //await Shell.Current.GoToAsync(nameof(OrderDetailsPage), true, new Dictionary<string, object>
+            //{
+            //    { nameof(OrderDetailsViewModel.Order), order }
+            //});
         }
 
         private async void _barcodeReader_BarcodeReceived(string barcode)
         {
             await Shell.Current.DisplayAlert("Barcode", barcode, "OK");
+        }
+
+        public void DisplayPopup()
+        {
+            _popupService.ShowPopup<ModalPopupViewModel>();
         }
     }
 }

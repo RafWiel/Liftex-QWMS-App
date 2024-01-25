@@ -1,4 +1,5 @@
-﻿using QWMS.Models;
+﻿//using Microsoft.UI.Xaml.Controls.Primitives;
+using QWMS.Models;
 using QWMS.Services;
 using QWMS.ViewModels;
 using System.Diagnostics;
@@ -26,7 +27,7 @@ namespace QWMS.Views
             Task.Run(() =>
             {
                 _viewModel.GetOrdersCommand.Execute(this);
-            });
+            });            
         }
 
         protected override void OnDisappearing()
@@ -37,5 +38,6 @@ namespace QWMS.Views
         }                
     }
 
+    
 }
 
