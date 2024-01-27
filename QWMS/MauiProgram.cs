@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Logging;
 using QWMS.Services;
 using QWMS.ViewModels;
+using QWMS.ViewModels.Dialogs;
 using QWMS.Views;
+using QWMS.Views.Dialogs;
 
 namespace QWMS
 {
@@ -30,7 +32,8 @@ namespace QWMS
             builder.Services.AddScoped<OrderListViewModel>();
             builder.Services.AddScoped<OrderDetailsPage>();
             builder.Services.AddScoped<OrderDetailsViewModel>();
-            builder.Services.AddTransientPopup<ModalPopup, ModalPopupViewModel>();
+            builder.Services.AddTransientPopup<MessageDialog, MessageDialogViewModel>();
+            builder.Services.AddTransientPopup<AutoMessageDialog, AutoMessageDialogViewModel>();
 
             return builder.Build();
         }

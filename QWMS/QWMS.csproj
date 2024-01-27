@@ -107,8 +107,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\ModalPopup.xaml.cs">
-	    <DependentUpon>ModalPopup.xaml</DependentUpon>
+	  <Compile Update="Views\Dialogs\AutoMessageDialog.xaml.cs">
+	    <DependentUpon>AutoMessageDialog.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Dialogs\MessageDialog.xaml.cs">
+	    <DependentUpon>MessageDialog.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\OrderDetailsPage.xaml.cs">
 	    <DependentUpon>OrderDetailsPage.xaml</DependentUpon>
@@ -116,7 +119,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\ModalPopup.xaml">
+	  <MauiXaml Update="Views\Dialogs\AutoMessageDialog.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Dialogs\MessageDialog.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\OrderDetailsPage.xaml">

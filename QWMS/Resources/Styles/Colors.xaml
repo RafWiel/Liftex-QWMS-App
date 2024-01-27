@@ -6,10 +6,14 @@
 
     <Color x:Key="Primary">#2761BA</Color>
     <Color x:Key="PrimaryDark">#1C457F</Color>
+    <Color x:Key="PrimaryLightText">Black</Color>
     <Color x:Key="PrimaryDarkText">#a0b0c0</Color>
     <Color x:Key="Secondary">#598FE0</Color>
-    <Color x:Key="SecondaryDarkText">#8090a0</Color>
+    <Color x:Key="SecondaryLightText">#6E6E6E</Color>
+    <Color x:Key="SecondaryDarkText">#ACACAC</Color>
     <Color x:Key="Tertiary">#183C72</Color>
+    <Color x:Key="LightBackground">White</Color>
+    <Color x:Key="DarkBackground">#404040</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>

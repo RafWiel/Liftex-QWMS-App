@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Maui.Core;
+﻿using Com.Cipherlab.Barcode.Decoderparams;
+using CommunityToolkit.Maui.Core;
 using QWMS.Models;
 using QWMS.Services;
+using QWMS.ViewModels.Dialogs;
 using QWMS.Views;
 using System;
 using System.Collections.Generic;
@@ -91,23 +93,26 @@ namespace QWMS.ViewModels
         }
 
         private async Task GoToDetailsAsync(OrderModel order)
-        {
-            DisplayPopup();
-
-            //await Shell.Current.GoToAsync(nameof(OrderDetailsPage), true, new Dictionary<string, object>
-            //{
-            //    { nameof(OrderDetailsViewModel.Order), order }
-            //});
+        {            
+            await Shell.Current.GoToAsync(nameof(OrderDetailsPage), true, new Dictionary<string, object>
+            {
+                { nameof(OrderDetailsViewModel.Order), order }
+            });
         }
 
-        private async void _barcodeReader_BarcodeReceived(string barcode)
+        private void _barcodeReader_BarcodeReceived(string barcode)
         {
-            await Shell.Current.DisplayAlert("Barcode", barcode, "OK");
+            ShowAutoMessageDialog("Barcode", barcode, 1500);            
         }
 
-        public void DisplayPopup()
+        public async void ShowMessageDialog(string title, string message)
         {
-            _popupService.ShowPopup<ModalPopupViewModel>();
+            await _popupService.ShowPopupAsync<MessageDialogViewModel>(onPresenting: viewModel => viewModel.Initialize(title, message));
+        }
+
+        public async void ShowAutoMessageDialog(string title, string message, int delay)
+        {
+            await _popupService.ShowPopupAsync<AutoMessageDialogViewModel>(onPresenting: viewModel => viewModel.Initialize(title, message, delay));                       
         }
     }
 }
