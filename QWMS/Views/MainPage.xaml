@@ -4,9 +4,11 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:QWMS.Models"
+    
     xmlns:viewModel="clr-namespace:QWMS.ViewModels"
     Title="Zamówienia"
     x:DataType="viewModel:OrderListViewModel">
+    
     <Grid
         Padding="10"
         ColumnDefinitions="*,*"
@@ -71,9 +73,9 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Command="{Binding GetOrdersCommand}"
+            CommandParameter="{StaticResource TrueValue}"
             IsEnabled="{Binding IsNotBusy}"
             Text="Odśwież" />
-        <!--  Style="{StaticResource ButtonOutline}"  -->
         <ActivityIndicator
             Grid.RowSpan="2"
             Grid.ColumnSpan="2"

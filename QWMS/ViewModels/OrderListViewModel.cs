@@ -17,6 +17,8 @@ namespace QWMS.ViewModels
 {
     public partial class OrderListViewModel : BaseViewModel
     {
+        private DateTime _refreshTimestamp;
+
         public ObservableCollection<OrderModel> Orders { get; } = new();
         public Command GetOrdersCommand { get; }
         public Command GoToDetailsCommand { get; }
@@ -45,7 +47,7 @@ namespace QWMS.ViewModels
             _barcodeReaderService = barcodeReaderService;
             _popupService = popupService;
             
-            GetOrdersCommand = new Command(async () => await GetOrdersAsync());    
+            GetOrdersCommand = new Command(async (Object isForced) => await GetOrdersAsync((bool)isForced));    
             GoToDetailsCommand = new Command(async (Object order) => await GoToDetailsAsync((OrderModel)order));
         }
 
@@ -65,10 +67,15 @@ namespace QWMS.ViewModels
             #endif
         }
 
-        async Task GetOrdersAsync()
+        async Task GetOrdersAsync(bool isForced)
         {
             if (IsBusy)
                 return;
+
+            if (!isForced &&
+                Orders.Count > 0 && 
+                (DateTime.Now - _refreshTimestamp).TotalMinutes < 1)
+                return; 
 
             try
             {
@@ -79,7 +86,9 @@ namespace QWMS.ViewModels
                     Orders.Clear();
 
                 foreach (var order in orders)
-                    Orders.Add(order);                
+                    Orders.Add(order);
+
+                _refreshTimestamp = DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -87,8 +96,7 @@ namespace QWMS.ViewModels
             }
             finally
             {
-                IsBusy = false;
-                //IsRefreshing = false;
+                IsBusy = false;                
             }
         }
 

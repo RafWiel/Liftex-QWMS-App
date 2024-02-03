@@ -37,7 +37,7 @@ namespace QWMS.ViewModels.Dialogs
         public AutoMessageDialogViewModel()
         {
             _timer = Application.Current.Dispatcher.CreateTimer();            
-            _timer.Tick += (s, e) => CloseEvent?.Invoke();;
+            _timer.Tick += (s, e) => CloseEvent?.Invoke();
             
         }
 

@@ -26,7 +26,7 @@ namespace QWMS.Views
 
             Task.Run(() =>
             {
-                _viewModel.GetOrdersCommand.Execute(this);
+                _viewModel.GetOrdersCommand.Execute(false);
             });            
         }
 
