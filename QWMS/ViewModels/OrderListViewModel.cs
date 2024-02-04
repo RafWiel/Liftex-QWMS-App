@@ -82,6 +82,12 @@ namespace QWMS.ViewModels
                 IsBusy = true;
 
                 var orders = await _ordersService.GetOrders();
+                if (orders == null)
+                {
+                    ShowAutoMessageDialog("Błąd aplikacji", "Nieudane pobranie listy zamówień", 3000);
+                    return;
+                }
+
                 if (Orders.Count > 0)
                     Orders.Clear();
 

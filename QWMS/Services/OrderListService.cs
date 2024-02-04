@@ -1,4 +1,7 @@
-﻿using QWMS.Models;
+﻿using MetroLog;
+using Microsoft.Extensions.Logging;
+using QWMS.Interfaces;
+using QWMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,35 +12,42 @@ using System.Threading.Tasks;
 
 namespace QWMS.Services
 {
-    public class OrderListService
-    {
-        List<OrderModel> _orders = new();
-        HttpClient _httpClient;
+    public class OrderListService : IOrdersService
+    {        
+        private HttpClient _httpClient;
+        private ILogger<OrderListService> _logger;
 
-        public OrderListService() 
+        public OrderListService(ILogger<OrderListService> logger) 
         { 
+            _logger = logger;
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<OrderModel>> GetOrders()
+        public async Task<List<OrderModel>?> GetOrders()
         {
-            //if (_orders.Count > 0)
-            //    return _orders;
+            try
+            {
+                var response = await _httpClient.GetAsync("http://192.168.1.110:3001/api/v1/orders");
+                if (!response.IsSuccessStatusCode)
+                    return null;
 
-            //var response = await _httpClient.GetAsync("https://xxx/orders.json");
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    _orders = await response.Content.ReadFromJsonAsync<List<OrderListModel>>();
-            //}
+                var orders = await response.Content.ReadFromJsonAsync<List<OrderModel>>();
 
-            using var stream = await FileSystem.OpenAppPackageFileAsync("Orders.json");
-            using var reader = new StreamReader(stream);
-            var contents = await reader.ReadToEndAsync();
-            _orders = JsonSerializer.Deserialize<List<OrderModel>>(contents) ?? new();
+                //using var stream = await FileSystem.OpenAppPackageFileAsync("Orders.json");
+                //using var reader = new StreamReader(stream);
+                //var contents = await reader.ReadToEndAsync();
+                //_orders = JsonSerializer.Deserialize<List<OrderModel>>(contents) ?? new();
 
-            Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
-            return _orders;
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);                
+            }
+
+            return null;
         }
     }
 }

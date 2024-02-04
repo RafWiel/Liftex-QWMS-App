@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
+using MetroLog.MicrosoftExtensions;
 using QWMS.Services;
 using QWMS.ViewModels;
 using QWMS.ViewModels.Dialogs;
@@ -22,9 +22,7 @@ namespace QWMS
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+            builder.Logging.AddTraceLogger(_ => {}); //TODO: Ustaw plik do zapisu
 
             builder.Services.AddSingleton<BarcodeReaderService>();
             builder.Services.AddSingleton<OrderListService>();
