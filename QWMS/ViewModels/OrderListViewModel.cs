@@ -80,11 +80,15 @@ namespace QWMS.ViewModels
             try
             {
                 IsBusy = true;
-
+                
                 var orders = await _ordersService.GetOrders();
                 if (orders == null)
                 {
-                    ShowAutoMessageDialog("Błąd aplikacji", "Nieudane pobranie listy zamówień", 3000);
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        ShowAutoMessageDialog("Błąd aplikacji", "Nieudane pobranie listy zamówień", 3000);
+                    });                    
+
                     return;
                 }
 
