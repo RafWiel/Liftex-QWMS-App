@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="QWMS.Views.Products.ProductDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModel="clr-namespace:QWMS.ViewModels.Products"
+    Title="{Binding Title}"
+    x:DataType="viewModel:ProductDetailsViewModel">
+    <Grid
+        Padding="10"
+       
+        ColumnSpacing="5"
+        RowDefinitions="auto,*,auto"
+        RowSpacing="10">
+        <Grid ColumnDefinitions="*,*" RowDefinitions="auto,auto,auto,auto,auto,auto">
+            <Label Style="{StaticResource FieldName}" Text="Nazwa" />
+            <Label
+                Grid.Row="1"
+                Style="{StaticResource FieldValue}"
+                Text="{Binding Name}" />
+            <Label
+                Grid.Row="2"
+                Margin="0,5,0,0"
+                Style="{StaticResource FieldName}"
+                Text="Kod" />
+            <Label
+                Grid.Row="3"
+                Style="{StaticResource FieldValue}"
+                Text="{Binding Code}" />
+            <Label
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="0,5,0,0"
+                Style="{StaticResource FieldName}"
+                Text="EAN" />
+            <Label
+                Grid.Row="3"
+                Grid.Column="1"
+                Style="{StaticResource FieldValue}"
+                Text="{Binding Ean}" />
+            <Label
+                Grid.Row="4"
+                Margin="0,5,0,0"
+                Style="{StaticResource FieldName}"
+                Text="Cena" />
+            <Label
+                Grid.Row="5"
+                Style="{StaticResource FieldValue}"
+                Text="{Binding PriceStr}" />
+            <Label
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="0,5,0,0"
+                Style="{StaticResource FieldName}"
+                Text="Ilość" />
+            <Label
+                Grid.Row="5"
+                Grid.Column="1"
+                Style="{StaticResource FieldValue}"
+                Text="{Binding CountStr}" />
+        </Grid>
+    </Grid>
+</ContentPage>

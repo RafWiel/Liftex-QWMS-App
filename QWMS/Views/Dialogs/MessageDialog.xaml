@@ -19,8 +19,8 @@
         RowDefinitions="auto,*,auto"
         RowSpacing="10">
         <Label
-            FontSize="16"
             FontAttributes="Bold"
+            FontSize="16"
             HorizontalOptions="Start"
             Text="{Binding Title}"
             TextColor="{AppThemeBinding Light={StaticResource PrimaryLightText},

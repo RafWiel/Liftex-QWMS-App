@@ -3,13 +3,19 @@
     x:Class="QWMS.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:QWMS.Views"
-    Shell.FlyoutBehavior="Disabled"
-    Title="QWMS">
-
+    xmlns:views="clr-namespace:QWMS.Views.Products"
+    x:Name="shellMain"
+    Title="QWMS"
+    Shell.FlyoutBehavior="Disabled">
+    <!--<Shell.TitleView>
+        <Label
+            BindingContext="{x:Reference shellMain}"
+            FontSize="Large"
+            Text="{Binding Path=Title, Mode=OneWay}"
+            TextColor="Blue" />
+    </Shell.TitleView>-->
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate views:MainPage}"
-        Route="MainPage" />
-
+        ContentTemplate="{DataTemplate views:ProductDetailsPage}"
+        Route="ProductDetailsPage" />
 </Shell>

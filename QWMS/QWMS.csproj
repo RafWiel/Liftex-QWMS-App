@@ -116,7 +116,7 @@
 	  <Compile Update="Views\Dialogs\MessageDialog.xaml.cs">
 	    <DependentUpon>MessageDialog.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\OrderDetailsPage.xaml.cs">
+	  <Compile Update="Views\Orders\OrderDetailsPage.xaml.cs">
 	    <DependentUpon>OrderDetailsPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
@@ -125,13 +125,22 @@
 	  <MauiXaml Update="Resources\Helpers\BooleanValues.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Label.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Dialogs\AutoMessageDialog.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Dialogs\MessageDialog.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\OrderDetailsPage.xaml">
+	  <MauiXaml Update="Views\Orders\OrderDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Orders\OrderListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Products\ProductDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

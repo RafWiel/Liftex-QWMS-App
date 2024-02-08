@@ -10,10 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QWMS.ViewModels
+namespace QWMS.ViewModels.Orders
 {
     [QueryProperty(nameof(Order), nameof(Order))]
-    public partial class OrderDetailsViewModel : BaseViewModel
+    public class OrderDetailsViewModel : BaseViewModel
     {
         private readonly IPopupService _popupService;
 
@@ -26,7 +26,7 @@ namespace QWMS.ViewModels
 
         public OrderDetailsViewModel(IPopupService popupService)
         {
-            _popupService = popupService;        
+            _popupService = popupService;
         }
 
         public void ShowMessage()

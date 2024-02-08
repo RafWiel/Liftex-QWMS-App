@@ -3,7 +3,7 @@ using CommunityToolkit.Maui.Core;
 using QWMS.Models;
 using QWMS.Services;
 using QWMS.ViewModels.Dialogs;
-using QWMS.Views;
+using QWMS.Views.Orders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,10 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace QWMS.ViewModels
+namespace QWMS.ViewModels.Orders
 {
-    public partial class OrderListViewModel : BaseViewModel
+    public class OrderListViewModel : BaseViewModel
     {
         private DateTime _refreshTimestamp;
 
@@ -41,30 +40,30 @@ namespace QWMS.ViewModels
         private BarcodeReaderService _barcodeReaderService;
         private readonly IPopupService _popupService;
 
-        public OrderListViewModel(OrderListService ordersService, BarcodeReaderService barcodeReaderService, IPopupService popupService) 
+        public OrderListViewModel(OrderListService ordersService, BarcodeReaderService barcodeReaderService, IPopupService popupService)
         {
             _ordersService = ordersService;
             _barcodeReaderService = barcodeReaderService;
             _popupService = popupService;
-            
-            GetOrdersCommand = new Command(async (Object isForced) => await GetOrdersAsync((bool)isForced));    
-            GoToDetailsCommand = new Command(async (Object order) => await GoToDetailsAsync((OrderModel)order));
+
+            GetOrdersCommand = new Command(async (isForced) => await GetOrdersAsync((bool)isForced));
+            GoToDetailsCommand = new Command(async (order) => await GoToDetailsAsync((OrderModel)order));
         }
 
         public void Initialize()
         {
             //if (Device.RuntimePlatform == Device.Android)
-            
-            #if ANDROID
+
+#if ANDROID
             _barcodeReaderService.BarcodeReceived += _barcodeReader_BarcodeReceived;
-            #endif
+#endif
         }
 
         public void Uninitialize()
         {
-            #if ANDROID
+#if ANDROID
             _barcodeReaderService.BarcodeReceived -= _barcodeReader_BarcodeReceived;
-            #endif
+#endif
         }
 
         async Task GetOrdersAsync(bool isForced)
@@ -73,21 +72,21 @@ namespace QWMS.ViewModels
                 return;
 
             if (!isForced &&
-                Orders.Count > 0 && 
+                Orders.Count > 0 &&
                 (DateTime.Now - _refreshTimestamp).TotalMinutes < 1)
-                return; 
+                return;
 
             try
             {
                 IsBusy = true;
-                
+
                 var orders = await _ordersService.GetOrders();
                 if (orders == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
                         ShowAutoMessageDialog("Błąd aplikacji", "Nieudane pobranie listy zamówień", 3000);
-                    });                    
+                    });
 
                     return;
                 }
@@ -106,12 +105,12 @@ namespace QWMS.ViewModels
             }
             finally
             {
-                IsBusy = false;                
+                IsBusy = false;
             }
         }
 
         private async Task GoToDetailsAsync(OrderModel order)
-        {            
+        {
             await Shell.Current.GoToAsync(nameof(OrderDetailsPage), true, new Dictionary<string, object>
             {
                 { nameof(OrderDetailsViewModel.Order), order }
@@ -120,7 +119,7 @@ namespace QWMS.ViewModels
 
         private void _barcodeReader_BarcodeReceived(string barcode)
         {
-            ShowAutoMessageDialog("Barcode", barcode, 1500);            
+            ShowAutoMessageDialog("Barcode", barcode, 1500);
         }
 
         public async void ShowMessageDialog(string title, string message)
@@ -130,7 +129,7 @@ namespace QWMS.ViewModels
 
         public async void ShowAutoMessageDialog(string title, string message, int delay)
         {
-            await _popupService.ShowPopupAsync<AutoMessageDialogViewModel>(onPresenting: viewModel => viewModel.Initialize(title, message, delay));                       
+            await _popupService.ShowPopupAsync<AutoMessageDialogViewModel>(onPresenting: viewModel => viewModel.Initialize(title, message, delay));
         }
     }
 }

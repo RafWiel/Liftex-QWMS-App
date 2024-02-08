@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Maui;
 using MetroLog.MicrosoftExtensions;
 using QWMS.Services;
-using QWMS.ViewModels;
 using QWMS.ViewModels.Dialogs;
 using QWMS.Views;
+using QWMS.Views.Orders;
 using QWMS.Views.Dialogs;
+using QWMS.ViewModels.Orders;
+using QWMS.Views.Products;
+using QWMS.ViewModels.Products;
 
 namespace QWMS
 {
@@ -26,10 +29,13 @@ namespace QWMS
 
             builder.Services.AddSingleton<BarcodeReaderService>();
             builder.Services.AddSingleton<OrderListService>();
-            builder.Services.AddScoped<MainPage>();            
+            builder.Services.AddScoped<MainPage>();
+            builder.Services.AddScoped<OrderListPage>();
             builder.Services.AddScoped<OrderListViewModel>();
             builder.Services.AddScoped<OrderDetailsPage>();
             builder.Services.AddScoped<OrderDetailsViewModel>();
+            builder.Services.AddScoped<ProductDetailsPage>();
+            builder.Services.AddScoped<ProductDetailsViewModel>();
             builder.Services.AddTransientPopup<MessageDialog, MessageDialogViewModel>();
             builder.Services.AddTransientPopup<AutoMessageDialog, AutoMessageDialogViewModel>();
 

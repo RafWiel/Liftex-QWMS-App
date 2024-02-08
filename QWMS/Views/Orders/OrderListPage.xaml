@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="QWMS.Views.Orders.OrderListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:QWMS.Models"
+    xmlns:viewModel="clr-namespace:QWMS.ViewModels.Orders"
+    Title="Zamówienia"
+    x:DataType="viewModel:OrderListViewModel">
+    <Grid
+        Padding="10"
+        ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="auto,*,auto"
+        RowSpacing="10">
+        <Grid
+            Grid.ColumnSpan="2"
+            ColumnDefinitions="*,120"
+            ColumnSpacing="10">
+            <Entry
+                Grid.Row="0"
+                Placeholder="Szukaj"
+                Text="{Binding SearchText}" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding GetOrdersCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+                Text="Szukaj" />
+        </Grid>
+        <!--<RefreshView
+        Grid.Row="1"
+        Grid.ColumnSpan="2"
+        Command="{Binding GetOrdersCommand}"
+        IsRefreshing="{Binding IsRefreshing}">-->
+        <CollectionView
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding Orders}"
+            SelectionMode="None">
+            <CollectionView.EmptyView>
+                <StackLayout>
+                    <Label
+                        Padding="10"
+                        HorizontalOptions="Center"
+                        Text="Brak danych"
+                        TextColor="LightGray" />
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:OrderModel">
+                    <Grid Padding="10,5,0,5" ColumnDefinitions="*,*">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:OrderListViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>
+                        <Label
+                            Grid.Column="0"
+                            Text="{Binding Name}"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Column="1"
+                            Padding="10,0,0,0"
+                            Text="{Binding Contractor}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--</RefreshView>-->
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Command="{Binding GetOrdersCommand}"
+            CommandParameter="{StaticResource TrueValue}"
+            IsEnabled="{Binding IsNotBusy}"
+            Text="Odśwież" />
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+    </Grid>
+</ContentPage>

@@ -1,6 +1,6 @@
-using QWMS.ViewModels;
+using QWMS.ViewModels.Orders;
 
-namespace QWMS.Views;
+namespace QWMS.Views.Orders;
 
 public partial class OrderDetailsPage : ContentPage
 {

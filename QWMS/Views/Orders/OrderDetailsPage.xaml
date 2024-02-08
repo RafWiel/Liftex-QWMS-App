@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="QWMS.Views.OrderDetailsPage"
+    x:Class="QWMS.Views.Orders.OrderDetailsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:QWMS.Models"
-    xmlns:viewModel="clr-namespace:QWMS.ViewModels"
-    Title="NewPage1"
+    xmlns:viewModel="clr-namespace:QWMS.ViewModels.Orders"
+    Title="Zamówienie"
     x:DataType="viewModel:OrderDetailsViewModel">
     <ScrollView>
         <VerticalStackLayout>
