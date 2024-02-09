@@ -29,7 +29,7 @@ namespace QWMS.ViewModels.Products
             _barcodeReaderService = barcodeReaderService;
             _logger = logger;
 
-            //TODO: rozmiar czcionki i beep
+            TODO: rozmiar czcionki i beep
         }
 
         #endregion
@@ -101,7 +101,7 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                var model = await _productsService.GetOne(string.Empty);
+                var model = await _productsService.GetOne(barcode);
                 if (model == null)
                 {
                     ShowAutoMessageDialog("Błąd aplikacji", "Nie znaleziono towaru o podanym kodzie", 3000);

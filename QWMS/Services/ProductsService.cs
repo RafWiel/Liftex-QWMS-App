@@ -10,6 +10,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace QWMS.Services
 {
@@ -29,28 +30,33 @@ namespace QWMS.Services
         {            
             try
             {
-                //var response = await _httpClient.GetAsync("http://192.168.1.110:3001/api/v1/orders");
-                //if (!response.IsSuccessStatusCode)
-                //    return null;
-
-                //var orders = await response.Content.ReadFromJsonAsync<List<OrderModel>>();
-                
-                var model = await Task.Run(() =>
+                var query = new Dictionary<string, string>
                 {
-                    Thread.Sleep(1000);
+                    { "ean", ean }
+                };
+               
+                var response = await _httpClient.GetAsync(BuildUrl("http://192.168.1.110:3001/api/v1/products", query));
+                if (!response.IsSuccessStatusCode)
+                    return null;
 
-                    var model = new ProductModel()
-                    {
-                        Code = $"T{index}",
-                        Name = $"Towar {index}",
-                        Ean = $"12345{index}",
-                        Price = index * 0.1M,
-                        Count = index
-                    };
+                var model = await response.Content.ReadFromJsonAsync<ProductModel>();
 
-                    index++;
-                    return model;
-                });
+                //var model = await Task.Run(() =>
+                //{
+                //    Thread.Sleep(1000);
+
+                //    var model = new ProductModel()
+                //    {
+                //        Code = $"T{index}",
+                //        Name = $"Towar {index}",
+                //        Ean = $"12345{index}",
+                //        Price = index * 0.1M,
+                //        Count = index
+                //    };
+
+                //    index++;
+                //    return model;
+                //});
 
                 return model;
             }
@@ -60,6 +66,16 @@ namespace QWMS.Services
             }
 
             return null;
+        }
+
+        public static string BuildUrl(string basePath, Dictionary<string, string> queryParams)
+        {
+            var uriBuilder = new UriBuilder(basePath)
+            {
+                Query = string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={kvp.Value}"))
+            };
+
+            return uriBuilder.Uri.AbsoluteUri;
         }
     }
 }
