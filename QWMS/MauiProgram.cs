@@ -28,7 +28,8 @@ namespace QWMS
             builder.Logging.AddTraceLogger(_ => {}); //TODO: Ustaw plik do zapisu
 
             builder.Services.AddSingleton<BarcodeReaderService>();
-            builder.Services.AddSingleton<OrderListService>();
+            builder.Services.AddSingleton<OrdersService>();
+            builder.Services.AddSingleton<ProductsService>();
             builder.Services.AddScoped<MainPage>();
             builder.Services.AddScoped<OrderListPage>();
             builder.Services.AddScoped<OrderListViewModel>();

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using CommunityToolkit.Maui.Core;
+using Microsoft.Extensions.Logging;
+using QWMS.Models.Products;
+using QWMS.Services;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,8 +11,31 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Products
 {
-    public class ProductDetailsViewModel : BaseViewModel
+    public class ProductDetailsViewModel : PageViewModel
     {
+        #region Initialization
+        
+        private ProductsService _productsService;
+        private BarcodeReaderService _barcodeReaderService;
+        private ILogger<ProductDetailsViewModel> _logger;
+
+        public ProductDetailsViewModel(
+            ProductsService productsService, 
+            BarcodeReaderService barcodeReaderService,
+            ILogger<ProductDetailsViewModel> logger,
+            IPopupService popupService) : base(popupService) 
+        { 
+            _productsService = productsService;
+            _barcodeReaderService = barcodeReaderService;
+            _logger = logger;
+
+            //TODO: rozmiar czcionki i beep
+        }
+
+        #endregion
+
+        #region Properties 
+
         private string _title = "Kod towaru";
         public string Title
         {
@@ -16,52 +43,84 @@ namespace QWMS.ViewModels.Products
             set => Set(ref _title, value);
         }
 
-        private string _name = string.Empty;
-        public string Name
+        private ProductModel _model = new();
+        public ProductModel Model
         {
-            get => _name;
-            set => Set(ref _name, value);
-        }
-
-        private string _code = string.Empty;
-        public string Code
-        {
-            get => _code;
-            set => Set(ref _code, value);
-        }
-
-        private string _ean = string.Empty;
-        public string Ean
-        {
-            get => _ean;
-            set => Set(ref _ean, value);
-        }
-
-        private decimal _price;
-        public decimal Price
-        {
-            get => _price;
-            set 
-            {
-                Set(ref _price, value);
-                NotifyPropertyChanged(nameof(PriceStr));
-            }
-        }
-
-        public string PriceStr => _price > 0 ? $"{Price:0.00}PLN" : string.Empty;
-
-        private decimal _count;
-        public decimal Count
-        {
-            get => _count;
+            get => _model;
             set
             {
-                Set(ref _count, value);
+                Set(ref _model, value);
+                NotifyPropertyChanged(nameof(PriceStr));
                 NotifyPropertyChanged(nameof(CountStr));
             }
         }
+        
+        public string PriceStr => _model.Price > 0 ? $"{_model.Price:0.00}PLN" : string.Empty;        
+        public string CountStr => _model.Count > 0 ? _model.Count.ToString(CultureInfo.InvariantCulture) : string.Empty;
 
-        public string CountStr => _count > 0 ? _count.ToString(CultureInfo.InvariantCulture) : string.Empty;
+        #endregion
 
+        #region Events
+
+        private async void _barcodeReader_BarcodeReceived(string barcode)
+        {
+            await GetProductAsync(barcode);         
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void Initialize()
+        {
+            //if (Device.RuntimePlatform == Device.Android)
+
+            #if ANDROID
+            _barcodeReaderService.BarcodeReceived += _barcodeReader_BarcodeReceived;
+            #endif
+        }
+
+        public void Uninitialize()
+        {
+            #if ANDROID
+            _barcodeReaderService.BarcodeReceived -= _barcodeReader_BarcodeReceived;
+            #endif
+        }
+
+        public void ShowScanMessage()
+        {
+            ShowAutoMessageDialog("Skanowanie", "Proszę zeskanować kod kreskowy towaru", 1500);
+        }
+
+        private async Task GetProductAsync(string barcode)
+        {
+            if (IsBusy)
+                return;
+
+            try
+            {
+                IsBusy = true;
+
+                var model = await _productsService.GetOne(string.Empty);
+                if (model == null)
+                {
+                    ShowAutoMessageDialog("Błąd aplikacji", "Nie znaleziono towaru o podanym kodzie", 3000);
+                    return;
+                }
+
+                Model = model;
+                Title = model.Code;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.ToString());
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommunityToolkit.Maui.Core;
+using QWMS.ViewModels.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace QWMS.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
+        
         private bool _isBusy;
         public bool IsBusy
         {
@@ -29,7 +31,7 @@ namespace QWMS.ViewModels
 
         //todo: Add XAML Converter
         public bool IsNotBusy => !IsBusy;
-
+        
         protected void Set<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
         {
             if (Equals(storage, value))
@@ -39,7 +41,7 @@ namespace QWMS.ViewModels
 
             storage = value;
             NotifyPropertyChanged(propertyName);
-        }
+        }        
 
         public void NotifyPropertyChanged([CallerMemberName] string? propertyName = null)
         {

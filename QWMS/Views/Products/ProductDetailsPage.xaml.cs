@@ -13,4 +13,20 @@ public partial class ProductDetailsPage : ContentPage
         _viewModel = viewModel;
         BindingContext = viewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        _viewModel.Initialize();
+        _viewModel.ShowScanMessage();
+    }
+    
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        _viewModel.Uninitialize();
+    }
 }
+

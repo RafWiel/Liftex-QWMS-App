@@ -1,6 +1,7 @@
 ﻿using Com.Cipherlab.Barcode.Decoderparams;
 using CommunityToolkit.Maui.Core;
-using QWMS.Models;
+using Microsoft.Extensions.Logging;
+using QWMS.Models.Orders;
 using QWMS.Services;
 using QWMS.ViewModels.Dialogs;
 using QWMS.Views.Orders;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Orders
 {
-    public class OrderListViewModel : BaseViewModel
+    public class OrderListViewModel : PageViewModel
     {
         private DateTime _refreshTimestamp;
 
@@ -36,15 +37,19 @@ namespace QWMS.ViewModels.Orders
         //    set => Set(ref _isRefreshing, value);
         //}
 
-        private OrderListService _ordersService;
+        private OrdersService _ordersService;
         private BarcodeReaderService _barcodeReaderService;
-        private readonly IPopupService _popupService;
+        private ILogger<OrderListViewModel> _logger;
 
-        public OrderListViewModel(OrderListService ordersService, BarcodeReaderService barcodeReaderService, IPopupService popupService)
+        public OrderListViewModel(
+            OrdersService ordersService, 
+            BarcodeReaderService barcodeReaderService,
+            ILogger<OrderListViewModel> logger,
+            IPopupService popupService) : base(popupService)
         {
             _ordersService = ordersService;
-            _barcodeReaderService = barcodeReaderService;
-            _popupService = popupService;
+            _barcodeReaderService = barcodeReaderService; 
+            _logger = logger;   
 
             GetOrdersCommand = new Command(async (isForced) => await GetOrdersAsync((bool)isForced));
             GoToDetailsCommand = new Command(async (order) => await GoToDetailsAsync((OrderModel)order));
@@ -66,7 +71,7 @@ namespace QWMS.ViewModels.Orders
 #endif
         }
 
-        async Task GetOrdersAsync(bool isForced)
+        private async Task GetOrdersAsync(bool isForced)
         {
             if (IsBusy)
                 return;
@@ -101,7 +106,7 @@ namespace QWMS.ViewModels.Orders
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logger.LogError(ex, ex.ToString());
             }
             finally
             {
@@ -122,14 +127,14 @@ namespace QWMS.ViewModels.Orders
             ShowAutoMessageDialog("Barcode", barcode, 1500);
         }
 
-        public async void ShowMessageDialog(string title, string message)
-        {
-            await _popupService.ShowPopupAsync<MessageDialogViewModel>(onPresenting: viewModel => viewModel.Initialize(title, message));
-        }
+        //public async void ShowMessageDialog(string title, string message)
+        //{
+        //    await _popupService.ShowPopupAsync<MessageDialogViewModel>(onPresenting: viewModel => viewModel.Initialize(title, message));
+        //}
 
-        public async void ShowAutoMessageDialog(string title, string message, int delay)
-        {
-            await _popupService.ShowPopupAsync<AutoMessageDialogViewModel>(onPresenting: viewModel => viewModel.Initialize(title, message, delay));
-        }
+        //public async void ShowAutoMessageDialog(string title, string message, int delay)
+        //{
+        //    await _popupService.ShowPopupAsync<AutoMessageDialogViewModel>(onPresenting: viewModel => viewModel.Initialize(title, message, delay));
+        //}
     }
 }

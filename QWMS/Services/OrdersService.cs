@@ -1,7 +1,7 @@
 ﻿using MetroLog;
 using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
-using QWMS.Models;
+using QWMS.Models.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace QWMS.Services
 {
-    public class OrderListService : IOrdersService
+    public class OrdersService : IOrdersService
     {        
         private HttpClient _httpClient;
-        private ILogger<OrderListService> _logger;
+        private ILogger<OrdersService> _logger;
 
-        public OrderListService(ILogger<OrderListService> logger) 
+        public OrdersService(ILogger<OrdersService> logger) 
         { 
             _logger = logger;
             _httpClient = new HttpClient();

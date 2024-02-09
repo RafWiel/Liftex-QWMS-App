@@ -4,6 +4,9 @@ using AndroidX.Lifecycle;
 using Com.Cipherlab.Barcode;
 using Com.Cipherlab.Barcode.Decoder;
 using Com.Cipherlab.Barcode.Decoderparams;
+using Java.Util.Logging;
+using MetroLog;
+using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 //using QWMS.Tools;
 
@@ -19,24 +22,24 @@ namespace QWMS.Services
         public event DecodeErrorOccurredDelegate? DecodeErrorOccurred;
 
         private Context _context = Android.App.Application.Context;
-        private IntentFilter _intentfilter;
-        private ReaderManager _readerManager;
-        private ReaderDataReceiver _dataReceiver;
+        private IntentFilter _intentfilter = new IntentFilter();
+        private ReaderManager? _readerManager;
+        private ReaderDataReceiver? _dataReceiver;
 
-        public BarcodeReaderService()
+        public partial void Initialize()
         {
             Console.WriteLine("Android constructor");
 
             _readerManager = ReaderManager.InitInstance(_context);
-
-            _intentfilter = new IntentFilter();
+            
             _intentfilter.AddAction(GeneralString.IntentREADERSERVICECONNECTED);
             _intentfilter.AddAction(GeneralString.IntentPASSTOAPP);
             _intentfilter.AddAction(GeneralString.IntentDECODEERROR);
 
             _dataReceiver = new ReaderDataReceiver
             {
-                ReaderManager = _readerManager
+                ReaderManager = _readerManager,
+                Logger = _logger,
             };
 
             _dataReceiver.BarcodeReceived += delegate (string barcode)
@@ -57,7 +60,7 @@ namespace QWMS.Services
             Console.WriteLine("Android dispose");
 
             _context.UnregisterReceiver(_dataReceiver);
-            _readerManager.Release();
+            _readerManager?.Release();
         }
     }
 
@@ -69,10 +72,17 @@ namespace QWMS.Services
         public delegate void DecodeErrorOccurredDelegate(int errorCode);
         public event DecodeErrorOccurredDelegate? DecodeErrorOccurred;
 
-        public ReaderManager ReaderManager { get; set; }
+        public ReaderManager? ReaderManager { get; set; }
+        public ILogger<BarcodeReaderService>? Logger { get; set; }
 
-        public override void OnReceive(Context context, Intent intent)
+        public override void OnReceive(Context? context, Intent? intent)
         {
+            if (intent == null) 
+                return;
+
+            if (intent.Action == null)
+                return;
+
             if (intent.Action.Equals(GeneralString.IntentREADERSERVICECONNECTED))
             {
                 ProcessReaderServiceConnected();
@@ -100,7 +110,7 @@ namespace QWMS.Services
                 //_barcodeTextView.Text = "Reader type " + readerType.ToString();
 
                 var settings = new ReaderOutputConfiguration();
-                ReaderManager.Get_ReaderOutputConfiguration(settings);
+                ReaderManager?.Get_ReaderOutputConfiguration(settings);
 
                 settings.EnableKeyboardEmulation = KeyboardEmulationType.None;
                 settings.AutoEnterWay = OutputEnterWay.Disable;
@@ -110,19 +120,22 @@ namespace QWMS.Services
                 settings.SzPrefixCode = "<ean>";
                 settings.SzSuffixCode = "</ean>";
 
-                ReaderManager.Set_ReaderOutputConfiguration(settings);
-                ReaderManager.SetActive(true);
+                ReaderManager?.Set_ReaderOutputConfiguration(settings);
+                ReaderManager?.SetActive(true);
 
                 //Log.Write("Service connected");
             }
             catch (Exception ex)
             {
-                //Log.Write(ex.ToString());
+                Logger?.LogError(ex, ex.Message);
             }
         }
 
-        private void ProcessBarcode(string barcode)
+        private void ProcessBarcode(string? barcode)
         {
+            if (barcode == null)
+                return;
+
             Match m = Regex.Match(barcode, "^<ean>\\w+</ean>$");
             if (m.Success == false)
                 return;

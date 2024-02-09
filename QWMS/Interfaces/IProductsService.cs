@@ -1,4 +1,4 @@
-﻿using QWMS.Models.Orders;
+﻿ using QWMS.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace QWMS.Interfaces
 {
-    public interface IOrdersService
+    public interface IProductsService
     {
-        Task<List<OrderModel>?> GetOrders();
+        Task<ProductModel?> GetOne(string ean);
     }
 }
