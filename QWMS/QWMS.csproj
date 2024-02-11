@@ -95,12 +95,14 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Plugin.Maui.Audio" Version="2.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Platforms\Android\Services\" />
 	  <Folder Include="Platforms\MacCatalyst\Services\" />
 	  <Folder Include="Platforms\Windows\Servcices\" />
+	  <Folder Include="Resources\Raw\Sounds\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -123,6 +125,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Resources\Helpers\BooleanValues.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Button.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\Label.xaml">

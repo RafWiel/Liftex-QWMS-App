@@ -1,6 +1,7 @@
 ﻿using Com.Cipherlab.Barcode.Decoderparams;
 using CommunityToolkit.Maui.Core;
 using Microsoft.Extensions.Logging;
+using QWMS.Interfaces;
 using QWMS.Models.Orders;
 using QWMS.Services;
 using QWMS.ViewModels.Dialogs;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Orders
 {
-    public class OrderListViewModel : PageViewModel
+    public class OrderListViewModel : BaseViewModel
     {
         private DateTime _refreshTimestamp;
 
@@ -37,16 +38,18 @@ namespace QWMS.ViewModels.Orders
         //    set => Set(ref _isRefreshing, value);
         //}
 
-        private OrdersService _ordersService;
-        private BarcodeReaderService _barcodeReaderService;
+        private IMessageDialogsService _messageDialogsService;
+        private IOrdersService _ordersService;
+        private IBarcodeReaderService _barcodeReaderService;
         private ILogger<OrderListViewModel> _logger;
 
         public OrderListViewModel(
-            OrdersService ordersService, 
-            BarcodeReaderService barcodeReaderService,
-            ILogger<OrderListViewModel> logger,
-            IPopupService popupService) : base(popupService)
+            IMessageDialogsService messageDialogsService,
+            IOrdersService ordersService, 
+            IBarcodeReaderService barcodeReaderService,
+            ILogger<OrderListViewModel> logger) : base()
         {
+            _messageDialogsService = messageDialogsService;
             _ordersService = ordersService;
             _barcodeReaderService = barcodeReaderService; 
             _logger = logger;   
@@ -90,7 +93,7 @@ namespace QWMS.ViewModels.Orders
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
-                        ShowAutoMessageDialog("Błąd aplikacji", "Nieudane pobranie listy zamówień", 3000);
+                        _messageDialogsService.ShowError("Błąd aplikacji", "Nieudane pobranie listy zamówień", 3000);
                     });
 
                     return;
@@ -124,7 +127,7 @@ namespace QWMS.ViewModels.Orders
 
         private void _barcodeReader_BarcodeReceived(string barcode)
         {
-            ShowAutoMessageDialog("Barcode", barcode, 1500);
+            _messageDialogsService.ShowNotification("Barcode", barcode, 1500);
         }
 
         //public async void ShowMessageDialog(string title, string message)

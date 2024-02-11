@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace QWMS.Models.Products
 {
-    public class ProductModel 
-    {        
+    public class ProductDetailsModel 
+    {
+        public int Id { get; set; }
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Ean { get; set; } = string.Empty;

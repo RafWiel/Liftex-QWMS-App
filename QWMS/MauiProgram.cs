@@ -8,6 +8,8 @@ using QWMS.Views.Dialogs;
 using QWMS.ViewModels.Orders;
 using QWMS.Views.Products;
 using QWMS.ViewModels.Products;
+using QWMS.Interfaces;
+using Plugin.Maui.Audio;
 
 namespace QWMS
 {
@@ -27,9 +29,12 @@ namespace QWMS
 
             builder.Logging.AddTraceLogger(_ => {}); //TODO: Ustaw plik do zapisu
 
-            builder.Services.AddSingleton<BarcodeReaderService>();
-            builder.Services.AddSingleton<OrdersService>();
-            builder.Services.AddSingleton<ProductsService>();
+            builder.Services.AddSingleton(AudioManager.Current);
+            builder.Services.AddSingleton<IAudioService, AudioService>();
+            builder.Services.AddSingleton<IBarcodeReaderService, BarcodeReaderService>();
+            builder.Services.AddSingleton<IMessageDialogsService, MessageDialogsService>();
+            builder.Services.AddSingleton<IOrdersService, OrdersService>();
+            builder.Services.AddSingleton<IProductsService, ProductsService>();
             builder.Services.AddScoped<MainPage>();
             builder.Services.AddScoped<OrderListPage>();
             builder.Services.AddScoped<OrderListViewModel>();

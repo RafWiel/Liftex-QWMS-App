@@ -7,20 +7,15 @@ using Com.Cipherlab.Barcode.Decoderparams;
 using Java.Util.Logging;
 using MetroLog;
 using Microsoft.Extensions.Logging;
+using QWMS.Interfaces;
 using System.Text.RegularExpressions;
 //using QWMS.Tools;
 
 
 namespace QWMS.Services
 {
-    public partial class BarcodeReaderService : IDisposable
-    {        
-        public delegate void BarcodeReceivedDelegate(string barcode);
-        public event BarcodeReceivedDelegate? BarcodeReceived;
-
-        public delegate void DecodeErrorOccurredDelegate(int errorCode);
-        public event DecodeErrorOccurredDelegate? DecodeErrorOccurred;
-
+    public partial class BarcodeReaderService : IBarcodeReaderService, IDisposable
+    {                
         private Context _context = Android.App.Application.Context;
         private IntentFilter _intentfilter = new IntentFilter();
         private ReaderManager? _readerManager;
@@ -49,7 +44,8 @@ namespace QWMS.Services
 
             _dataReceiver.DecodeErrorOccurred += delegate (int errorCode)
             {
-                DecodeErrorOccurred?.Invoke(errorCode);
+                _logger.LogError($"Barcode reader error occurred: {errorCode}");
+                DecodeErrorOccurred?.Invoke(errorCode);                
             };
 
             _context.RegisterReceiver(_dataReceiver, _intentfilter);

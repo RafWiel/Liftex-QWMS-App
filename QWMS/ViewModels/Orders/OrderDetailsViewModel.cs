@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Core;
+using QWMS.Interfaces;
 using QWMS.Models.Orders;
 using QWMS.Services;
 using QWMS.ViewModels.Dialogs;
@@ -13,8 +14,10 @@ using System.Threading.Tasks;
 namespace QWMS.ViewModels.Orders
 {
     [QueryProperty(nameof(Order), nameof(Order))]
-    public class OrderDetailsViewModel : PageViewModel
-    {        
+    public class OrderDetailsViewModel : BaseViewModel
+    {
+        private IMessageDialogsService _messageDialogsService;
+
         private OrderModel _order = new();
         public OrderModel Order
         {
@@ -22,11 +25,14 @@ namespace QWMS.ViewModels.Orders
             set => Set(ref _order, value);
         }
 
-        public OrderDetailsViewModel(IPopupService popupService) : base(popupService){}
+        public OrderDetailsViewModel(MessageDialogsService messageDialogsService) : base() 
+        { 
+            _messageDialogsService = messageDialogsService;
+        }
 
         public void ShowMessage()
         {
-            ShowAutoMessageDialog("Zamówienie", Order.Name, 1500);
+            _messageDialogsService.ShowNotification("Zamówienie", Order.Name, 1500);
         }
 
         async Task GoBackAsync()

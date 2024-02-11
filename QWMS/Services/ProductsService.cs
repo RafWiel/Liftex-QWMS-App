@@ -26,7 +26,7 @@ namespace QWMS.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<ProductModel?> GetOne(string ean)
+        public async Task<ProductDetailsModel?> GetOne(string ean)
         {            
             try
             {
@@ -39,7 +39,7 @@ namespace QWMS.Services
                 if (!response.IsSuccessStatusCode)
                     return null;
 
-                var model = await response.Content.ReadFromJsonAsync<ProductModel>();
+                var model = await response.Content.ReadFromJsonAsync<ProductDetailsModel>();
 
                 //var model = await Task.Run(() =>
                 //{

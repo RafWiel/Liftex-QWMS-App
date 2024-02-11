@@ -8,11 +8,13 @@
     x:DataType="viewModel:ProductDetailsViewModel">
     <Grid>
         <Grid
-            Padding="10"
             ColumnSpacing="5"
             RowDefinitions="auto,*,auto"
             RowSpacing="10">
-            <Grid ColumnDefinitions="*,*" RowDefinitions="auto,auto,auto,auto,auto,auto">
+            <Grid
+                Padding="10"
+                ColumnDefinitions="*,*"
+                RowDefinitions="auto,auto,auto,auto,auto,auto">
                 <Label Style="{StaticResource FieldName}" Text="Nazwa" />
                 <Label
                     Grid.Row="1"
@@ -58,6 +60,21 @@
                     Grid.Column="1"
                     Style="{StaticResource FieldValue}"
                     Text="{Binding CountStr}" />
+            </Grid>
+            <Grid Grid.Row="1" />
+            <Grid
+                Grid.Row="2"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="1">
+                <Button
+                    Command="{Binding SearchCommand}"
+                    HorizontalOptions="Fill"
+                    Text="Szukaj" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding ShowEanCodesCommand}"
+                    HorizontalOptions="Fill"
+                    Text="Pokaż kody EAN" />
             </Grid>
         </Grid>
         <ActivityIndicator
