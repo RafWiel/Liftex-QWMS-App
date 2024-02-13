@@ -15,5 +15,10 @@ public partial class MessageDialog : Popup
         BindingContext = viewModel;
 
         _viewModel.CloseEvent += delegate { Close(); };
+
+        this.Opened += delegate
+        {
+            _viewModel.PlayInitialSound();          
+        };
     }    
 }

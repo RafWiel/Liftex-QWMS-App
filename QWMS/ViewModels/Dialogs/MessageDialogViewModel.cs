@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QWMS.Enums;
+using QWMS.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,11 +9,8 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Dialogs
 {
-    public class MessageDialogViewModel : BaseViewModel
-    {
-        public delegate void CloseDelegate();
-        public event CloseDelegate? CloseEvent;
-
+    public class MessageDialogViewModel : BaseDialogViewModel
+    {                
         public Command CloseCommand { get; }
 
         private string _title = string.Empty;
@@ -28,18 +27,19 @@ namespace QWMS.ViewModels.Dialogs
             set => Set(ref _message, value);
         }
 
-        public MessageDialogViewModel()
-        {
+        public MessageDialogViewModel(IAudioService audioService) : base(audioService) 
+        {            
             CloseCommand = new Command(() =>
             {
-                CloseEvent?.Invoke();
-            });
+                InvokeCloseEvent();
+            });            
         }
 
-        public void Initialize(string title, string message)
+        public void Initialize(string title, string message, MessageType messageType)
         { 
             Title = title;
             Message = message;
+            MessageType = messageType;
         }        
     }
 }

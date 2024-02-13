@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QWMS.Enums;
+using QWMS.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,13 +9,10 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Dialogs
 {
-    public class AutoMessageDialogViewModel : BaseViewModel
-    {
-        public delegate void CloseDelegate();
-        public event CloseDelegate? CloseEvent;
-
-        private IDispatcherTimer _timer;
-
+    public class AutoMessageDialogViewModel : BaseDialogViewModel
+    {                
+        private IDispatcherTimer? _timer;
+        
         private string _title = string.Empty;
         public string Title
         {
@@ -34,28 +33,32 @@ namespace QWMS.ViewModels.Dialogs
             set => _timer.Interval = new TimeSpan(0, 0, 0, 0, value);
         }
 
-        public AutoMessageDialogViewModel()
-        {
-            _timer = Application.Current.Dispatcher.CreateTimer();            
-            _timer.Tick += (s, e) => CloseEvent?.Invoke();
-            
+        public AutoMessageDialogViewModel(IAudioService audioService) : base(audioService) 
+        {           
+            var app = Application.Current;
+            if (app == null)
+                return;
+
+            _timer = app.Dispatcher.CreateTimer();            
+            _timer.Tick += (s, e) => InvokeCloseEvent();            
         }
 
-        public void Initialize(string title, string message, int delay)
+        public void Initialize(string title, string message, MessageType messageType, int delay)
         { 
             Title = title;
             Message = message;
-            Delay = delay;
+            MessageType = messageType;
+            Delay = delay;            
         }
 
         public void Start()
         {
-            _timer.Start();
+            _timer?.Start();
         }
 
         public void Stop()
         {
-            _timer.Stop();
+            _timer?.Stop();
         }        
     }
 }

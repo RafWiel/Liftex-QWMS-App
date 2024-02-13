@@ -16,9 +16,12 @@ public partial class AutoMessageDialog : Popup
 
         _viewModel.CloseEvent += delegate { Close(); };
 
-        this.Opened += delegate { _viewModel.Start(); };
-        this.Closed += delegate { _viewModel.Stop(); };
-    }    
+        this.Opened += delegate 
+        {
+            _viewModel.PlayInitialSound();
+            _viewModel.Start(); 
+        };
 
-    
+        this.Closed += delegate { _viewModel.Stop(); };
+    }           
 }

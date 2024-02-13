@@ -128,7 +128,8 @@ namespace QWMS.ViewModels.Products
 
         private async Task SearchAsync()
         {
-            _audioService.PlayBeepSound();
+            _messageDialogsService.ShowNotification("Skanowanie", "Proszę zeskanować kod kreskowy towaru", 1500);
+            //_audioService.PlayBeepSound();
         }
 
         private async Task ShowEanCodesAsync()
