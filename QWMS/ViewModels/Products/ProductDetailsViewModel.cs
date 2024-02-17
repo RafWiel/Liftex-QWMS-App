@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Maui.Core;
+﻿using Com.Cipherlab.Barcode.Decoderparams;
+using CommunityToolkit.Maui.Core;
 using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
 using QWMS.Models.Products;
 using QWMS.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,8 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Products
 {
+    TODO: komponent pasek tytulowy
+
     public class ProductDetailsViewModel : BaseViewModel
     {
         #region Initialization
@@ -24,6 +28,8 @@ namespace QWMS.ViewModels.Products
 
         public Command SearchCommand { get; }
         public Command ShowEanCodesCommand { get; }
+        
+        public ObservableCollection<ProductDetailsCountModel> Items { get; } = new();
 
         public ProductDetailsViewModel(
             ILogger<ProductDetailsViewModel> logger,
@@ -65,8 +71,8 @@ namespace QWMS.ViewModels.Products
             }
         }
         
-        public string PriceStr => _model.Price > 0 ? $"{_model.Price:0.00}PLN" : string.Empty;        
-        public string CountStr => _model.Count > 0 ? _model.Count.ToString(CultureInfo.InvariantCulture) : string.Empty;
+        public string PriceStr => _model.Price > 0 ? _model.Price.ToString("0.00", CultureInfo.InvariantCulture) : string.Empty;        
+        public string CountStr => _model.Count > 0 ? _model.Count.ToString("0.#", CultureInfo.InvariantCulture) : string.Empty;
 
         #endregion
 
@@ -92,9 +98,11 @@ namespace QWMS.ViewModels.Products
             _barcodeReaderService.BarcodeReceived -= _barcodeReader_BarcodeReceived;            
         }
 
-        public void ShowScanMessage()
+        public async void ShowScanMessage()
         {
             _messageDialogsService.ShowNotification("Skanowanie", "Proszę zeskanować kod kreskowy towaru", 1500);
+
+            await GetProductAsync(string.Empty);
         }
 
         private async Task GetProductAsync(string barcode)
@@ -114,7 +122,7 @@ namespace QWMS.ViewModels.Products
                 }
 
                 Model = model;
-                Title = model.Code;
+                Title = model.Name;
             }
             catch (Exception ex)
             {

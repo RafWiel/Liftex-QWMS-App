@@ -3,65 +3,147 @@
     x:Class="QWMS.Views.Products.ProductDetailsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:QWMS.Models.Products"
     xmlns:viewModel="clr-namespace:QWMS.ViewModels.Products"
     Title="{Binding Title}"
     x:DataType="viewModel:ProductDetailsViewModel">
     <Grid>
-        <Grid
-            ColumnSpacing="5"
-            RowDefinitions="auto,*,auto"
-            RowSpacing="10">
+        <Grid ColumnSpacing="5" RowDefinitions="auto,*,auto">
             <Grid
+                Grid.Row="0"
                 Padding="10"
                 ColumnDefinitions="*,*"
-                RowDefinitions="auto,auto,auto,auto,auto,auto">
-                <Label Style="{StaticResource FieldName}" Text="Nazwa" />
-                <Label
+                ColumnSpacing="10"
+                RowDefinitions="auto, auto">
+                <VerticalStackLayout>
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource FieldName}"
+                        Text="Kod" />
+                    <Label
+                        FontSize="22"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource FieldValue}"
+                        Text="{Binding Model.Code}" />
+                    <Label
+                        Margin="0,5,0,0"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource FieldName}"
+                        Text="EAN" />
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource FieldValue}"
+                        Text="{Binding Model.Ean}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource FieldName}"
+                        Text="Ilość" />
+                    <Label
+                        FontSize="28"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource FieldValue}"
+                        Text="{Binding CountStr}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout
                     Grid.Row="1"
-                    Style="{StaticResource FieldValue}"
-                    Text="{Binding Model.Name}" />
-                <Label
-                    Grid.Row="2"
-                    Margin="0,5,0,0"
-                    Style="{StaticResource FieldName}"
-                    Text="Kod" />
-                <Label
-                    Grid.Row="3"
-                    Style="{StaticResource FieldValue}"
-                    Text="{Binding Model.Code}" />
-                <Label
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Margin="0,5,0,0"
-                    Style="{StaticResource FieldName}"
-                    Text="EAN" />
-                <Label
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Style="{StaticResource FieldValue}"
-                    Text="{Binding Model.Ean}" />
-                <Label
-                    Grid.Row="4"
-                    Margin="0,5,0,0"
-                    Style="{StaticResource FieldName}"
-                    Text="Cena" />
-                <Label
-                    Grid.Row="5"
-                    Style="{StaticResource FieldValue}"
-                    Text="{Binding PriceStr}" />
-                <Label
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Margin="0,5,0,0"
-                    Style="{StaticResource FieldName}"
-                    Text="Ilość" />
-                <Label
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    Style="{StaticResource FieldValue}"
-                    Text="{Binding CountStr}" />
+                    Grid.ColumnSpan="2"
+                    Margin="0,20,0,20">
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource FieldName}"
+                        Text="Cena" />
+                    <Label HorizontalOptions="Center" Style="{StaticResource FieldValue}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontSize="32" Text="{Binding PriceStr}" />
+                                <Span Text=" PLN" TextColor="{AppThemeBinding Light={StaticResource SecondaryLightText}, Dark={StaticResource SecondaryDarkText}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
             </Grid>
-            <Grid Grid.Row="1" />
+            <VerticalStackLayout Grid.Row="1">
+                <Grid Padding="10,0,10,5" ColumnDefinitions="*,*,*,*">
+                    <Label
+                        Grid.Column="0"
+                        Style="{StaticResource FieldName}"
+                        Text="Kod"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Padding="10,0,0,0"
+                        Style="{StaticResource FieldName}"
+                        Text="Sprzedaż"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="2"
+                        Padding="10,0,0,0"
+                        Style="{StaticResource FieldName}"
+                        Text="Magazyn"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="3"
+                        Padding="10,0,0,0"
+                        Style="{StaticResource FieldName}"
+                        Text="Rezerwacje"
+                        VerticalOptions="Center" />
+                </Grid>
+                <Line
+                    Grid.Row="1"
+                    Grid.ColumnSpan="4"
+                    HorizontalOptions="Fill"
+                    Style="{StaticResource Divider}"
+                    X2="{Binding Width, Source={RelativeSource Self}}" />
+                <CollectionView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    ItemsSource="{Binding Model.Items}"
+                    SelectionMode="Single">
+                    <CollectionView.EmptyView>
+                        <StackLayout>
+                            <Label
+                                Padding="10"
+                                HorizontalOptions="Center"
+                                Text="Brak danych"
+                                TextColor="LightGray" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:ProductDetailsCountModel">
+                            <Grid Padding="10,5,10,5" ColumnDefinitions="*,*,*,*">
+                                <!--<Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:OrderListViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>-->
+                                <Label
+                                    Grid.Column="0"
+                                    Style="{StaticResource FieldValue}"
+                                    Text="{Binding WarehouseCode}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="1"
+                                    Padding="10,0,0,0"
+                                    Style="{StaticResource FieldValue}"
+                                    Text="{Binding SaleCount}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="2"
+                                    Padding="10,0,0,0"
+                                    Style="{StaticResource FieldValue}"
+                                    Text="{Binding WarehouseCount}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="3"
+                                    Padding="10,0,0,0"
+                                    Style="{StaticResource FieldValue}"
+                                    Text="{Binding ReservationCount}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
             <Grid
                 Grid.Row="2"
                 ColumnDefinitions="*,*"

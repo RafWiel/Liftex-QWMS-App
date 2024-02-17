@@ -18,21 +18,10 @@
         Padding="20,20,10,10"
         RowDefinitions="auto,*,auto"
         RowSpacing="10">
-        <Label
-            FontAttributes="Bold"
-            FontSize="16"
-            HorizontalOptions="Start"
-            Text="{Binding Title}"
-            TextColor="{AppThemeBinding Light={StaticResource PrimaryLightText},
-                                        Dark={StaticResource PrimaryDarkText}}"
-            VerticalOptions="Center" />
+        <Label Style="{StaticResource MessageTitle}" Text="{Binding Title}" />
         <Label
             Grid.Row="1"
-            FontSize="14"
-            HorizontalOptions="Start"
-            Text="{Binding Message}"
-            TextColor="{AppThemeBinding Light={StaticResource SecondaryLightText},
-                                        Dark={StaticResource SecondaryDarkText}}"
-            VerticalOptions="Start" />
+            Style="{StaticResource MessageText}"
+            Text="{Binding Message}" />
     </Grid>
 </toolkit:Popup>

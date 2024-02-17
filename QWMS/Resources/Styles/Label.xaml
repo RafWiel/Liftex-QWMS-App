@@ -8,7 +8,7 @@
         <Setter Property="LineBreakMode" Value="TailTruncation" />
         <!--<Setter Property="VerticalTextAlignment" Value="Center" />-->
         <Setter Property="FontFamily" Value="OpenSansRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="18" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -29,7 +29,7 @@
         x:Key="FieldName"
         BasedOn="{StaticResource CommonLabel}"
         TargetType="Label">
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource SecondaryLightText}, Dark={StaticResource SecondaryDarkText}}" />
         <Setter Property="HorizontalOptions" Value="Start" />
         <Setter Property="VerticalOptions" Value="Start" />
@@ -38,6 +38,28 @@
     <Style
         x:Key="FieldValue"
         BasedOn="{StaticResource CommonLabel}"
-        TargetType="Label" />
+        TargetType="Label">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+    </Style>
+
+    <Style
+        x:Key="MessageTitle"
+        BasedOn="{StaticResource FieldName}"
+        TargetType="Label">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryLightText}, Dark={StaticResource PrimaryDarkText}}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <Style
+        x:Key="MessageText"
+        BasedOn="{StaticResource FieldName}"
+        TargetType="Label">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+
 
 </ResourceDictionary>

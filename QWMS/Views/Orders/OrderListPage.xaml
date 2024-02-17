@@ -9,14 +9,14 @@
     x:DataType="viewModel:OrderListViewModel">
     <Grid
         Padding="10"
-        ColumnDefinitions="*,*"
-        ColumnSpacing="5"
         RowDefinitions="auto,*,auto"
         RowSpacing="10">
-        <Grid
+        <!--<RefreshView
+            Grid.Row="1"
             Grid.ColumnSpan="2"
-            ColumnDefinitions="*,120"
-            ColumnSpacing="10">
+            Command="{Binding GetOrdersCommand}"
+            IsRefreshing="{Binding IsRefreshing}">-->
+        <Grid ColumnDefinitions="*,120" ColumnSpacing="10">
             <Entry
                 Grid.Row="0"
                 Placeholder="Szukaj"
@@ -27,56 +27,74 @@
                 IsEnabled="{Binding IsNotBusy}"
                 Text="Szukaj" />
         </Grid>
-        <!--<RefreshView
-        Grid.Row="1"
-        Grid.ColumnSpan="2"
-        Command="{Binding GetOrdersCommand}"
-        IsRefreshing="{Binding IsRefreshing}">-->
-        <CollectionView
+        <Grid
             Grid.Row="1"
-            Grid.ColumnSpan="2"
-            ItemsSource="{Binding Orders}"
-            SelectionMode="None">
-            <CollectionView.EmptyView>
-                <StackLayout>
-                    <Label
-                        Padding="10"
-                        HorizontalOptions="Center"
-                        Text="Brak danych"
-                        TextColor="LightGray" />
-                </StackLayout>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:OrderModel">
-                    <Grid Padding="10,5,0,5" ColumnDefinitions="*,*">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:OrderListViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
-                        </Grid.GestureRecognizers>
+            Padding="0,5,0,0"
+            ColumnDefinitions="*,*"
+            RowDefinitions="auto,auto,*"
+            RowSpacing="5">
+            <Label
+                Grid.Column="0"
+                Style="{StaticResource FieldName}"
+                Text="Numer"
+                VerticalOptions="Center" />
+            <Label
+                Grid.Column="1"
+                Padding="10,0,0,0"
+                Style="{StaticResource FieldName}"
+                Text="Kontrahent"
+                VerticalOptions="Center" />
+            <Line
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Fill"
+                Style="{StaticResource Divider}"
+                X2="{Binding Width, Source={RelativeSource Self}}" />
+            <CollectionView
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding Orders}"
+                SelectionMode="Single">
+                <CollectionView.EmptyView>
+                    <StackLayout>
                         <Label
-                            Grid.Column="0"
-                            Text="{Binding Name}"
-                            VerticalOptions="Center" />
-                        <Label
-                            Grid.Column="1"
-                            Padding="10,0,0,0"
-                            Text="{Binding Contractor}"
-                            VerticalOptions="Center" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            Padding="10"
+                            HorizontalOptions="Center"
+                            Text="Brak danych"
+                            TextColor="LightGray" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:OrderModel">
+                        <Grid Padding="0,5,0,5" ColumnDefinitions="*,*">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:OrderListViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
+                            <Label
+                                Grid.Column="0"
+                                Style="{StaticResource FieldValue}"
+                                Text="{Binding Name}"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Padding="10,0,0,0"
+                                Style="{StaticResource FieldValue}"
+                                Text="{Binding Contractor}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
         <!--</RefreshView>-->
         <Button
             Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
             Command="{Binding GetOrdersCommand}"
             CommandParameter="{StaticResource TrueValue}"
             IsEnabled="{Binding IsNotBusy}"
             Text="Odśwież" />
         <ActivityIndicator
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="2"
+            Grid.RowSpan="3"
             HorizontalOptions="FillAndExpand"
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"

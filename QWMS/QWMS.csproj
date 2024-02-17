@@ -127,6 +127,12 @@
 	  <MauiXaml Update="Resources\Helpers\BooleanValues.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Grid.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Line.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\Button.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

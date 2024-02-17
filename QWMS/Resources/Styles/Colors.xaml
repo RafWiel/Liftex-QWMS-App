@@ -13,6 +13,10 @@
     <Color x:Key="Tertiary">#183C72</Color>
     <Color x:Key="LightBackground">White</Color>
     <Color x:Key="DarkBackground">#404040</Color>
+    <Color x:Key="LightDivider">#ACACAC</Color>
+    <Color x:Key="DarkDivider">#404040</Color>
+    <Color x:Key="LightSelection">#C1D5F2</Color>
+    <Color x:Key="DarkSelection">#31363D</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>

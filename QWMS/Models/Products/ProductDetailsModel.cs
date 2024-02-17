@@ -17,5 +17,6 @@ namespace QWMS.Models.Products
         public string Ean { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public decimal Count { get; set; }
+        public List<ProductDetailsCountModel> Items { get; set; } = new();
     }
 }
