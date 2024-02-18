@@ -47,7 +47,7 @@
         x:Key="MessageTitle"
         BasedOn="{StaticResource FieldName}"
         TargetType="Label">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryLightText}, Dark={StaticResource PrimaryDarkText}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource LightTitle}, Dark={StaticResource DarkTitle}}" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="FontAttributes" Value="Bold" />
     </Style>
@@ -58,6 +58,18 @@
         TargetType="Label">
         <Setter Property="FontSize" Value="18" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
+    </Style>
+
+    <Style
+        x:Key="PageTitle"
+        BasedOn="{StaticResource CommonLabel}"
+        TargetType="Label">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource LightTitle}, Dark={StaticResource DarkTitle}}" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+
+        <Setter Property="VerticalOptions" Value="Center" />
     </Style>
 
 

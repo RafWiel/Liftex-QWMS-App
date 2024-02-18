@@ -4,7 +4,7 @@
     <!--  Note: For Android please see also Platforms\Android\Resources\values\colors.xml  -->
 
     <Color x:Key="Primary">#2761BA</Color>
-    <Color x:Key="PrimaryDark">#1C457F</Color>
+    <Color x:Key="PrimaryDark">#213C60</Color>
     <Color x:Key="PrimaryLightText">Black</Color>
     <Color x:Key="PrimaryDarkText">#a0b0c0</Color>
     <Color x:Key="Secondary">#598FE0</Color>
@@ -12,11 +12,15 @@
     <Color x:Key="SecondaryDarkText">#ACACAC</Color>
     <Color x:Key="Tertiary">#183C72</Color>
     <Color x:Key="LightBackground">White</Color>
-    <Color x:Key="DarkBackground">#404040</Color>
+    <Color x:Key="DarkBackground">#303030</Color>
+    <Color x:Key="LightPageBackground">#F0F0F0</Color>
+    <Color x:Key="DarkPageBackground">#282828</Color>
     <Color x:Key="LightDivider">#ACACAC</Color>
     <Color x:Key="DarkDivider">#404040</Color>
     <Color x:Key="LightSelection">#C1D5F2</Color>
-    <Color x:Key="DarkSelection">#31363D</Color>
+    <Color x:Key="DarkSelection">#2C3C51</Color>
+    <Color x:Key="LightTitle">#1C457F</Color>
+    <Color x:Key="DarkTitle">#89ABDD</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>

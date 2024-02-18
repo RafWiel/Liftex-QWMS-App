@@ -6,12 +6,23 @@
     xmlns:model="clr-namespace:QWMS.Models.Products"
     xmlns:viewModel="clr-namespace:QWMS.ViewModels.Products"
     Title="{Binding Title}"
-    x:DataType="viewModel:ProductDetailsViewModel">
-    <Grid>
-        <Grid ColumnSpacing="5" RowDefinitions="auto,*,auto">
+    x:DataType="viewModel:ProductDetailsViewModel"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackground},
+                                      Dark={StaticResource DarkPageBackground}}">
+    <Grid RowDefinitions="auto,*">
+        <Label
+            Padding="10"
+            Style="{StaticResource PageTitle}"
+            Text="{Binding Title}" />
+        <Grid
+            Grid.Row="1"
+            ColumnSpacing="5"
+            RowDefinitions="auto,*,auto">
             <Grid
                 Grid.Row="0"
                 Padding="10"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground},
+                                                  Dark={StaticResource DarkBackground}}"
                 ColumnDefinitions="*,*"
                 ColumnSpacing="10"
                 RowDefinitions="auto, auto">
@@ -64,8 +75,12 @@
                     </Label>
                 </VerticalStackLayout>
             </Grid>
-            <VerticalStackLayout Grid.Row="1">
-                <Grid Padding="10,0,10,5" ColumnDefinitions="*,*,*,*">
+            <VerticalStackLayout
+                Grid.Row="1"
+                Margin="0,10,0,0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground},
+                                                  Dark={StaticResource DarkBackground}}">
+                <Grid Padding="10,5,10,5" ColumnDefinitions="*,*,*,*">
                     <Label
                         Grid.Column="0"
                         Style="{StaticResource FieldName}"
@@ -112,7 +127,7 @@
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:ProductDetailsCountModel">
-                            <Grid Padding="10,5,10,5" ColumnDefinitions="*,*,*,*">
+                            <Grid Padding="10" ColumnDefinitions="*,*,*,*">
                                 <!--<Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:OrderListViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
                                 </Grid.GestureRecognizers>-->

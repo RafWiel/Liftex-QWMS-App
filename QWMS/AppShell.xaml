@@ -6,11 +6,13 @@
     xmlns:views="clr-namespace:QWMS.Views.Products"
     x:Name="shellMain"
     Title="QWMS"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
     <!--<Shell.TitleView>
         <Label
+            BackgroundColor="AliceBlue"
             BindingContext="{x:Reference shellMain}"
-            FontSize="Large"
+            FontSize="12"
             Text="{Binding Path=Title, Mode=OneWay}"
             TextColor="Blue" />
     </Shell.TitleView>-->

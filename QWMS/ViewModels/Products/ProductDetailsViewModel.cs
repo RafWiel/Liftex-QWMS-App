@@ -14,8 +14,6 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Products
 {
-    TODO: komponent pasek tytulowy
-
     public class ProductDetailsViewModel : BaseViewModel
     {
         #region Initialization
@@ -102,7 +100,9 @@ namespace QWMS.ViewModels.Products
         {
             _messageDialogsService.ShowNotification("Skanowanie", "Proszę zeskanować kod kreskowy towaru", 1500);
 
-            await GetProductAsync(string.Empty);
+            await GetProductAsync("2010000000014");
+
+            TODO: MeasureUnitDecimalPlaces na liscie i zastepczy tekst przy wgrywaniu pozycji (puste glupio wyglada)
         }
 
         private async Task GetProductAsync(string barcode)
