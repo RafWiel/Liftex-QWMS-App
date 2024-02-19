@@ -18,6 +18,7 @@
             Grid.Row="1"
             ColumnSpacing="5"
             RowDefinitions="auto,*,auto">
+            <!--  Details  -->
             <Grid
                 Grid.Row="0"
                 Padding="10"
@@ -46,6 +47,7 @@
                         Style="{StaticResource FieldValue}"
                         Text="{Binding Model.Ean}" />
                 </VerticalStackLayout>
+                <!--  Count  -->
                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                     <Label
                         HorizontalOptions="Center"
@@ -57,6 +59,7 @@
                         Style="{StaticResource FieldValue}"
                         Text="{Binding CountStr}" />
                 </VerticalStackLayout>
+                <!--  Price  -->
                 <VerticalStackLayout
                     Grid.Row="1"
                     Grid.ColumnSpan="2"
@@ -75,11 +78,26 @@
                     </Label>
                 </VerticalStackLayout>
             </Grid>
+            <!--  Details empty view  -->
+            <Grid
+                Grid.Row="0"
+                Padding="10"
+                BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground},
+                                                  Dark={StaticResource DarkBackground}}"
+                IsVisible="{Binding IsProductLoaded, Converter={StaticResource InvertedBoolConverter}}">
+                <Label
+                    Padding="10"
+                    HorizontalOptions="Center"
+                    Text="Brak danych"
+                    TextColor="LightGray" />
+            </Grid>
+            <!--  DataGrid  -->
             <VerticalStackLayout
                 Grid.Row="1"
                 Margin="0,10,0,0"
                 BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground},
                                                   Dark={StaticResource DarkBackground}}">
+                <!--  Header  -->
                 <Grid Padding="10,5,10,5" ColumnDefinitions="*,*,*,*">
                     <Label
                         Grid.Column="0"
@@ -111,6 +129,7 @@
                     HorizontalOptions="Fill"
                     Style="{StaticResource Divider}"
                     X2="{Binding Width, Source={RelativeSource Self}}" />
+                <!--  Rows  -->
                 <CollectionView
                     Grid.Row="2"
                     Grid.ColumnSpan="4"
@@ -140,19 +159,19 @@
                                     Grid.Column="1"
                                     Padding="10,0,0,0"
                                     Style="{StaticResource FieldValue}"
-                                    Text="{Binding SaleCount}"
+                                    Text="{Binding SaleCountStr}"
                                     VerticalOptions="Center" />
                                 <Label
                                     Grid.Column="2"
                                     Padding="10,0,0,0"
                                     Style="{StaticResource FieldValue}"
-                                    Text="{Binding WarehouseCount}"
+                                    Text="{Binding WarehouseCountStr}"
                                     VerticalOptions="Center" />
                                 <Label
                                     Grid.Column="3"
                                     Padding="10,0,0,0"
                                     Style="{StaticResource FieldValue}"
-                                    Text="{Binding ReservationCount}"
+                                    Text="{Binding ReservationCountStr}"
                                     VerticalOptions="Center" />
                             </Grid>
                         </DataTemplate>
@@ -175,6 +194,7 @@
             </Grid>
         </Grid>
         <ActivityIndicator
+            Grid.RowSpan="2"
             HorizontalOptions="FillAndExpand"
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"

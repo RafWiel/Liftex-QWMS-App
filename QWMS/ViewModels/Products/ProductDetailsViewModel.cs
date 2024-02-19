@@ -50,11 +50,18 @@ namespace QWMS.ViewModels.Products
 
         #region Properties 
 
-        private string _title = "Kod towaru";
+        private string _title = "Towar";
         public string Title
         {
             get => _title;
             set => Set(ref _title, value);
+        }
+
+        private bool _isProductLoaded;
+        public bool IsProductLoaded
+        {
+            get => _isProductLoaded;
+            set => Set(ref _isProductLoaded, value);
         }
 
         private ProductDetailsModel _model = new();
@@ -66,11 +73,14 @@ namespace QWMS.ViewModels.Products
                 Set(ref _model, value);
                 NotifyPropertyChanged(nameof(PriceStr));
                 NotifyPropertyChanged(nameof(CountStr));
+
+
+                IsProductLoaded = true;
             }
         }
-        
-        public string PriceStr => _model.Price > 0 ? _model.Price.ToString("0.00", CultureInfo.InvariantCulture) : string.Empty;        
-        public string CountStr => _model.Count > 0 ? _model.Count.ToString("0.#", CultureInfo.InvariantCulture) : string.Empty;
+
+        public string PriceStr => _model.Price.ToString("0.00", CultureInfo.InvariantCulture);
+        public string CountStr => _model.Count.ToString("0.#", CultureInfo.InvariantCulture);
 
         #endregion
 
@@ -102,7 +112,7 @@ namespace QWMS.ViewModels.Products
 
             await GetProductAsync("2010000000014");
 
-            TODO: MeasureUnitDecimalPlaces na liscie i zastepczy tekst przy wgrywaniu pozycji (puste glupio wyglada)
+            //TODO: MeasureUnitDecimalPlaces na liscie i zastepczy tekst przy wgrywaniu pozycji (puste glupio wyglada)
         }
 
         private async Task GetProductAsync(string barcode)
