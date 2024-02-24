@@ -23,7 +23,7 @@ namespace QWMS.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<OrderModel>?> GetOrders()
+        public async Task<List<OrderListModel>?> Get()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace QWMS.Services
                 if (!response.IsSuccessStatusCode)
                     return null;
 
-                var orders = await response.Content.ReadFromJsonAsync<List<OrderModel>>();
+                var orders = await response.Content.ReadFromJsonAsync<List<OrderListModel>>();
 
                 //using var stream = await FileSystem.OpenAppPackageFileAsync("Orders.json");
                 //using var reader = new StreamReader(stream);

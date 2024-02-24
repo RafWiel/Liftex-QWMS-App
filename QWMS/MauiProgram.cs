@@ -4,8 +4,8 @@ using QWMS.Services;
 using QWMS.ViewModels.Dialogs;
 using QWMS.Views;
 using QWMS.Views.Orders;
-using QWMS.Views.Dialogs;
 using QWMS.ViewModels.Orders;
+using QWMS.Views.Dialogs;
 using QWMS.Views.Products;
 using QWMS.ViewModels.Products;
 using QWMS.Interfaces;
@@ -40,6 +40,8 @@ namespace QWMS
             builder.Services.AddScoped<OrderListViewModel>();
             builder.Services.AddScoped<OrderDetailsPage>();
             builder.Services.AddScoped<OrderDetailsViewModel>();
+            builder.Services.AddScoped<ProductListPage>();
+            builder.Services.AddScoped<ProductListViewModel>();
             builder.Services.AddScoped<ProductDetailsPage>();
             builder.Services.AddScoped<ProductDetailsViewModel>();
             builder.Services.AddTransientPopup<MessageDialog, MessageDialogViewModel>();

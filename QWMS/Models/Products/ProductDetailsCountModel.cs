@@ -1,12 +1,4 @@
-﻿using Newtonsoft.Json;
-using QWMS.Helpers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QWMS.Helpers;
 
 namespace QWMS.Models.Products
 {
@@ -19,8 +11,8 @@ namespace QWMS.Models.Products
         public decimal ReservationCount { get; set; }
         public int MeasureUnitDecimalPlaces { get; set; }
 
-        public string SaleCountStr => FormatCount.ToString(SaleCount, MeasureUnitDecimalPlaces);
-        public string WarehouseCountStr => FormatCount.ToString(WarehouseCount, MeasureUnitDecimalPlaces);
-        public string ReservationCountStr => FormatCount.ToString(ReservationCount, MeasureUnitDecimalPlaces);
+        public string SaleCountStr => Tools.FormatCount(SaleCount, MeasureUnitDecimalPlaces);
+        public string WarehouseCountStr => Tools.FormatCount(WarehouseCount, MeasureUnitDecimalPlaces);
+        public string ReservationCountStr => Tools.FormatCount(ReservationCount, MeasureUnitDecimalPlaces);
     }
 }

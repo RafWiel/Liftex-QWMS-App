@@ -1,5 +1,7 @@
-﻿using MetroLog;
+﻿using Com.Cipherlab.Barcode.Decoderparams;
+using MetroLog;
 using Microsoft.Extensions.Logging;
+using QWMS.Helpers;
 using QWMS.Interfaces;
 using QWMS.Models.Orders;
 using QWMS.Models.Products;
@@ -26,7 +28,27 @@ namespace QWMS.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<ProductDetailsModel?> GetOne(string ean)
+        public async Task<List<ProductListModel>?> Get()
+        {
+            try
+            {                
+                var response = await _httpClient.GetAsync("http://192.168.1.110:3001/api/v1/products");
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                var models = await response.Content.ReadFromJsonAsync<List<ProductListModel>>();
+
+                return models;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<ProductDetailsModel?> GetSingle(string ean)
         {            
             try
             {
@@ -35,28 +57,11 @@ namespace QWMS.Services
                     { "ean", ean }
                 };
                
-                var response = await _httpClient.GetAsync(BuildUrl("http://192.168.1.110:3001/api/v1/products", query));
+                var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/product", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 
-                var model = await response.Content.ReadFromJsonAsync<ProductDetailsModel>();
-
-                //var model = await Task.Run(() =>
-                //{
-                //    Thread.Sleep(1000);
-
-                //    var model = new ProductModel()
-                //    {
-                //        Code = $"T{index}",
-                //        Name = $"Towar {index}",
-                //        Ean = $"12345{index}",
-                //        Price = index * 0.1M,
-                //        Count = index
-                //    };
-
-                //    index++;
-                //    return model;
-                //});
+                var model = await response.Content.ReadFromJsonAsync<ProductDetailsModel>();                
 
                 return model;
             }
@@ -68,14 +73,8 @@ namespace QWMS.Services
             return null;
         }
 
-        public static string BuildUrl(string basePath, Dictionary<string, string> queryParams)
-        {
-            var uriBuilder = new UriBuilder(basePath)
-            {
-                Query = string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={kvp.Value}"))
-            };
+        
 
-            return uriBuilder.Uri.AbsoluteUri;
-        }
+        
     }
 }

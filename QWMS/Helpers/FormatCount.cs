@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace QWMS.Helpers
 {
-    public class FormatCount
+    public partial class Tools
     {
-        public static string ToString(decimal count, int decimalPlaces)
+        public static string FormatCount(decimal count, int decimalPlaces)
         {
             switch (decimalPlaces)
             {

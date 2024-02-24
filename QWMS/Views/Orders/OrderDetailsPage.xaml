@@ -3,7 +3,7 @@
     x:Class="QWMS.Views.Orders.OrderDetailsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:model="clr-namespace:QWMS.Models"
+    xmlns:model="clr-namespace:QWMS.Models.Orders"
     xmlns:viewModel="clr-namespace:QWMS.ViewModels.Orders"
     Title="Zamówienie"
     x:DataType="viewModel:OrderDetailsViewModel">
@@ -18,12 +18,12 @@
                 Margin="0,0,0,8"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
-                Text="{Binding Order.Name}" />
+                Text="{Binding Model.Name}" />
             <Label
                 Margin="0,0,0,8"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
-                Text="{Binding Order.Contractor}" />
+                Text="{Binding Model.Contractor}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

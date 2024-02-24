@@ -9,6 +9,6 @@ namespace QWMS.Interfaces
 {
     public interface IOrdersService
     {
-        Task<List<OrderModel>?> GetOrders();
+        Task<List<OrderListModel>?> Get();
     }
 }

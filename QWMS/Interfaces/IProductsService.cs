@@ -9,6 +9,7 @@ namespace QWMS.Interfaces
 {
     public interface IProductsService
     {
-        Task<ProductDetailsModel?> GetOne(string ean);
+        Task<List<ProductListModel>?> Get();
+        Task<ProductDetailsModel?> GetSingle(string ean);        
     }
 }

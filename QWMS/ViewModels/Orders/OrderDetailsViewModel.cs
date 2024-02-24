@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Orders
 {
-    [QueryProperty(nameof(Order), nameof(Order))]
+    [QueryProperty(nameof(Model), nameof(Model))]
     public class OrderDetailsViewModel : BaseViewModel
     {
         private IMessageDialogsService _messageDialogsService;
 
-        private OrderModel _order = new();
-        public OrderModel Order
+        private OrderListModel _model = new();
+        public OrderListModel Model
         {
-            get => _order;
-            set => Set(ref _order, value);
+            get => _model;
+            set => Set(ref _model, value);
         }
 
         public OrderDetailsViewModel(MessageDialogsService messageDialogsService) : base() 
@@ -32,7 +32,7 @@ namespace QWMS.ViewModels.Orders
 
         public void ShowMessage()
         {
-            _messageDialogsService.ShowNotification("Zamówienie", Order.Name, 1500);
+            _messageDialogsService.ShowNotification("Zamówienie", Model.Name, 1500);
         }
 
         async Task GoBackAsync()

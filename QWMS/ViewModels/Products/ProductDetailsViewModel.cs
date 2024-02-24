@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
 using QWMS.Models.Products;
 using QWMS.Services;
+using QWMS.Views.Products;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Products
 {
+    [QueryProperty(nameof(Model), nameof(Model))]
     public class ProductDetailsViewModel : BaseViewModel
     {
         #region Initialization
@@ -24,8 +26,9 @@ namespace QWMS.ViewModels.Products
         private IAudioService _audioService;
         private ILogger<ProductDetailsViewModel> _logger;
 
-        public Command SearchCommand { get; }
-        public Command ShowEanCodesCommand { get; }
+        public Command GoToListCommand { get; }
+        public Command GoToEanCodesCommand { get; }
+        public Command GoToReservationsCommand { get; }
         
         public ObservableCollection<ProductDetailsCountModel> Items { get; } = new();
 
@@ -42,8 +45,9 @@ namespace QWMS.ViewModels.Products
             _barcodeReaderService = barcodeReaderService;
             _audioService = audioService;            
 
-            SearchCommand = new Command(async () => await SearchAsync());
-            ShowEanCodesCommand = new Command(async () => await ShowEanCodesAsync());            
+            GoToListCommand = new Command(async () => await GoToListAsync());
+            GoToEanCodesCommand = new Command(async () => await GoToEanCodesAsync());
+            GoToReservationsCommand = new Command(async () => await GoToReservationsAsync());
         }
 
         #endregion
@@ -70,17 +74,11 @@ namespace QWMS.ViewModels.Products
             get => _model;
             set
             {
-                Set(ref _model, value);
-                NotifyPropertyChanged(nameof(PriceStr));
-                NotifyPropertyChanged(nameof(CountStr));
-
+                Set(ref _model, value);               
 
                 IsProductLoaded = true;
             }
-        }
-
-        public string PriceStr => _model.Price.ToString("0.00", CultureInfo.InvariantCulture);
-        public string CountStr => _model.Count.ToString("0.#", CultureInfo.InvariantCulture);
+        }        
 
         #endregion
 
@@ -124,7 +122,7 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                var model = await _productsService.GetOne(barcode);
+                var model = await _productsService.GetSingle(barcode);
                 if (model == null)
                 {
                     _messageDialogsService.ShowError("Błąd aplikacji", "Nie znaleziono towaru o podanym kodzie", 3000);
@@ -144,13 +142,17 @@ namespace QWMS.ViewModels.Products
             }
         }
 
-        private async Task SearchAsync()
+        private async Task GoToListAsync()
         {
-            _messageDialogsService.ShowNotification("Skanowanie", "Proszę zeskanować kod kreskowy towaru", 1500);
-            //_audioService.PlayBeepSound();
+            await Shell.Current.GoToAsync(nameof(ProductListPage), true);
         }
 
-        private async Task ShowEanCodesAsync()
+        private async Task GoToEanCodesAsync()
+        {
+            _audioService.PlayErrorSound();
+        }
+
+        private async Task GoToReservationsAsync()
         {
             _audioService.PlayErrorSound();
         }
