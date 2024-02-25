@@ -8,11 +8,13 @@ namespace QWMS.Helpers
 {
     public partial class Tools
     {
-        public static string BuildUrl(string basePath, Dictionary<string, string> queryParams)
+        public static string BuildUrl(string basePath, Dictionary<string, string?> queryParams)
         {
             var uriBuilder = new UriBuilder(basePath)
             {
-                Query = string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={kvp.Value}"))
+                Query = string.Join("&", queryParams
+                    .Where(u => !string.IsNullOrEmpty(u.Value))
+                    .Select(u => $"{u.Key}={u.Value}"))
             };
 
             return uriBuilder.Uri.AbsoluteUri;

@@ -1,5 +1,6 @@
 ﻿using Com.Cipherlab.Barcode.Decoderparams;
 using CommunityToolkit.Maui.Core;
+using MetroLog;
 using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
 using QWMS.Models.Orders;
@@ -21,7 +22,8 @@ namespace QWMS.ViewModels.Orders
         private DateTime _refreshTimestamp;
 
         public ObservableCollection<OrderListModel> Orders { get; } = new();
-        public Command GetOrdersCommand { get; }
+        public Command GetInitialOrdersCommand { get; }
+        public Command GetNextOrdersCommand { get; }
         public Command GoToDetailsCommand { get; }
 
         private string _searchText = string.Empty;
@@ -29,19 +31,14 @@ namespace QWMS.ViewModels.Orders
         {
             get => _searchText;
             set => Set(ref _searchText, value);
-        }
-
-        //private bool _isRefreshing;
-        //public bool IsRefreshing
-        //{
-        //    get => _isRefreshing;
-        //    set => Set(ref _isRefreshing, value);
-        //}
+        }        
 
         private IMessageDialogsService _messageDialogsService;
         private IOrdersService _ordersService;
         private IBarcodeReaderService _barcodeReaderService;
         private ILogger<OrderListViewModel> _logger;
+
+        private int _currentPage = 1;
 
         public OrderListViewModel(
             IMessageDialogsService messageDialogsService,
@@ -52,9 +49,10 @@ namespace QWMS.ViewModels.Orders
             _messageDialogsService = messageDialogsService;
             _ordersService = ordersService;
             _barcodeReaderService = barcodeReaderService; 
-            _logger = logger;   
+            _logger = logger;
 
-            GetOrdersCommand = new Command(async (isForced) => await GetOrdersAsync((bool)isForced));
+            GetInitialOrdersCommand = new Command(async (isForced) => await GetInitialOrdersAsync((bool)isForced));
+            GetNextOrdersCommand = new Command(async () => await GetNextOrdersAsync());
             GoToDetailsCommand = new Command(async (order) => await GoToDetailsAsync((OrderListModel)order));
         }
 
@@ -69,7 +67,7 @@ namespace QWMS.ViewModels.Orders
             _barcodeReaderService.BarcodeReceived -= _barcodeReader_BarcodeReceived;
         }
 
-        private async Task GetOrdersAsync(bool isForced)
+        private async Task GetInitialOrdersAsync(bool isForced)
         {
             if (IsBusy)
                 return;
@@ -81,9 +79,9 @@ namespace QWMS.ViewModels.Orders
 
             try
             {
-                IsBusy = true;
+                IsBusy = true;                
 
-                var orders = await _ordersService.Get();
+                var orders = await _ordersService.Get(null, null); obsluz search
                 if (orders == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
@@ -99,6 +97,46 @@ namespace QWMS.ViewModels.Orders
 
                 foreach (var order in orders)
                     Orders.Add(order);
+
+                _logger.LogError(Orders.Count.ToString());
+
+                _refreshTimestamp = DateTime.Now;
+                _currentPage = 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.ToString());
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task GetNextOrdersAsync()
+        {
+            if (IsBusy)
+                return;
+            
+            try
+            {
+                IsBusy = true;
+
+                var orders = await _ordersService.Get(null, ++_currentPage);
+                if (orders == null)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        _messageDialogsService.ShowError("Błąd aplikacji", "Nieudane pobranie listy zamówień", 3000);
+                    });
+
+                    return;
+                }
+                
+                foreach (var order in orders)
+                    Orders.Add(order);
+
+                _logger.LogError(Orders.Count.ToString());
 
                 _refreshTimestamp = DateTime.Now;
             }
@@ -123,6 +161,6 @@ namespace QWMS.ViewModels.Orders
         private void _barcodeReader_BarcodeReceived(string barcode)
         {
             _messageDialogsService.ShowNotification("Barcode", barcode, 1500);
-        }
+        }        
     }
 }

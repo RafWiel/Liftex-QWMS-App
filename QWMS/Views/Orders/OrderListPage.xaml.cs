@@ -22,7 +22,7 @@ public partial class OrderListPage : ContentPage
 
         Task.Run(() =>
         {
-            _viewModel.GetOrdersCommand.Execute(false);
+            _viewModel.GetInitialOrdersCommand.Execute(false);
         });
     }
 
@@ -31,5 +31,5 @@ public partial class OrderListPage : ContentPage
         base.OnDisappearing();
 
         _viewModel.Uninitialize();
-    }
+    }    
 }

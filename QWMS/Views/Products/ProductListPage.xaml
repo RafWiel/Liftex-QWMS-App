@@ -24,7 +24,6 @@
             <Button
                 Grid.Column="1"
                 Command="{Binding GetProductsCommand}"
-                IsEnabled="{Binding IsNotBusy}"
                 Text="Szukaj" />
         </Grid>
         <Grid
@@ -115,7 +114,6 @@
             Grid.Row="2"
             Command="{Binding GetProductsCommand}"
             CommandParameter="{StaticResource TrueValue}"
-            IsEnabled="{Binding IsNotBusy}"
             Text="Odśwież" />
         <ActivityIndicator
             Grid.RowSpan="3"

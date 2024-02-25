@@ -9,6 +9,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using QWMS.Helpers;
 
 namespace QWMS.Services
 {
@@ -23,11 +24,17 @@ namespace QWMS.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<OrderListModel>?> Get()
+        public async Task<List<OrderListModel>?> Get(string? search, int? page)
         {
             try
             {
-                var response = await _httpClient.GetAsync("http://192.168.1.110:3001/api/v1/orders");
+                var query = new Dictionary<string, string?>
+                {
+                    { "search", search },
+                    { "page", page?.ToString() },
+                };
+                
+                var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/orders", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 
