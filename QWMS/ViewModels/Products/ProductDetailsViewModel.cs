@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Products
 {
-    [QueryProperty(nameof(Model), nameof(Model))]
+    [QueryProperty(nameof(ProductId), nameof(ProductId))]
     public class ProductDetailsViewModel : BaseViewModel
     {
         #region Initialization
@@ -30,29 +30,11 @@ namespace QWMS.ViewModels.Products
         public Command GoToEanCodesCommand { get; }
         public Command GoToReservationsCommand { get; }
         
-        public ObservableCollection<ProductDetailsCountModel> Items { get; } = new();
-
-        public ProductDetailsViewModel(
-            ILogger<ProductDetailsViewModel> logger,
-            IMessageDialogsService messageDialogsService,
-            IProductsService productsService, 
-            IBarcodeReaderService barcodeReaderService,           
-            IAudioService audioService) : base()
-        {
-            _logger = logger;
-            _messageDialogsService = messageDialogsService;
-            _productsService = productsService;
-            _barcodeReaderService = barcodeReaderService;
-            _audioService = audioService;            
-
-            GoToListCommand = new Command(async () => await GoToListAsync());
-            GoToEanCodesCommand = new Command(async () => await GoToEanCodesAsync());
-            GoToReservationsCommand = new Command(async () => await GoToReservationsAsync());
-        }
-
-        #endregion
+        //public ObservableCollection<ProductDetailsCountModel> Items { get; } = new();
 
         #region Properties 
+
+        public int ProductId { get; set; } = 0;
 
         private string _title = "Towar";
         public string Title
@@ -74,29 +56,65 @@ namespace QWMS.ViewModels.Products
             get => _model;
             set
             {
-                Set(ref _model, value);               
-
+                Set(ref _model, value);
+                
+                Title = _model.Name;
                 IsProductLoaded = true;
+
+                if (_model.Id > 0)
+                    ProductId = _model.Id;
             }
-        }        
+        }
 
         #endregion
+
+        public ProductDetailsViewModel(
+            ILogger<ProductDetailsViewModel> logger,
+            IMessageDialogsService messageDialogsService,
+            IProductsService productsService, 
+            IBarcodeReaderService barcodeReaderService,           
+            IAudioService audioService) : base()
+        {
+            _logger = logger;
+            _messageDialogsService = messageDialogsService;
+            _productsService = productsService;
+            _barcodeReaderService = barcodeReaderService;
+            _audioService = audioService;            
+
+            GoToListCommand = new Command(async () => await GoToListAsync());
+            GoToEanCodesCommand = new Command(async () => await GoToEanCodesAsync());
+            GoToReservationsCommand = new Command(async () => await GoToReservationsAsync());
+        }
+
+        #endregion        
 
         #region Events
 
         private async void _barcodeReader_BarcodeReceived(string barcode)
         {
-            await GetProductAsync(barcode);         
+            await GetProductAsync(null, barcode);         
         }
 
         #endregion
 
         #region Methods
 
-        public void Initialize()
+        public async void Initialize()
         {
             //if (Device.RuntimePlatform == Device.Android)
-            _barcodeReaderService.BarcodeReceived += _barcodeReader_BarcodeReceived;            
+            _barcodeReaderService.BarcodeReceived += _barcodeReader_BarcodeReceived;
+
+            Model = new();
+            Title = "Towar";
+            IsProductLoaded = false;
+
+            if (ProductId == 0)
+            {
+                ShowScanMessage();
+                return;
+            }
+
+            await GetProductAsync(ProductId, null);
         }
 
         public void Uninitialize()
@@ -104,16 +122,12 @@ namespace QWMS.ViewModels.Products
             _barcodeReaderService.BarcodeReceived -= _barcodeReader_BarcodeReceived;            
         }
 
-        public async void ShowScanMessage()
+        private void ShowScanMessage()
         {
-            _messageDialogsService.ShowNotification("Skanowanie", "Proszę zeskanować kod kreskowy towaru", 1500);
+            _messageDialogsService.ShowNotification("Skanowanie", "Proszę zeskanować kod kreskowy towaru", 1500);            
+        }        
 
-            await GetProductAsync("2010000000014");
-
-            //TODO: MeasureUnitDecimalPlaces na liscie i zastepczy tekst przy wgrywaniu pozycji (puste glupio wyglada)
-        }
-
-        private async Task GetProductAsync(string barcode)
+        private async Task GetProductAsync(int? id, string? barcode)
         {
             if (IsBusy)
                 return;
@@ -122,15 +136,21 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                var model = await _productsService.GetSingle(barcode);
+                ProductDetailsModel? model = null;
+
+                if (id != null)
+                    model = await _productsService.GetSingle(id.Value);
+
+                if (barcode != null)
+                    model = await _productsService.GetSingle(barcode);
+
                 if (model == null)
                 {
-                    _messageDialogsService.ShowError("Błąd aplikacji", "Nie znaleziono towaru o podanym kodzie", 3000);
+                    _messageDialogsService.ShowError("Błąd aplikacji", "Nie znaleziono towaru", 3000);
                     return;
                 }
 
-                Model = model;
-                Title = model.Name;
+                Model = model;                
             }
             catch (Exception ex)
             {
@@ -144,6 +164,7 @@ namespace QWMS.ViewModels.Products
 
         private async Task GoToListAsync()
         {
+            //await Shell.Current.GoToAsync($"//{nameof(ProductListPage)}", true);
             await Shell.Current.GoToAsync(nameof(ProductListPage), true);
         }
 

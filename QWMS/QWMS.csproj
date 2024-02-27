@@ -165,4 +165,6 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionQWMSHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>

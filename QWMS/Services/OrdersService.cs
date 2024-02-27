@@ -38,7 +38,7 @@ namespace QWMS.Services
                 if (!response.IsSuccessStatusCode)
                     return null;
 
-                var orders = await response.Content.ReadFromJsonAsync<List<OrderListModel>>();
+                var models = await response.Content.ReadFromJsonAsync<List<OrderListModel>>();
 
                 //using var stream = await FileSystem.OpenAppPackageFileAsync("Orders.json");
                 //using var reader = new StreamReader(stream);
@@ -47,7 +47,7 @@ namespace QWMS.Services
 
                 //Thread.Sleep(1000);
 
-                return orders;
+                return models;
             }
             catch (Exception ex)
             {

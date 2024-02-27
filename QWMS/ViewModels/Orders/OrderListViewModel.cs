@@ -81,7 +81,7 @@ namespace QWMS.ViewModels.Orders
             {
                 IsBusy = true;                
 
-                var orders = await _ordersService.Get(null, null); obsluz search
+                var orders = await _ordersService.Get(_searchText, null); 
                 if (orders == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
@@ -97,8 +97,6 @@ namespace QWMS.ViewModels.Orders
 
                 foreach (var order in orders)
                     Orders.Add(order);
-
-                _logger.LogError(Orders.Count.ToString());
 
                 _refreshTimestamp = DateTime.Now;
                 _currentPage = 1;
@@ -122,7 +120,7 @@ namespace QWMS.ViewModels.Orders
             {
                 IsBusy = true;
 
-                var orders = await _ordersService.Get(null, ++_currentPage);
+                var orders = await _ordersService.Get(_searchText, ++_currentPage);
                 if (orders == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
@@ -135,8 +133,6 @@ namespace QWMS.ViewModels.Orders
                 
                 foreach (var order in orders)
                     Orders.Add(order);
-
-                _logger.LogError(Orders.Count.ToString());
 
                 _refreshTimestamp = DateTime.Now;
             }

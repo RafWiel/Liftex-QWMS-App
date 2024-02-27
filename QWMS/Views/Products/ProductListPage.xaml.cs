@@ -20,9 +20,10 @@ public partial class ProductListPage : ContentPage
 
         _viewModel.Initialize();
 
+        nie dziala animacja
         Task.Run(() =>
         {
-            _viewModel.GetProductsCommand.Execute(false);
+            _viewModel.GetInitialProductsCommand.Execute(false);
         });
     }
 

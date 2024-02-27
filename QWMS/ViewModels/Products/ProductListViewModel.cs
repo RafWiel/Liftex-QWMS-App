@@ -21,7 +21,8 @@ namespace QWMS.ViewModels.Products
         private DateTime _refreshTimestamp;
 
         public ObservableCollection<ProductListModel> Products { get; } = new();
-        public Command GetProductsCommand { get; }
+        public Command GetInitialProductsCommand { get; }
+        public Command GetNextProductsCommand { get; }
         public Command GoToDetailsCommand { get; }
 
         private string _searchText = string.Empty;
@@ -31,17 +32,12 @@ namespace QWMS.ViewModels.Products
             set => Set(ref _searchText, value);
         }
 
-        //private bool _isRefreshing;
-        //public bool IsRefreshing
-        //{
-        //    get => _isRefreshing;
-        //    set => Set(ref _isRefreshing, value);
-        //}
-
         private IMessageDialogsService _messageDialogsService;
         private IProductsService _productsService;
         private IBarcodeReaderService _barcodeReaderService;
         private ILogger<ProductListViewModel> _logger;
+
+        private int _currentPage = 1;
 
         public ProductListViewModel(
             IMessageDialogsService messageDialogsService,
@@ -52,9 +48,10 @@ namespace QWMS.ViewModels.Products
             _messageDialogsService = messageDialogsService;
             _productsService = productsService;
             _barcodeReaderService = barcodeReaderService; 
-            _logger = logger;   
+            _logger = logger;
 
-            GetProductsCommand = new Command(async (isForced) => await GetProductsAsync((bool)isForced));
+            GetInitialProductsCommand = new Command(async (isForced) => await GetInitialProductsAsync((bool)isForced));
+            GetNextProductsCommand = new Command(async (isForced) => await GetNextProductsAsync());
             GoToDetailsCommand = new Command(async (order) => await GoToDetailsAsync((ProductListModel)order));
         }
 
@@ -68,7 +65,7 @@ namespace QWMS.ViewModels.Products
             _barcodeReaderService.BarcodeReceived -= _barcodeReader_BarcodeReceived;
         }
 
-        private async Task GetProductsAsync(bool isForced)
+        private async Task GetInitialProductsAsync(bool isForced)
         {
             if (IsBusy)
                 return;
@@ -82,7 +79,7 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                var products = await _productsService.Get();
+                var products = await _productsService.Get(_searchText, null);
                 if (products == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
@@ -100,6 +97,42 @@ namespace QWMS.ViewModels.Products
                     Products.Add(product);
 
                 _refreshTimestamp = DateTime.Now;
+                _currentPage = 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.ToString());
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task GetNextProductsAsync()
+        {
+            if (IsBusy)
+                return;
+
+            try
+            {
+                IsBusy = true;
+
+                var products = await _productsService.Get(_searchText, ++_currentPage);
+                if (products == null)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        _messageDialogsService.ShowError("Błąd aplikacji", "Nieudane pobranie listy towarów", 3000);
+                    });
+
+                    return;
+                }
+
+                foreach (var product in products)
+                    Products.Add(product);
+                
+                _refreshTimestamp = DateTime.Now;
             }
             catch (Exception ex)
             {
@@ -112,10 +145,11 @@ namespace QWMS.ViewModels.Products
         }
 
         private async Task GoToDetailsAsync(ProductListModel product)
-        {
-            await Shell.Current.GoToAsync(nameof(ProductDetailsPage), true, new Dictionary<string, object>
+        {            
+            await Shell.Current.GoToAsync($"//{nameof(ProductDetailsPage)}", true, new Dictionary<string, object>
+            //await Shell.Current.GoToAsync(nameof(ProductDetailsPage), true, new Dictionary<string, object>
             {
-                { nameof(ProductDetailsViewModel.Model), product }
+                { nameof(ProductDetailsViewModel.ProductId), product.Id }
             });
         }
 

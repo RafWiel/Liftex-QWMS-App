@@ -28,11 +28,17 @@ namespace QWMS.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<ProductListModel>?> Get()
+        public async Task<List<ProductListModel>?> Get(string? search, int? page)
         {
             try
-            {                
-                var response = await _httpClient.GetAsync("http://192.168.1.110:3001/api/v1/products");
+            {
+                var query = new Dictionary<string, string?>
+                {
+                    { "search", search },
+                    { "page", page?.ToString() },
+                };
+
+                var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/products", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 
@@ -48,33 +54,44 @@ namespace QWMS.Services
             return null;
         }
 
-        public async Task<ProductDetailsModel?> GetSingle(string ean)
-        {            
-            try
+        public async Task<ProductDetailsModel?> GetSingle(int id)
+        {
+            var query = new Dictionary<string, string?>
             {
-                var query = new Dictionary<string, string>
-                {
-                    { "ean", ean }
-                };
-               
+                { "id", id.ToString() }
+            };
+            
+            return await GetSingle(query);
+        }
+
+        public async Task<ProductDetailsModel?> GetSingle(string ean)
+        {
+            var query = new Dictionary<string, string?>
+            {
+                { "ean", ean }
+            };
+
+            return await GetSingle(query);
+        }
+
+        private async Task<ProductDetailsModel?> GetSingle(Dictionary<string, string?> query)
+        {
+            try
+            {                
                 var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/product", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 
-                var model = await response.Content.ReadFromJsonAsync<ProductDetailsModel>();                
+                var model = await response.Content.ReadFromJsonAsync<ProductDetailsModel>();
 
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);                
+                _logger.LogError(ex, ex.Message);
             }
 
             return null;
         }
-
-        
-
-        
     }
 }

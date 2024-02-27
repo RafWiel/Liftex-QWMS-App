@@ -18,8 +18,7 @@ public partial class ProductDetailsPage : ContentPage
     {
         base.OnAppearing();
 
-        _viewModel.Initialize();
-        _viewModel.ShowScanMessage();
+        _viewModel.Initialize();        
     }
     
     protected override void OnDisappearing()

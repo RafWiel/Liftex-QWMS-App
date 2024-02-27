@@ -3,7 +3,8 @@
     x:Class="QWMS.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:QWMS.Views.Orders"
+    xmlns:orderViews="clr-namespace:QWMS.Views.Orders"
+    xmlns:productViews="clr-namespace:QWMS.Views.Products"
     x:Name="shellMain"
     Title="QWMS"
     Shell.FlyoutBehavior="Disabled"
@@ -18,6 +19,10 @@
     </Shell.TitleView>-->
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate views:OrderListPage}"
-        Route="OrderListPage" />
+        ContentTemplate="{DataTemplate productViews:ProductDetailsPage}"
+        Route="ProductDetailsPage" />
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate orderViews:OrderListPage}"
+        Route="OrderListPage" />-->
 </Shell>

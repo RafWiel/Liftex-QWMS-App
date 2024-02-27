@@ -8,7 +8,7 @@
     Title="Towary"
     x:DataType="viewModel:ProductListViewModel">
     <Grid
-        Padding="10"
+        Padding="20"
         RowDefinitions="auto,*,auto"
         RowSpacing="10">
         <!--<RefreshView
@@ -23,7 +23,8 @@
                 Text="{Binding SearchText}" />
             <Button
                 Grid.Column="1"
-                Command="{Binding GetProductsCommand}"
+                Command="{Binding GetInitialProductsCommand}"
+                CommandParameter="{StaticResource TrueValue}"
                 Text="Szukaj" />
         </Grid>
         <Grid
@@ -65,6 +66,8 @@
                 Grid.Row="2"
                 Grid.ColumnSpan="4"
                 ItemsSource="{Binding Products}"
+                RemainingItemsThreshold="1"
+                RemainingItemsThresholdReachedCommand="{Binding GetNextProductsCommand}"
                 SelectionMode="Single">
                 <CollectionView.EmptyView>
                     <StackLayout>
@@ -112,7 +115,7 @@
         <!--</RefreshView>-->
         <Button
             Grid.Row="2"
-            Command="{Binding GetProductsCommand}"
+            Command="{Binding GetInitialProductsCommand}"
             CommandParameter="{StaticResource TrueValue}"
             Text="Odśwież" />
         <ActivityIndicator

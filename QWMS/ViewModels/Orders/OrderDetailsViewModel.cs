@@ -25,14 +25,14 @@ namespace QWMS.ViewModels.Orders
             set => Set(ref _model, value);
         }
 
-        public OrderDetailsViewModel(MessageDialogsService messageDialogsService) : base() 
+        public OrderDetailsViewModel(IMessageDialogsService messageDialogsService) : base() 
         { 
             _messageDialogsService = messageDialogsService;
         }
 
         public void ShowMessage()
         {
-            _messageDialogsService.ShowNotification("Zamówienie", Model.Name, 1500);
+           _messageDialogsService.ShowNotification("Zamówienie", Model.Name, 1500);
         }
 
         async Task GoBackAsync()
