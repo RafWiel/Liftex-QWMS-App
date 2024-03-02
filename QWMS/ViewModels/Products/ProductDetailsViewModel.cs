@@ -58,7 +58,7 @@ namespace QWMS.ViewModels.Products
             {
                 Set(ref _model, value);
                 
-                Title = _model.Name;
+                Title = _model.Code;
                 IsProductLoaded = true;
 
                 if (_model.Id > 0)
@@ -99,7 +99,7 @@ namespace QWMS.ViewModels.Products
 
         #region Methods
 
-        public async void Initialize()
+        public Task Initialize()
         {
             //if (Device.RuntimePlatform == Device.Android)
             _barcodeReaderService.BarcodeReceived += _barcodeReader_BarcodeReceived;
@@ -111,10 +111,10 @@ namespace QWMS.ViewModels.Products
             if (ProductId == 0)
             {
                 ShowScanMessage();
-                return;
+                return null;
             }
 
-            await GetProductAsync(ProductId, null);
+            return GetProductAsync(ProductId, null);
         }
 
         public void Uninitialize()
@@ -162,10 +162,10 @@ namespace QWMS.ViewModels.Products
             }
         }
 
-        private async Task GoToListAsync()
+        private Task GoToListAsync()
         {
-            //await Shell.Current.GoToAsync($"//{nameof(ProductListPage)}", true);
-            await Shell.Current.GoToAsync(nameof(ProductListPage), true);
+            //return Shell.Current.GoToAsync($"//{nameof(ProductListPage)}", true);
+            return Shell.Current.GoToAsync(nameof(ProductListPage), true);
         }
 
         private async Task GoToEanCodesAsync()

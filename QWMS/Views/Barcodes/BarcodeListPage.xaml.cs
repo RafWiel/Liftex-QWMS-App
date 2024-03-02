@@ -1,12 +1,12 @@
-using QWMS.ViewModels.Products;
+using QWMS.ViewModels.Barcodes;
 
-namespace QWMS.Views.Products;
+namespace QWMS.Views.Barcodes;
 
-public partial class ProductListPage : ContentPage
+public partial class BarcodeListPage : ContentPage
 {
-    ProductListViewModel _viewModel;
+    BarcodeListViewModel _viewModel;
 
-    public ProductListPage(ProductListViewModel viewModel)
+    public BarcodeListPage(BarcodeListViewModel viewModel)
     {
         InitializeComponent();
 

@@ -26,19 +26,21 @@
                                                   Dark={StaticResource DarkBackground}}"
                 ColumnDefinitions="*,*"
                 ColumnSpacing="10"
-                RowDefinitions="auto, auto">
-                <VerticalStackLayout>
+                RowDefinitions="auto, auto, auto"
+                RowSpacing="10">
+                <VerticalStackLayout Grid.ColumnSpan="2">
                     <Label
                         HorizontalOptions="Center"
                         Style="{StaticResource FieldName}"
-                        Text="Kod" />
+                        Text="Nazwa" />
                     <Label
                         FontSize="22"
                         HorizontalOptions="Center"
                         Style="{StaticResource FieldValue}"
-                        Text="{Binding Model.Code}" />
+                        Text="{Binding Model.Name}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Row="1" VerticalOptions="Center">
                     <Label
-                        Margin="0,5,0,0"
                         HorizontalOptions="Center"
                         Style="{StaticResource FieldName}"
                         Text="EAN" />
@@ -48,7 +50,10 @@
                         Text="{Binding Model.Ean}" />
                 </VerticalStackLayout>
                 <!--  Count  -->
-                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalOptions="Center">
                     <Label
                         HorizontalOptions="Center"
                         Style="{StaticResource FieldName}"
@@ -60,10 +65,7 @@
                         Text="{Binding Model.CountStr}" />
                 </VerticalStackLayout>
                 <!--  Price  -->
-                <VerticalStackLayout
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Margin="0,20,0,20">
+                <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="2">
                     <Label
                         HorizontalOptions="Center"
                         Style="{StaticResource FieldName}"

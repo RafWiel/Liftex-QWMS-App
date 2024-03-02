@@ -1,37 +1,31 @@
 ﻿using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
-using QWMS.Models.Products;
-using QWMS.Views.Products;
+using QWMS.Models.Barcodes;
+using QWMS.Views.Barcodes;
 using System.Collections.ObjectModel;
 
-namespace QWMS.ViewModels.Products
+namespace QWMS.ViewModels.Barcodes
 {
-    public class ProductListViewModel : BaseViewModel
+    [QueryProperty(nameof(ProductId), nameof(ProductId))]
+    public class BarcodeListViewModel : BaseViewModel
     {
         private DateTime _refreshTimestamp;
 
-        public ObservableCollection<ProductListModel> Products { get; } = new();
+        public ObservableCollection<BarcodeListModel> Barcodes { get; } = new();
         public Command GetInitialItemsCommand { get; }
-        public Command GetNextItemsCommand { get; }
-        public Command GoToDetailsCommand { get; }        
+        public Command GetNextItemsCommand { get; }        
 
         private IMessageDialogsService _messageDialogsService;
-        private IProductsService _productsService;
-        private IBarcodeReaderService _barcodeReaderService;
-        private ILogger<ProductListViewModel> _logger;
+        private IBarcodesService _barcodesService;
+        private ILogger<BarcodeListViewModel> _logger;
 
         private int _currentPage = 1;
 
-        #region Properties
+        #region Properties        
 
-        private string _searchText = string.Empty;
-        public string SearchText
-        {
-            get => _searchText;
-            set => Set(ref _searchText, value);
-        }
-
-        private string _title = "Towary";
+        public int ProductId { get; set; }
+        
+        private string _title = "Kody kreskowe";
         public string Title
         {
             get => _title;
@@ -40,32 +34,26 @@ namespace QWMS.ViewModels.Products
 
         #endregion
 
-        public ProductListViewModel(
+        public BarcodeListViewModel(
             IMessageDialogsService messageDialogsService,
-            IProductsService productsService, 
-            IBarcodeReaderService barcodeReaderService,
-            ILogger<ProductListViewModel> logger) : base()
+            IBarcodesService barcodesService,             
+            ILogger<BarcodeListViewModel> logger) : base()
         {
             _messageDialogsService = messageDialogsService;
-            _productsService = productsService;
-            _barcodeReaderService = barcodeReaderService; 
+            _barcodesService = barcodesService;
             _logger = logger;
 
             GetInitialItemsCommand = new Command(async (isForced) => await GetInitialItemsAsync((bool)isForced));
-            GetNextItemsCommand = new Command(async (isForced) => await GetNextItemsAsync());
-            GoToDetailsCommand = new Command(async (order) => await GoToDetailsAsync((ProductListModel)order));
+            GetNextItemsCommand = new Command(async (isForced) => await GetNextItemsAsync());            
         }
 
         public Task Initialize()
-        {            
-            _barcodeReaderService.BarcodeReceived += _barcodeReader_BarcodeReceived;
-
-            return GetInitialItemsAsync(false);
+        {                        
+            return GetInitialItemsAsync(false);            
         }
 
         public void Uninitialize()
-        {
-            _barcodeReaderService.BarcodeReceived -= _barcodeReader_BarcodeReceived;
+        {            
         }
 
         private async Task GetInitialItemsAsync(bool isForced)
@@ -82,12 +70,12 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                var products = await _productsService.Get(_searchText, null);
+                var products = await _barcodesService.Get(ProductId, null);
                 if (products == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
-                        _messageDialogsService.ShowError("Błąd aplikacji", "Nieudane pobranie listy towarów", 3000);
+                        _messageDialogsService.ShowError("Błąd aplikacji", "Nieudane pobranie listy kodów kreskowych", 3000);
                     });
 
                     return;
@@ -121,12 +109,12 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                var products = await _productsService.Get(_searchText, ++_currentPage);
+                var products = await _barcodesService.Get(ProductId, ++_currentPage);
                 if (products == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
-                        _messageDialogsService.ShowError("Błąd aplikacji", "Nieudane pobranie listy towarów", 3000);
+                        _messageDialogsService.ShowError("Błąd aplikacji", "Nieudane pobranie listy kodów kreskowych", 3000);
                     });
 
                     return;
@@ -145,20 +133,6 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = false;
             }
-        }
-
-        private Task GoToDetailsAsync(ProductListModel product)
-        {            
-            return Shell.Current.GoToAsync($"//{nameof(ProductDetailsPage)}", true, new Dictionary<string, object>
-            //return Shell.Current.GoToAsync(nameof(ProductDetailsPage), true, new Dictionary<string, object>
-            {
-                { nameof(ProductDetailsViewModel.ProductId), product.Id }
-            });
-        }
-
-        private void _barcodeReader_BarcodeReceived(string barcode)
-        {
-            _messageDialogsService.ShowNotification("Barcode", barcode, 1500);
-        }        
+        }              
     }
 }

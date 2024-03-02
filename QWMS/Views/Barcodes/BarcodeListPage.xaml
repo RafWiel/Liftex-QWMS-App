@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="QWMS.Views.Products.ProductListPage"
+    x:Class="QWMS.Views.Barcodes.BarcodeListPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:model="clr-namespace:QWMS.Models.Products"
-    xmlns:viewModel="clr-namespace:QWMS.ViewModels.Products"
+    xmlns:model="clr-namespace:QWMS.Models.Barcodes"
+    xmlns:viewModel="clr-namespace:QWMS.ViewModels.Barcodes"
     Title="{Binding Title}"
-    x:DataType="viewModel:ProductListViewModel"
+    x:DataType="viewModel:BarcodeListViewModel"
     BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackground},
                                       Dark={StaticResource DarkPageBackground}}">
     <Grid RowDefinitions="auto,*">
@@ -18,34 +18,20 @@
             Grid.Row="1"
             BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground},
                                               Dark={StaticResource DarkBackground}}"
-            RowDefinitions="auto,*,auto"
+            RowDefinitions="*,auto"
             RowSpacing="5">
             <!--<RefreshView
             Grid.Row="1"
             Grid.ColumnSpan="2"
             Command="{Binding GetProductsCommand}"
             IsRefreshing="{Binding IsRefreshing}">-->
-            <!--  Search bar  -->
-            <Grid ColumnDefinitions="*,120" ColumnSpacing="10">
-                <Entry
-                    Grid.Row="0"
-                    Margin="10,0,0,0"
-                    Placeholder="Szukaj"
-                    Text="{Binding SearchText}"
-                    VerticalOptions="Center" />
-                <Button
-                    Grid.Column="1"
-                    Command="{Binding GetInitialItemsCommand}"
-                    CommandParameter="{StaticResource TrueValue}"
-                    Text="Szukaj" />
-            </Grid>
             <!--  DataGrid  -->
             <Grid
                 Grid.Row="1"
                 Margin="0,5,0,0"
                 RowDefinitions="auto,auto,*">
                 <!--  Header  -->
-                <Grid Padding="10,0,10,5" ColumnDefinitions="2*,*,*">
+                <Grid Padding="10,0,10,5" ColumnDefinitions="2*,*">
                     <Label
                         Grid.Column="0"
                         Style="{StaticResource FieldName}"
@@ -55,13 +41,7 @@
                         Grid.Column="1"
                         Padding="10,0,0,0"
                         Style="{StaticResource FieldName}"
-                        Text="Ilość"
-                        VerticalOptions="Center" />
-                    <Label
-                        Grid.Column="2"
-                        Padding="10,0,0,0"
-                        Style="{StaticResource FieldName}"
-                        Text="Cena"
+                        Text="Jednostki"
                         VerticalOptions="Center" />
                 </Grid>
                 <Line
@@ -73,7 +53,7 @@
                 <CollectionView
                     Grid.Row="2"
                     Grid.ColumnSpan="4"
-                    ItemsSource="{Binding Products}"
+                    ItemsSource="{Binding Barcodes}"
                     RemainingItemsThreshold="1"
                     RemainingItemsThresholdReachedCommand="{Binding GetNextItemsCommand}"
                     SelectionMode="Single">
@@ -87,11 +67,11 @@
                         </StackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:ProductListModel">
-                            <Grid Padding="10" ColumnDefinitions="2*,*,*">
-                                <Grid.GestureRecognizers>
+                        <DataTemplate x:DataType="model:BarcodeListModel">
+                            <Grid Padding="10" ColumnDefinitions="2*,*">
+                                <!--<Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ProductListViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
-                                </Grid.GestureRecognizers>
+                                </Grid.GestureRecognizers>-->
                                 <Label
                                     Grid.Column="0"
                                     Style="{StaticResource FieldValue}"
@@ -101,13 +81,7 @@
                                     Grid.Column="1"
                                     Padding="10,0,0,0"
                                     Style="{StaticResource FieldValue}"
-                                    Text="{Binding CountStr}"
-                                    VerticalOptions="Center" />
-                                <Label
-                                    Grid.Column="2"
-                                    Padding="10,0,0,0"
-                                    Style="{StaticResource FieldValue}"
-                                    Text="{Binding PriceStr}"
+                                    Text="{Binding MeasureUnit}"
                                     VerticalOptions="Center" />
                             </Grid>
                         </DataTemplate>

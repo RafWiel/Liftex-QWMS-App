@@ -112,6 +112,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\Barcodes\BarcodeListPage.xaml.cs">
+	    <DependentUpon>BarcodeListPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Dialogs\AutoMessageDialog.xaml.cs">
 	    <DependentUpon>AutoMessageDialog.xaml</DependentUpon>
 	  </Compile>
@@ -143,6 +146,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\Label.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Entry.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Barcodes\BarcodeListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Dialogs\AutoMessageDialog.xaml">

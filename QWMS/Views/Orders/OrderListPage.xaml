@@ -23,7 +23,7 @@
                 Text="{Binding SearchText}" />
             <Button
                 Grid.Column="1"
-                Command="{Binding GetInitialOrdersCommand}"
+                Command="{Binding GetInitialItemsCommand}"
                 CommandParameter="{StaticResource TrueValue}"
                 Text="Szukaj" />
         </Grid>
@@ -55,7 +55,7 @@
                 Grid.ColumnSpan="2"
                 ItemsSource="{Binding Orders}"
                 RemainingItemsThreshold="1"
-                RemainingItemsThresholdReachedCommand="{Binding GetNextOrdersCommand}"
+                RemainingItemsThresholdReachedCommand="{Binding GetNextItemsCommand}"
                 SelectionMode="Single">
                 <CollectionView.EmptyView>
                     <StackLayout>
@@ -91,7 +91,7 @@
         <!--</RefreshView>-->
         <Button
             Grid.Row="2"
-            Command="{Binding GetInitialOrdersCommand}"
+            Command="{Binding GetInitialItemsCommand}"
             CommandParameter="{StaticResource TrueValue}"
             Text="Odśwież" />
         <ActivityIndicator

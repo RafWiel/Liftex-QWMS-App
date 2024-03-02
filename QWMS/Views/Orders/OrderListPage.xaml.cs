@@ -18,12 +18,7 @@ public partial class OrderListPage : ContentPage
     {
         base.OnAppearing();
 
-        _viewModel.Initialize();
-
-        Task.Run(() =>
-        {
-            _viewModel.GetInitialOrdersCommand.Execute(false);
-        });
+        _viewModel.Initialize();       
     }
 
     protected override void OnDisappearing()

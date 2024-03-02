@@ -23,38 +23,41 @@ namespace QWMS.Services
 
         public partial void Initialize()
         {
-            Console.WriteLine("Android constructor");
-
-            _readerManager = ReaderManager.InitInstance(_context);
-            
-            _intentfilter.AddAction(GeneralString.IntentREADERSERVICECONNECTED);
-            _intentfilter.AddAction(GeneralString.IntentPASSTOAPP);
-            _intentfilter.AddAction(GeneralString.IntentDECODEERROR);
-
-            _dataReceiver = new ReaderDataReceiver
+            try
             {
-                ReaderManager = _readerManager,
-                Logger = _logger,
-            };
+                _readerManager = ReaderManager.InitInstance(_context);
 
-            _dataReceiver.BarcodeReceived += delegate (string barcode)
+                _intentfilter.AddAction(GeneralString.IntentREADERSERVICECONNECTED);
+                _intentfilter.AddAction(GeneralString.IntentPASSTOAPP);
+                _intentfilter.AddAction(GeneralString.IntentDECODEERROR);
+
+                _dataReceiver = new ReaderDataReceiver
+                {
+                    ReaderManager = _readerManager,
+                    Logger = _logger,
+                };
+
+                _dataReceiver.BarcodeReceived += delegate (string barcode)
+                {
+                    BarcodeReceived?.Invoke(barcode);
+                };
+
+                _dataReceiver.DecodeErrorOccurred += delegate (int errorCode)
+                {
+                    _logger.LogError($"Barcode reader error occurred: {errorCode}");
+                    DecodeErrorOccurred?.Invoke(errorCode);
+                };
+
+                _context.RegisterReceiver(_dataReceiver, _intentfilter);
+            }
+            catch (Exception ex)
             {
-                BarcodeReceived?.Invoke(barcode);
-            };
-
-            _dataReceiver.DecodeErrorOccurred += delegate (int errorCode)
-            {
-                _logger.LogError($"Barcode reader error occurred: {errorCode}");
-                DecodeErrorOccurred?.Invoke(errorCode);                
-            };
-
-            _context.RegisterReceiver(_dataReceiver, _intentfilter);
+                Console.WriteLine(ex.ToString());                
+            }            
         }
 
         public partial void Dispose()
-        {
-            Console.WriteLine("Android dispose");
-
+        {            
             _context.UnregisterReceiver(_dataReceiver);
             _readerManager?.Release();
         }

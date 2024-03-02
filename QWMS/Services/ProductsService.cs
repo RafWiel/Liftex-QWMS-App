@@ -20,7 +20,6 @@ namespace QWMS.Services
     {        
         private HttpClient _httpClient;
         private ILogger<ProductsService> _logger;
-        int index = 1;
 
         public ProductsService(ILogger<ProductsService> logger) 
         { 
