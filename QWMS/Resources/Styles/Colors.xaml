@@ -5,8 +5,14 @@
 
     <Color x:Key="Primary">#2761BA</Color>
     <Color x:Key="PrimaryDark">#213C60</Color>
+    <Color x:Key="PrimaryDisabled">#597EB2</Color>
+    <Color x:Key="PrimaryDarkDisabled">#2A394C</Color>
     <Color x:Key="PrimaryLightText">Black</Color>
-    <Color x:Key="PrimaryDarkText">#a0b0c0</Color>
+    <Color x:Key="PrimaryDarkText">#a0a8b0</Color>
+
+    <Color x:Key="PrimaryLightTextDisabled">#8FA3BF</Color>
+    <Color x:Key="PrimaryDarkTextDisabled">#425266</Color>
+
     <Color x:Key="Secondary">#598FE0</Color>
     <Color x:Key="SecondaryLightText">#6E6E6E</Color>
     <Color x:Key="SecondaryDarkText">#ACACAC</Color>

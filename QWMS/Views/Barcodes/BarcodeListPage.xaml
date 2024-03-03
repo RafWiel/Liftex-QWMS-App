@@ -26,10 +26,7 @@
             Command="{Binding GetProductsCommand}"
             IsRefreshing="{Binding IsRefreshing}">-->
             <!--  DataGrid  -->
-            <Grid
-                Grid.Row="1"
-                Margin="0,5,0,0"
-                RowDefinitions="auto,auto,*">
+            <Grid Margin="0,5,0,0" RowDefinitions="auto,auto,*">
                 <!--  Header  -->
                 <Grid Padding="10,0,10,5" ColumnDefinitions="2*,*">
                     <Label
@@ -90,12 +87,12 @@
             </Grid>
             <!--</RefreshView>-->
             <Button
-                Grid.Row="2"
+                Grid.Row="1"
                 Command="{Binding GetInitialItemsCommand}"
                 CommandParameter="{StaticResource TrueValue}"
                 Text="Odśwież" />
             <ActivityIndicator
-                Grid.RowSpan="3"
+                Grid.RowSpan="2"
                 HorizontalOptions="FillAndExpand"
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"

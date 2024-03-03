@@ -1,4 +1,4 @@
-Sprawdz czy mozna zrobic warunkowa klase partial tak jak Platforms
+Tryb ciemny - Za ajsny kolor w datagrid
 
 
 *** 0.1.0 - 2024.01.07

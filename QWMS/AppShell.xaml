@@ -3,6 +3,7 @@
     x:Class="QWMS.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:barcodeViews="clr-namespace:QWMS.Views.Barcodes"
     xmlns:orderViews="clr-namespace:QWMS.Views.Orders"
     xmlns:productViews="clr-namespace:QWMS.Views.Products"
     x:Name="shellMain"
@@ -17,10 +18,17 @@
             Text="{Binding Path=Title, Mode=OneWay}"
             TextColor="Blue" />
     </Shell.TitleView>-->
+    
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate barcodeViews:BarcodeListPage}"
+        Route="BarcodeListPage" />-->
+    
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate productViews:ProductDetailsPage}"
         Route="ProductDetailsPage" />
+    
     <!--<ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate orderViews:OrderListPage}"

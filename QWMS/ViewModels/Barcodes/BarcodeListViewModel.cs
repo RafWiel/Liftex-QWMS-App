@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 namespace QWMS.ViewModels.Barcodes
 {
     [QueryProperty(nameof(ProductId), nameof(ProductId))]
+    [QueryProperty(nameof(ProductCode), nameof(ProductCode))]
     public class BarcodeListViewModel : BaseViewModel
     {
         private DateTime _refreshTimestamp;
@@ -24,7 +25,8 @@ namespace QWMS.ViewModels.Barcodes
         #region Properties        
 
         public int ProductId { get; set; }
-        
+        public string ProductCode { get; set; } = string.Empty;
+
         private string _title = "Kody kreskowe";
         public string Title
         {
@@ -48,8 +50,10 @@ namespace QWMS.ViewModels.Barcodes
         }
 
         public Task Initialize()
-        {                        
-            return GetInitialItemsAsync(false);            
+        {
+            Title = ProductCode;
+
+            return GetInitialItemsAsync(true);            
         }
 
         public void Uninitialize()
@@ -62,7 +66,7 @@ namespace QWMS.ViewModels.Barcodes
                 return;
 
             if (!isForced &&
-                Products.Count > 0 &&
+                Barcodes.Count > 0 &&
                 (DateTime.Now - _refreshTimestamp).TotalMinutes < 1)
                 return;
 
@@ -70,8 +74,8 @@ namespace QWMS.ViewModels.Barcodes
             {
                 IsBusy = true;
 
-                var products = await _barcodesService.Get(ProductId, null);
-                if (products == null)
+                var barcodes = await _barcodesService.Get(ProductId, null);
+                if (barcodes == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
@@ -81,11 +85,11 @@ namespace QWMS.ViewModels.Barcodes
                     return;
                 }
 
-                if (Products.Count > 0)
-                    Products.Clear();
+                if (Barcodes.Count > 0)
+                    Barcodes.Clear();
 
-                foreach (var product in products)
-                    Products.Add(product);
+                foreach (var barcode in barcodes)
+                    Barcodes.Add(barcode);
 
                 _refreshTimestamp = DateTime.Now;
                 _currentPage = 1;
@@ -109,8 +113,8 @@ namespace QWMS.ViewModels.Barcodes
             {
                 IsBusy = true;
 
-                var products = await _barcodesService.Get(ProductId, ++_currentPage);
-                if (products == null)
+                var barcodes = await _barcodesService.Get(ProductId, ++_currentPage);
+                if (barcodes == null)
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
@@ -120,8 +124,8 @@ namespace QWMS.ViewModels.Barcodes
                     return;
                 }
 
-                foreach (var product in products)
-                    Products.Add(product);
+                foreach (var barcode in barcodes)
+                    Barcodes.Add(barcode);
                 
                 _refreshTimestamp = DateTime.Now;
             }

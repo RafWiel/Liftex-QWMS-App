@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
 using QWMS.Models.Products;
 using QWMS.Services;
+using QWMS.ViewModels.Barcodes;
+using QWMS.Views.Barcodes;
 using QWMS.Views.Products;
 using System;
 using System.Collections.Generic;
@@ -168,9 +170,13 @@ namespace QWMS.ViewModels.Products
             return Shell.Current.GoToAsync(nameof(ProductListPage), true);
         }
 
-        private async Task GoToEanCodesAsync()
+        private Task GoToEanCodesAsync()
         {
-            _audioService.PlayErrorSound();
+            return Shell.Current.GoToAsync(nameof(BarcodeListPage), true, new Dictionary<string, object>            
+            {
+                { nameof(BarcodeListViewModel.ProductId), ProductId },
+                { nameof(BarcodeListViewModel.ProductCode), Model.Code }
+            });
         }
 
         private async Task GoToReservationsAsync()

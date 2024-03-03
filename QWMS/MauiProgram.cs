@@ -10,6 +10,8 @@ using QWMS.Views.Products;
 using QWMS.ViewModels.Products;
 using QWMS.Interfaces;
 using Plugin.Maui.Audio;
+using QWMS.Views.Barcodes;
+using QWMS.ViewModels.Barcodes;
 
 namespace QWMS
 {
@@ -33,9 +35,12 @@ namespace QWMS
             builder.Services.AddSingleton<IAudioService, AudioService>();
             builder.Services.AddSingleton<IBarcodeReaderService, BarcodeReaderService>();
             builder.Services.AddSingleton<IMessageDialogsService, MessageDialogsService>();
+            builder.Services.AddSingleton<IBarcodesService, BarcodesService>();
             builder.Services.AddSingleton<IOrdersService, OrdersService>();
             builder.Services.AddSingleton<IProductsService, ProductsService>();
             builder.Services.AddScoped<MainPage>();
+            builder.Services.AddScoped<BarcodeListPage>();
+            builder.Services.AddScoped<BarcodeListViewModel>();
             builder.Services.AddScoped<OrderListPage>();
             builder.Services.AddScoped<OrderListViewModel>();
             builder.Services.AddScoped<OrderDetailsPage>();

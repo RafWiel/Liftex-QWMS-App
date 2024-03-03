@@ -1,4 +1,5 @@
-﻿using QWMS.Views.Orders;
+﻿using QWMS.Views.Barcodes;
+using QWMS.Views.Orders;
 using QWMS.Views.Products;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace QWMS
             Routing.RegisterRoute(nameof(OrderDetailsPage), typeof(OrderDetailsPage));
             Routing.RegisterRoute(nameof(ProductListPage), typeof(ProductListPage));
             Routing.RegisterRoute(nameof(ProductDetailsPage), typeof(ProductDetailsPage));
+            Routing.RegisterRoute(nameof(BarcodeListPage), typeof(BarcodeListPage));
         }
     }
 }

@@ -199,12 +199,14 @@
                     Grid.Column="0"
                     Command="{Binding GoToEanCodesCommand}"
                     HorizontalOptions="Fill"
+                    IsEnabled="{Binding IsProductLoaded}"
                     Text="Pokaż kody EAN" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="1"
                     Command="{Binding GoToReservationsCommand}"
                     HorizontalOptions="Fill"
+                    IsEnabled="{Binding IsProductLoaded}"
                     Text="Pokaż rezerwacje" />
             </Grid>
         </Grid>
