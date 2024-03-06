@@ -12,6 +12,8 @@ using QWMS.Interfaces;
 using Plugin.Maui.Audio;
 using QWMS.Views.Barcodes;
 using QWMS.ViewModels.Barcodes;
+using QWMS.Views.Reservations;
+using QWMS.ViewModels.Reservations;
 
 namespace QWMS
 {
@@ -38,6 +40,7 @@ namespace QWMS
             builder.Services.AddSingleton<IBarcodesService, BarcodesService>();
             builder.Services.AddSingleton<IOrdersService, OrdersService>();
             builder.Services.AddSingleton<IProductsService, ProductsService>();
+            builder.Services.AddSingleton<IReservationsService, ReservationsService>();
             builder.Services.AddScoped<MainPage>();
             builder.Services.AddScoped<BarcodeListPage>();
             builder.Services.AddScoped<BarcodeListViewModel>();
@@ -49,6 +52,8 @@ namespace QWMS
             builder.Services.AddScoped<ProductListViewModel>();
             builder.Services.AddScoped<ProductDetailsPage>();
             builder.Services.AddScoped<ProductDetailsViewModel>();
+            builder.Services.AddScoped<ReservationListPage>();
+            builder.Services.AddScoped<ReservationListViewModel>();
             builder.Services.AddTransientPopup<MessageDialog, MessageDialogViewModel>();
             builder.Services.AddTransientPopup<AutoMessageDialog, AutoMessageDialogViewModel>();
 

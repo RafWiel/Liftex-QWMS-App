@@ -5,8 +5,10 @@ using QWMS.Interfaces;
 using QWMS.Models.Products;
 using QWMS.Services;
 using QWMS.ViewModels.Barcodes;
+using QWMS.ViewModels.Reservations;
 using QWMS.Views.Barcodes;
 using QWMS.Views.Products;
+using QWMS.Views.Reservations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -179,9 +181,13 @@ namespace QWMS.ViewModels.Products
             });
         }
 
-        private async Task GoToReservationsAsync()
+        private Task GoToReservationsAsync()
         {
-            _audioService.PlayErrorSound();
+            return Shell.Current.GoToAsync(nameof(ReservationListPage), true, new Dictionary<string, object>
+            {
+                { nameof(ReservationListViewModel.ProductId), ProductId },
+                { nameof(ReservationListViewModel.ProductCode), Model.Code }
+            });
         }
 
         #endregion

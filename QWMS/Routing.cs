@@ -1,6 +1,7 @@
 ﻿using QWMS.Views.Barcodes;
 using QWMS.Views.Orders;
 using QWMS.Views.Products;
+using QWMS.Views.Reservations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,12 @@ namespace QWMS
     {
         private void ConfigureRouting()
         {
-            Routing.RegisterRoute(nameof(OrderListPage), typeof(OrderListPage));
-            Routing.RegisterRoute(nameof(OrderDetailsPage), typeof(OrderDetailsPage));
-            Routing.RegisterRoute(nameof(ProductListPage), typeof(ProductListPage));
-            Routing.RegisterRoute(nameof(ProductDetailsPage), typeof(ProductDetailsPage));
             Routing.RegisterRoute(nameof(BarcodeListPage), typeof(BarcodeListPage));
+            Routing.RegisterRoute(nameof(OrderDetailsPage), typeof(OrderDetailsPage));
+            Routing.RegisterRoute(nameof(OrderListPage), typeof(OrderListPage));            
+            Routing.RegisterRoute(nameof(ProductDetailsPage), typeof(ProductDetailsPage));
+            Routing.RegisterRoute(nameof(ProductListPage), typeof(ProductListPage));
+            Routing.RegisterRoute(nameof(ReservationListPage), typeof(ReservationListPage));
         }
     }
 }

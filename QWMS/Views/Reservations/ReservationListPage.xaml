@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="QWMS.Views.Reservations.ReservationListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:QWMS.Models.Reservations"
+    xmlns:viewModel="clr-namespace:QWMS.ViewModels.Reservations"
+    Title="{Binding Title}"
+    x:DataType="viewModel:ReservationListViewModel"
+    BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackground},
+                                      Dark={StaticResource DarkPageBackground}}">
+    <Grid RowDefinitions="auto,*">
+        <Label
+            Padding="10"
+            Style="{StaticResource PageTitle}"
+            Text="{Binding Title}" />
+        <Grid
+            Grid.Row="1"
+            BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground},
+                                              Dark={StaticResource DarkBackground}}"
+            RowDefinitions="*,auto"
+            RowSpacing="5">
+            <!--<RefreshView
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Command="{Binding GetProductsCommand}"
+            IsRefreshing="{Binding IsRefreshing}">-->
+            <!--  DataGrid  -->
+            <Grid Margin="0,5,0,0" RowDefinitions="auto,auto,*">
+                <!--  Header  -->
+                <Grid Padding="10,0,10,5" ColumnDefinitions="*,*,*">
+                    <Label
+                        Grid.Column="0"
+                        Style="{StaticResource FieldName}"
+                        Text="Kontrahent"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Padding="10,0,0,0"
+                        Style="{StaticResource FieldName}"
+                        Text="Zamówienie"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="2"
+                        Padding="10,0,0,0"
+                        Style="{StaticResource FieldName}"
+                        Text="Ilość"
+                        VerticalOptions="Center" />
+                </Grid>
+                <Line
+                    Grid.Row="1"
+                    Grid.ColumnSpan="4"
+                    HorizontalOptions="Fill"
+                    Style="{StaticResource Divider}"
+                    X2="{Binding Width, Source={RelativeSource Self}}" />
+                <CollectionView
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    ItemsSource="{Binding Reservations}"
+                    RemainingItemsThreshold="1"
+                    RemainingItemsThresholdReachedCommand="{Binding GetNextItemsCommand}"
+                    SelectionMode="Single">
+                    <CollectionView.EmptyView>
+                        <StackLayout>
+                            <Label
+                                Padding="10"
+                                HorizontalOptions="Center"
+                                Text="Brak danych"
+                                TextColor="LightGray" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:ReservationListModel">
+                            <Grid Padding="10" ColumnDefinitions="*,*,*">
+                                <!--<Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ProductListViewModel}}, Path=GoToDetailsCommand}" CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>-->
+                                <Label
+                                    Grid.Column="0"
+                                    Style="{StaticResource FieldValue}"
+                                    Text="{Binding Contractor}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="1"
+                                    Padding="10,0,0,0"
+                                    Style="{StaticResource FieldValue}"
+                                    Text="{Binding OrderName}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="2"
+                                    Padding="10,0,0,0"
+                                    Style="{StaticResource FieldValue}"
+                                    Text="{Binding CountStr}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!--</RefreshView>-->
+            <Button
+                Grid.Row="1"
+                Command="{Binding GetInitialItemsCommand}"
+                CommandParameter="{StaticResource TrueValue}"
+                Text="Odśwież" />
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                HorizontalOptions="FillAndExpand"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="CenterAndExpand" />
+        </Grid>
+    </Grid>
+</ContentPage>

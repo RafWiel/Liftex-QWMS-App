@@ -112,6 +112,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\Reservations\ReservationListPage.xaml.cs">
+	    <DependentUpon>ReservationListPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Barcodes\BarcodeListPage.xaml.cs">
 	    <DependentUpon>BarcodeListPage.xaml</DependentUpon>
 	  </Compile>
@@ -149,6 +152,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\Entry.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Reservations\ReservationListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Barcodes\BarcodeListPage.xaml">
