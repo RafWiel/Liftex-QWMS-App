@@ -84,13 +84,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="appSettings.json" />
+	  <None Remove="appSettings.production.json" />
 	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
 	  <None Remove="resources\raw\Orders.json" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="appSettings.production.json" />
+	  <EmbeddedResource Include="appSettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
 		<PackageReference Include="MetroLog.Maui" Version="2.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />

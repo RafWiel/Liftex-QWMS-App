@@ -17,10 +17,13 @@ namespace QWMS.Services
     {        
         private HttpClient _httpClient;
         private ILogger<OrdersService> _logger;
+        private IConfiguration _configuration;
 
-        public OrdersService(ILogger<OrdersService> logger) 
+        public OrdersService(ILogger<OrdersService> logger, IConfiguration configuration) 
         { 
             _logger = logger;
+            _configuration = configuration;
+
             _httpClient = new HttpClient();
         }
 
@@ -34,7 +37,7 @@ namespace QWMS.Services
                     { "page", page?.ToString() },
                 };
                 
-                var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/orders", query));
+                var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/orders", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 

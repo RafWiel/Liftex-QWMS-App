@@ -14,6 +14,9 @@ using QWMS.Views.Barcodes;
 using QWMS.ViewModels.Barcodes;
 using QWMS.Views.Reservations;
 using QWMS.ViewModels.Reservations;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
+
 
 namespace QWMS
 {
@@ -32,6 +35,21 @@ namespace QWMS
                 });
 
             builder.Logging.AddTraceLogger(_ => {}); //TODO: Ustaw plik do zapisu
+
+            var fileName = "QWMS.appSettings.production.json";
+
+            #if DEBUG
+            fileName = "QWMS.appSettings.json";
+            #endif
+
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(fileName))
+            {
+                var config = new ConfigurationBuilder()
+                    .AddJsonStream(stream!)
+                    .Build();
+
+                builder.Configuration.AddConfiguration(config);
+            }
 
             builder.Services.AddSingleton(AudioManager.Current);
             builder.Services.AddSingleton<IAudioService, AudioService>();
@@ -56,6 +74,7 @@ namespace QWMS
             builder.Services.AddScoped<ReservationListViewModel>();
             builder.Services.AddTransientPopup<MessageDialog, MessageDialogViewModel>();
             builder.Services.AddTransientPopup<AutoMessageDialog, AutoMessageDialogViewModel>();
+            builder.Services.AddScoped<QWMS.Interfaces.IConfiguration, Configuration.Configuration>();
 
             return builder.Build();
         }

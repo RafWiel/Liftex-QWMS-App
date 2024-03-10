@@ -1,4 +1,4 @@
-Tryb ciemny - Za ajsny kolor w datagrid
+Tryb ciemny - Za jasny kolor w datagrid
 
 
 *** 0.1.0 - 2024.01.07

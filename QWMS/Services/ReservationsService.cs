@@ -20,10 +20,13 @@ namespace QWMS.Services
     {        
         private HttpClient _httpClient;
         private ILogger<ReservationsService> _logger;
+        private IConfiguration _configuration;
 
-        public ReservationsService(ILogger<ReservationsService> logger) 
+        public ReservationsService(ILogger<ReservationsService> logger, IConfiguration configuration) 
         { 
             _logger = logger;
+            _configuration = configuration;
+
             _httpClient = new HttpClient();
         }
 
@@ -37,7 +40,7 @@ namespace QWMS.Services
                     { "page", page?.ToString() },
                 };
 
-                var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/reservations", query));
+                var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/reservations", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 

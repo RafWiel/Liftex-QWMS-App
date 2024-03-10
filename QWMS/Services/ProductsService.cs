@@ -20,11 +20,14 @@ namespace QWMS.Services
     {        
         private HttpClient _httpClient;
         private ILogger<ProductsService> _logger;
+        private IConfiguration _configuration;
 
-        public ProductsService(ILogger<ProductsService> logger) 
+        public ProductsService(ILogger<ProductsService> logger, IConfiguration configuration) 
         { 
             _logger = logger;
-            _httpClient = new HttpClient();
+            _configuration = configuration;
+
+            _httpClient = new HttpClient();            
         }
 
         public async Task<List<ProductListModel>?> Get(string? search, int? page)
@@ -37,7 +40,7 @@ namespace QWMS.Services
                     { "page", page?.ToString() },
                 };
 
-                var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/products", query));
+                var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/products", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 
@@ -77,7 +80,7 @@ namespace QWMS.Services
         {
             try
             {                
-                var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/product", query));
+                var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/product", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 

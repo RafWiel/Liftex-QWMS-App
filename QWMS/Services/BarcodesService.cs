@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
+using QWMS.Models;
 
 namespace QWMS.Services
 {
@@ -20,11 +21,14 @@ namespace QWMS.Services
     {        
         private HttpClient _httpClient;
         private ILogger<BarcodesService> _logger;
+        private IConfiguration _configuration;
 
-        public BarcodesService(ILogger<BarcodesService> logger) 
+        public BarcodesService(ILogger<BarcodesService> logger, IConfiguration configuration) 
         { 
             _logger = logger;
-            _httpClient = new HttpClient();
+            _configuration = configuration;
+
+            _httpClient = new HttpClient();            
         }
 
         public async Task<List<BarcodeListModel>?> Get(int productId, int? page)
@@ -37,7 +41,7 @@ namespace QWMS.Services
                     { "page", page?.ToString() },
                 };
 
-                var response = await _httpClient.GetAsync(Tools.BuildUrl("http://192.168.1.110:3001/api/v1/barcodes", query));
+                var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/barcodes", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
 
