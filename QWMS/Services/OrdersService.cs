@@ -10,6 +10,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using QWMS.Helpers;
+using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace QWMS.Services
 {
@@ -58,6 +60,33 @@ namespace QWMS.Services
             }
 
             return null;
+        }
+
+        public async Task<bool> Test()
+        {
+            try
+            {
+                var model = new OrderTestModel
+                {
+                    Id = 1,
+                    Name = "Test",
+                    Count = 0.1M,
+                };
+
+                var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync($"{_configuration.ApiUrl}/v1/orders/test", content);
+                if (!response.IsSuccessStatusCode)
+                    return false;                
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return false;
         }
     }
 }

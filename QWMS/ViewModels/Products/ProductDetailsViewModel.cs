@@ -26,6 +26,7 @@ namespace QWMS.ViewModels.Products
 
         private IMessageDialogsService _messageDialogsService;
         private IProductsService _productsService;
+        private IOrdersService _ordersService;
         private IBarcodeReaderService _barcodeReaderService;
         private IAudioService _audioService;
         private ILogger<ProductDetailsViewModel> _logger;
@@ -33,7 +34,8 @@ namespace QWMS.ViewModels.Products
         public Command GoToListCommand { get; }
         public Command GoToEanCodesCommand { get; }
         public Command GoToReservationsCommand { get; }
-        
+        public Command TestCommand { get; }
+
         //public ObservableCollection<ProductDetailsCountModel> Items { get; } = new();
 
         #region Properties 
@@ -75,7 +77,8 @@ namespace QWMS.ViewModels.Products
         public ProductDetailsViewModel(
             ILogger<ProductDetailsViewModel> logger,
             IMessageDialogsService messageDialogsService,
-            IProductsService productsService, 
+            IProductsService productsService,
+            IOrdersService ordersService,
             IBarcodeReaderService barcodeReaderService,           
             IAudioService audioService) : base()
         {
@@ -83,11 +86,13 @@ namespace QWMS.ViewModels.Products
             _messageDialogsService = messageDialogsService;
             _productsService = productsService;
             _barcodeReaderService = barcodeReaderService;
-            _audioService = audioService;            
+            _audioService = audioService;  
+            _ordersService = ordersService;
 
             GoToListCommand = new Command(async () => await GoToListAsync());
             GoToEanCodesCommand = new Command(async () => await GoToEanCodesAsync());
             GoToReservationsCommand = new Command(async () => await GoToReservationsAsync());
+            TestCommand = new Command(async () => await TestOrdersAsync());
         }
 
         #endregion        
@@ -188,6 +193,34 @@ namespace QWMS.ViewModels.Products
                 { nameof(ReservationListViewModel.ProductId), ProductId },
                 { nameof(ReservationListViewModel.ProductCode), Model.Code }
             });
+        }
+
+        private async Task TestOrdersAsync()
+        {
+            if (IsBusy)
+                return;
+
+            try
+            {
+                IsBusy = true;
+
+                var result = await _ordersService.Test();
+                if (!result)
+                {
+                    _messageDialogsService.ShowError("Test", "Test nieudany", 3000);
+                    return;
+                }
+
+                _messageDialogsService.ShowNotification("Test", "Test zakończony, todo stoper", 3000);                                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.ToString());
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         #endregion

@@ -6,9 +6,7 @@
     xmlns:model="clr-namespace:QWMS.Models.Products"
     xmlns:viewModel="clr-namespace:QWMS.ViewModels.Products"
     Title="{Binding Title}"
-    x:DataType="viewModel:ProductListViewModel"
-    BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackground},
-                                      Dark={StaticResource DarkPageBackground}}">
+    x:DataType="viewModel:ProductListViewModel">
     <Grid RowDefinitions="auto,*">
         <Label
             Padding="10"

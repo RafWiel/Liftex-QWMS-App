@@ -6,9 +6,7 @@
     xmlns:model="clr-namespace:QWMS.Models.Products"
     xmlns:viewModel="clr-namespace:QWMS.ViewModels.Products"
     Title="{Binding Title}"
-    x:DataType="viewModel:ProductDetailsViewModel"
-    BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackground},
-                                      Dark={StaticResource DarkPageBackground}}">
+    x:DataType="viewModel:ProductDetailsViewModel">
     <Grid RowDefinitions="auto,*">
         <Label
             Padding="10"
@@ -21,7 +19,7 @@
             <!--  Details  -->
             <Grid
                 Grid.Row="0"
-                Padding="10"
+                Padding="10,0,10,5"
                 BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground},
                                                   Dark={StaticResource DarkBackground}}"
                 ColumnDefinitions="*,*"
@@ -190,10 +188,14 @@
                 RowDefinitions="auto, auto"
                 RowSpacing="1">
                 <Button
-                    Grid.ColumnSpan="2"
                     Command="{Binding GoToListCommand}"
                     HorizontalOptions="Fill"
                     Text="Szukaj" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding TestCommand}"
+                    HorizontalOptions="Fill"
+                    Text="Testuj ZS" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="0"

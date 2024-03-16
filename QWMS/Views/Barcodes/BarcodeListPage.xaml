@@ -6,9 +6,7 @@
     xmlns:model="clr-namespace:QWMS.Models.Barcodes"
     xmlns:viewModel="clr-namespace:QWMS.ViewModels.Barcodes"
     Title="{Binding Title}"
-    x:DataType="viewModel:BarcodeListViewModel"
-    BackgroundColor="{AppThemeBinding Light={StaticResource LightPageBackground},
-                                      Dark={StaticResource DarkPageBackground}}">
+    x:DataType="viewModel:BarcodeListViewModel">
     <Grid RowDefinitions="auto,*">
         <Label
             Padding="10"
