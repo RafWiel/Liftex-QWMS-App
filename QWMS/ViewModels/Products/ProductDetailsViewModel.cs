@@ -204,14 +204,14 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                var result = await _ordersService.Test();
-                if (!result)
+                var errorMessage = await _ordersService.Test();
+                if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    _messageDialogsService.ShowError("Test", "Test nieudany", 3000);
+                    _messageDialogsService.ShowError("Test", errorMessage, 3000);
                     return;
                 }
 
-                _messageDialogsService.ShowNotification("Test", "Test zakończony, todo stoper", 3000);                                
+                _messageDialogsService.ShowNotification("Test", "Test zakończony, todo pętla 30 i stoper", 3000);                                
             }
             catch (Exception ex)
             {

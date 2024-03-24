@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using QWMS.Helpers;
 using Newtonsoft.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using QWMS.DataTransferObjects;
 
 namespace QWMS.Services
 {
@@ -62,31 +63,39 @@ namespace QWMS.Services
             return null;
         }
 
-        public async Task<bool> Test()
+        public async Task<string> Test()
         {
             try
-            {
-                var model = new OrderTestModel
+            {                
+                var response = await _httpClient.PostAsync($"{_configuration.ApiUrl}/v1/orders/test/header", null);
+                if (!response.IsSuccessStatusCode)
+                    return "Nieudane utworzenie nagłówka";
+
+                var responseDto = await response.Content.ReadFromJsonAsync<IdResponseDto>();
+
+                var requestDto = new OrderDto
                 {
-                    Id = 1,
-                    Name = "Test",
-                    Count = 0.1M,
+                    Id = responseDto!.Id,                    
                 };
 
-                var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{_configuration.ApiUrl}/v1/orders/test", content);
+                response = await _httpClient.PostAsync($"{_configuration.ApiUrl}/v1/orders/test/item", content);
                 if (!response.IsSuccessStatusCode)
-                    return false;                
+                    return "Nieudane dodanie pozycji towaru";
 
-                return true;
+                response = await _httpClient.PostAsync($"{_configuration.ApiUrl}/v1/orders/test/close", content);
+                if (!response.IsSuccessStatusCode)
+                    return "Nieudane zamknięcie zamówienia";
+
+                return string.Empty;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
             }
 
-            return false;
+            return "Wystąpił niekreślony błąd";
         }
     }
 }
