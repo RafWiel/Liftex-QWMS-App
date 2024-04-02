@@ -204,14 +204,23 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                var errorMessage = await _ordersService.Test();
-                if (!string.IsNullOrEmpty(errorMessage))
+                _messageDialogsService.ShowCallbackNotification("Test", "Callback");
+                
+                for (int i = 0; i < 3; i++)
                 {
-                    _messageDialogsService.ShowError("Test", errorMessage, 3000);
-                    return;
+                    _messageDialogsService.UpdateCallbackNotification($"Processing test {i+1}");
+
+                    obsluz przycisk anuluj
+
+                    var errorMessage = await _ordersService.Test();
+                    if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        _messageDialogsService.ShowError("Test", errorMessage, 3000);
+                        return;
+                    }
                 }
 
-                _messageDialogsService.ShowNotification("Test", "Test zakończony, todo pętla 30 i stoper", 3000);                                
+                _messageDialogsService.ShowNotification("Test", "Test zakończony, todo pętla 30 i stoper", 3000);
             }
             catch (Exception ex)
             {

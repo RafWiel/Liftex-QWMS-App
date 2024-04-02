@@ -18,7 +18,8 @@ namespace QWMS.Services
 {
     public class MessageDialogsService : IMessageDialogsService
     {
-        protected readonly IPopupService _popupService;        
+        protected readonly IPopupService _popupService;
+        private CallbackMessageDialogViewModel? _callbackMessageDialogViewModel = null;
 
         public MessageDialogsService(IPopupService popupService)
         {
@@ -55,6 +56,21 @@ namespace QWMS.Services
             await _popupService.ShowPopupAsync<MessageDialogViewModel>(onPresenting: viewModel => 
                 viewModel.Initialize(title, message, MessageType.Error)
             );
+        }
+
+        public async void ShowCallbackNotification(string title, string message)
+        {
+            await _popupService.ShowPopupAsync<CallbackMessageDialogViewModel>(onPresenting: viewModel =>
+                _callbackMessageDialogViewModel = viewModel.Initialize(title, message, MessageType.Notification)
+            );            
+        }
+
+        public void UpdateCallbackNotification(string message)
+        {
+            if (_callbackMessageDialogViewModel == null) 
+                return;
+
+            _callbackMessageDialogViewModel.Message = message;            
         }
     }
 }

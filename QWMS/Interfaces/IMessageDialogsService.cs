@@ -9,7 +9,9 @@ namespace QWMS.Interfaces
 {
     public interface IMessageDialogsService
     {
-        void ShowNotification(string title, string message, int delay);
-        void ShowError(string title, string message, int delay);
+        void ShowNotification(string title, string message, int delay = 0);
+        void ShowError(string title, string message, int delay = 0);
+        void ShowCallbackNotification(string title, string message);
+        void UpdateCallbackNotification(string message);
     }
 }

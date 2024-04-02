@@ -74,6 +74,7 @@ namespace QWMS
             builder.Services.AddScoped<ReservationListViewModel>();
             builder.Services.AddTransientPopup<MessageDialog, MessageDialogViewModel>();
             builder.Services.AddTransientPopup<AutoMessageDialog, AutoMessageDialogViewModel>();
+            builder.Services.AddTransientPopup<CallbackMessageDialog, CallbackMessageDialogViewModel>();
             builder.Services.AddScoped<QWMS.Interfaces.IConfiguration, Configuration.Configuration>();
 
             return builder.Build();
