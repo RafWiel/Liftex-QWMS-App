@@ -19,7 +19,9 @@ namespace QWMS.Services
     public class MessageDialogsService : IMessageDialogsService
     {
         protected readonly IPopupService _popupService;
-        private CallbackMessageDialogViewModel? _callbackMessageDialogViewModel = null;
+        private ActionMessageDialogViewModel? _actionMessageDialogViewModel = null;
+
+        public bool? IsActionStopped => _actionMessageDialogViewModel?.IsActionCancel;
 
         public MessageDialogsService(IPopupService popupService)
         {
@@ -58,19 +60,24 @@ namespace QWMS.Services
             );
         }
 
-        public async void ShowCallbackNotification(string title, string message)
+        public async void ShowActionNotification(string title, string message)
         {
-            await _popupService.ShowPopupAsync<CallbackMessageDialogViewModel>(onPresenting: viewModel =>
-                _callbackMessageDialogViewModel = viewModel.Initialize(title, message, MessageType.Notification)
+            await _popupService.ShowPopupAsync<ActionMessageDialogViewModel>(onPresenting: viewModel =>
+                _actionMessageDialogViewModel = viewModel.Initialize(title, message, MessageType.Notification)
             );            
         }
 
-        public void UpdateCallbackNotification(string message)
+        public void UpdateActionNotification(string message)
         {
-            if (_callbackMessageDialogViewModel == null) 
+            if (_actionMessageDialogViewModel == null) 
                 return;
 
-            _callbackMessageDialogViewModel.Message = message;            
+            _actionMessageDialogViewModel.Message = message;            
+        }
+
+        public void CloseActionNotification()
+        {
+            _actionMessageDialogViewModel?.Close();
         }
     }
 }

@@ -9,9 +9,11 @@ namespace QWMS.Interfaces
 {
     public interface IMessageDialogsService
     {
+        bool? IsActionStopped { get; }
         void ShowNotification(string title, string message, int delay = 0);
         void ShowError(string title, string message, int delay = 0);
-        void ShowCallbackNotification(string title, string message);
-        void UpdateCallbackNotification(string message);
+        void ShowActionNotification(string title, string message);
+        void UpdateActionNotification(string message);
+        void CloseActionNotification();
     }
 }

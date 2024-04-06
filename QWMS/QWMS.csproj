@@ -121,8 +121,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\Dialogs\CallbackMessageDialog.xaml.cs">
-	    <DependentUpon>CallbackMessageDialog.xaml</DependentUpon>
+	  <Compile Update="Views\Dialogs\ActionMessageDialog.xaml.cs">
+	    <DependentUpon>ActionMessageDialog.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Reservations\ReservationListPage.xaml.cs">
 	    <DependentUpon>ReservationListPage.xaml</DependentUpon>
@@ -166,7 +166,7 @@
 	  <MauiXaml Update="Resources\Styles\Entry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Dialogs\CallbackMessageDialog.xaml">
+	  <MauiXaml Update="Views\Dialogs\ActionMessageDialog.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Reservations\ReservationListPage.xaml">

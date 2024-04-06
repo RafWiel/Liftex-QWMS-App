@@ -204,13 +204,16 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                _messageDialogsService.ShowCallbackNotification("Test", "Callback");
-                
-                for (int i = 0; i < 3; i++)
-                {
-                    _messageDialogsService.UpdateCallbackNotification($"Processing test {i+1}");
+                dodaj stoper
 
-                    obsluz przycisk anuluj
+                _messageDialogsService.ShowActionNotification("Test", "Callback");
+                
+                for (int i = 0; i < 10; i++)
+                {
+                    if (_messageDialogsService.IsActionStopped ?? false)
+                        break;
+
+                    _messageDialogsService.UpdateActionNotification($"Tworzenie testowego zamówienia: {i+1}");                    
 
                     var errorMessage = await _ordersService.Test();
                     if (!string.IsNullOrEmpty(errorMessage))
@@ -220,7 +223,11 @@ namespace QWMS.ViewModels.Products
                     }
                 }
 
-                _messageDialogsService.ShowNotification("Test", "Test zakończony, todo pętla 30 i stoper", 3000);
+                if (!_messageDialogsService.IsActionStopped ?? false)
+                {
+                    _messageDialogsService.CloseActionNotification();
+                    _messageDialogsService.ShowNotification("Test", "Test zakończony", 3000);
+                }
             }
             catch (Exception ex)
             {

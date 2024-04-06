@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace QWMS.ViewModels.Dialogs
 {
-    public class CallbackMessageDialogViewModel : BaseDialogViewModel
-    {                
+    public class ActionMessageDialogViewModel : BaseDialogViewModel
+    {
         public Command CloseCommand { get; }
 
         private string _title = string.Empty;
@@ -27,22 +27,30 @@ namespace QWMS.ViewModels.Dialogs
             set => Set(ref _message, value);
         }
 
-        public CallbackMessageDialogViewModel(IAudioService audioService) : base(audioService) 
+        public bool IsActionCancel { get; set; }
+        
+        public ActionMessageDialogViewModel(IAudioService audioService) : base(audioService) 
         {            
             CloseCommand = new Command(() =>
             {
+                IsActionCancel = true;
                 InvokeCloseEvent();
             });            
         }
 
-        public CallbackMessageDialogViewModel Initialize(string title, string message, MessageType messageType)
+        public ActionMessageDialogViewModel Initialize(string title, string message, MessageType messageType)
         { 
             Title = title;
             Message = message;
             MessageType = messageType;
 
             return this;
-        }        
+        }
+
+        public void Close()
+        {
+            InvokeCloseEvent();
+        }
     }
 }
 

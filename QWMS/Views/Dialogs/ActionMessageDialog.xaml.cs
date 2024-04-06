@@ -3,11 +3,11 @@ using QWMS.ViewModels.Dialogs;
 
 namespace QWMS.Views.Dialogs;
 
-public partial class CallbackMessageDialog : Popup
+public partial class ActionMessageDialog : Popup
 {
-    private CallbackMessageDialogViewModel _viewModel;
+    private ActionMessageDialogViewModel _viewModel;
 
-    public CallbackMessageDialog(CallbackMessageDialogViewModel viewModel)
+    public ActionMessageDialog(ActionMessageDialogViewModel viewModel)
     {
         InitializeComponent();
 
