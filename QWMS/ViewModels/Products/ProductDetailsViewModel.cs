@@ -12,6 +12,7 @@ using QWMS.Views.Reservations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -204,7 +205,8 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
-                dodaj stoper
+                var sw = new Stopwatch();
+                sw.Start();
 
                 _messageDialogsService.ShowActionNotification("Test", "Callback");
                 
@@ -225,8 +227,10 @@ namespace QWMS.ViewModels.Products
 
                 if (!_messageDialogsService.IsActionStopped ?? false)
                 {
+                    sw.Stop();
+
                     _messageDialogsService.CloseActionNotification();
-                    _messageDialogsService.ShowNotification("Test", "Test zakończony", 3000);
+                    _messageDialogsService.ShowNotification("Test", $"Test zakończony: {sw.Elapsed.TotalSeconds:0.0}s", 3000);
                 }
             }
             catch (Exception ex)
