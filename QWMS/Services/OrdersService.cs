@@ -67,7 +67,11 @@ namespace QWMS.Services
         {
             try
             {                
-                var response = await _httpClient.PostAsync($"{_configuration.ApiUrl}/v1/orders/test/header", null);
+                //naglowek
+                var response = await _httpClient.PostAsync(
+                    $"{_configuration.ApiUrl}/v1/orders/test/header", 
+                    null);
+
                 if (!response.IsSuccessStatusCode)
                     return "Nieudane utworzenie nagłówka";
 
@@ -78,13 +82,24 @@ namespace QWMS.Services
                     Id = responseDto!.Id,                    
                 };
 
-                var content = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.UTF8, "application/json");
+                //towar
+                var content = new StringContent(
+                    JsonConvert.SerializeObject(requestDto), 
+                    Encoding.UTF8, 
+                    "application/json");
 
-                response = await _httpClient.PostAsync($"{_configuration.ApiUrl}/v1/orders/test/item", content);
+                response = await _httpClient.PostAsync(
+                    $"{_configuration.ApiUrl}/v1/orders/test/item", 
+                    content);
+
                 if (!response.IsSuccessStatusCode)
                     return "Nieudane dodanie pozycji towaru";
 
-                response = await _httpClient.PostAsync($"{_configuration.ApiUrl}/v1/orders/test/close", content);
+                //zamkniecie zamowienia
+                response = await _httpClient.PostAsync(
+                    $"{_configuration.ApiUrl}/v1/orders/test/close", 
+                    content);
+
                 if (!response.IsSuccessStatusCode)
                     return "Nieudane zamknięcie zamówienia";
 
