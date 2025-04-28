@@ -195,6 +195,7 @@
                     Grid.Column="1"
                     Command="{Binding TestCommand}"
                     HorizontalOptions="Fill"
+                    IsEnabled="False"
                     Text="Testuj ZS" />
                 <Button
                     Grid.Row="1"
