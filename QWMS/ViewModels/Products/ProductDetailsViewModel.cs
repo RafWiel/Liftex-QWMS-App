@@ -209,20 +209,34 @@ namespace QWMS.ViewModels.Products
                 sw.Start();
 
                 _messageDialogsService.ShowActionNotification("Test", "Callback");
-                
+                _messageDialogsService.UpdateActionNotification($"Tworzenie testowego zamówienia\nProszę czekać...");
+
+                var order = await _ordersService.TestAddHeader();
+                if (order?.Id == 0)
+                    return;
+
+                var errorMessage = string.Empty;
+
                 for (int i = 0; i < 10; i++)
                 {
                     if (_messageDialogsService.IsActionStopped ?? false)
                         break;
 
-                    _messageDialogsService.UpdateActionNotification($"Tworzenie testowego zamówienia: {i+1}");                    
-
-                    var errorMessage = await _ordersService.Test();
+                    _messageDialogsService.UpdateActionNotification($"Dodawanie towaru: {(i + 1)}");
+                    
+                    errorMessage = await _ordersService.TestAddItem(order?.Id ?? 0);
                     if (!string.IsNullOrEmpty(errorMessage))
                     {
                         _messageDialogsService.ShowError("Test", errorMessage, 3000);
                         return;
                     }
+                }
+
+                errorMessage = await _ordersService.TestCloseOrder(order?.Id ?? 0);
+                if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    _messageDialogsService.ShowError("Test", errorMessage, 3000);
+                    return;
                 }
 
                 if (!_messageDialogsService.IsActionStopped ?? false)

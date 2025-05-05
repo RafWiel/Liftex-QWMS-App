@@ -62,42 +62,87 @@ namespace QWMS.Services
 
             return null;
         }
-
-        public async Task<string> Test()
+        
+        public async Task<OrderTestModel> TestAddHeader()
         {
+            var result = new OrderTestModel();
+
             try
-            {                
-                //naglowek
+            {
                 var response = await _httpClient.PostAsync(
-                    $"{_configuration.ApiUrl}/v1/orders/test/header", 
+                    $"{_configuration.ApiUrl}/v1/orders/test/header",
                     null);
 
                 if (!response.IsSuccessStatusCode)
-                    return "Nieudane utworzenie nagłówka";
+                {
+                    result.ErrorMesage = "Nieudane utworzenie nagłówka";
+
+                    return result;
+                }
 
                 var responseDto = await response.Content.ReadFromJsonAsync<IdResponseDto>();
 
+                result.Id = responseDto!.Id;
+                
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            result.ErrorMesage = "Wystąpił nieokreślony błąd";
+
+            return result;
+        }
+
+        public async Task<string> TestAddItem(int id)
+        {
+            try
+            {                
                 var requestDto = new OrderDto
                 {
-                    Id = responseDto!.Id,                    
+                    Id = id,
                 };
 
-                //towar
                 var content = new StringContent(
-                    JsonConvert.SerializeObject(requestDto), 
-                    Encoding.UTF8, 
+                    JsonConvert.SerializeObject(requestDto),
+                    Encoding.UTF8,
                     "application/json");
 
-                response = await _httpClient.PostAsync(
-                    $"{_configuration.ApiUrl}/v1/orders/test/item", 
+                var response = await _httpClient.PostAsync(
+                    $"{_configuration.ApiUrl}/v1/orders/test/item",
                     content);
 
                 if (!response.IsSuccessStatusCode)
-                    return "Nieudane dodanie pozycji towaru";
+                    return "Nieudane dodanie pozycji towaru";                
 
-                //zamkniecie zamowienia
-                response = await _httpClient.PostAsync(
-                    $"{_configuration.ApiUrl}/v1/orders/test/close", 
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return "Wystąpił nieokreślony błąd";
+        }
+
+        public async Task<string> TestCloseOrder(int id)
+        {
+            try
+            {                
+                var requestDto = new OrderDto
+                {
+                    Id = id,
+                };
+
+                var content = new StringContent(
+                    JsonConvert.SerializeObject(requestDto),
+                    Encoding.UTF8,
+                    "application/json");
+
+                var response = await _httpClient.PostAsync(
+                    $"{_configuration.ApiUrl}/v1/orders/test/close",
                     content);
 
                 if (!response.IsSuccessStatusCode)
@@ -110,7 +155,8 @@ namespace QWMS.Services
                 _logger.LogError(ex, ex.Message);
             }
 
-            return "Wystąpił niekreślony błąd";
+            return "Wystąpił nieokreślony błąd";
         }
+
     }
 }

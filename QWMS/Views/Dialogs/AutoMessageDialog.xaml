@@ -21,6 +21,7 @@
         <Label Style="{StaticResource MessageTitle}" Text="{Binding Title}" />
         <Label
             Grid.Row="1"
+            LineBreakMode="WordWrap"
             Style="{StaticResource MessageText}"
             Text="{Binding Message}" />
     </Grid>

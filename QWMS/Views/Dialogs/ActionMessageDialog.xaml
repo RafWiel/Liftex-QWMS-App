@@ -30,6 +30,7 @@
             Grid.Row="1"
             FontSize="14"
             HorizontalOptions="Start"
+            LineBreakMode="WordWrap"
             Text="{Binding Message}"
             TextColor="{AppThemeBinding Light={StaticResource SecondaryLightText},
                                         Dark={StaticResource SecondaryDarkText}}"

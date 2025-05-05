@@ -10,6 +10,8 @@ namespace QWMS.Interfaces
     public interface IOrdersService
     {
         Task<List<OrderListModel>?> Get(string? search, int? page);
-        Task<string> Test();
+        Task<OrderTestModel> TestAddHeader();
+        Task<string> TestAddItem(int id);
+        Task<string> TestCloseOrder(int id);
     }
 }
