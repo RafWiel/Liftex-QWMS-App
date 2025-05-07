@@ -14,9 +14,9 @@ using QWMS.Views.Barcodes;
 using QWMS.ViewModels.Barcodes;
 using QWMS.Views.Reservations;
 using QWMS.ViewModels.Reservations;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
-
 
 namespace QWMS
 {
@@ -34,7 +34,24 @@ namespace QWMS
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.Logging.AddTraceLogger(_ => {}); //TODO: Ustaw plik do zapisu
+            builder.Logging.AddTraceLogger(_ => {});
+
+            builder.Logging.AddConsoleLogger(options =>
+            {
+                options.MinLevel = LogLevel.Debug;
+                options.MaxLevel = LogLevel.Critical;
+            });
+
+            var aa = FileSystem.Current.CacheDirectory;
+
+            builder.Logging.AddStreamingFileLogger(options => 
+            {                
+                options.MinLevel = LogLevel.Debug;
+                options.MaxLevel = LogLevel.Critical;
+                options.FolderPath = Path.Combine(
+                    FileSystem.Current.CacheDirectory,
+                    "QWMS Logs");                
+            });
 
             var fileName = "QWMS.appSettings.production.json";
 

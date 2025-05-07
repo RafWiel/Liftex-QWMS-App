@@ -33,6 +33,8 @@ namespace QWMS.Configuration
                 var settings = _configuration.GetRequiredSection("Settings").Get<SettingsModel>();
                 
                 ApiUrl = settings!.ApiUrl;
+
+                _logger.LogInformation($"DataSoft API URL: {ApiUrl}");
             }
             catch (Exception ex)
             {
