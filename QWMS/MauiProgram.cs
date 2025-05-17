@@ -37,14 +37,14 @@ namespace QWMS
             builder.Logging.AddTraceLogger(_ => {});
 
             builder.Logging.AddConsoleLogger(options =>
-            {
+            {                
                 options.MinLevel = LogLevel.Debug;
                 options.MaxLevel = LogLevel.Critical;
             });
 
             var aa = FileSystem.Current.CacheDirectory;
 
-            builder.Logging.AddStreamingFileLogger(options => 
+           builder.Logging.AddStreamingFileLogger(options => 
             {                
                 options.MinLevel = LogLevel.Debug;
                 options.MaxLevel = LogLevel.Critical;
