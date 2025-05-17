@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace QWMS
 {
@@ -19,10 +20,10 @@ namespace QWMS
         {            
             var window = base.CreateWindow(activationState);
 
-            #if WINDOWS
+#if WINDOWS
             window.Width = 400;
             window.Height = 600;
-            #endif
+#endif
 
             //var display = DeviceDisplay.Current.MainDisplayInfo;
 
@@ -30,7 +31,8 @@ namespace QWMS
             //window.X = (display.Width / display.Density - window.Width) / 2;
             //window.Y = (display.Height / display.Density - window.Height) / 2;
 
-            _logger.LogInformation("Application start");
+            var v = Assembly.GetExecutingAssembly().GetName().Version;            
+            _logger.LogInformation($"Application start {v.Major}.{v.Minor}.{v.Build}.{v.Revision}");
 
             return window;
         }

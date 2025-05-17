@@ -1,5 +1,4 @@
 ﻿using Com.Cipherlab.Barcode.Decoderparams;
-using MetroLog;
 using Microsoft.Extensions.Logging;
 using QWMS.Helpers;
 using QWMS.Interfaces;

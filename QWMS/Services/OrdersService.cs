@@ -1,5 +1,4 @@
-﻿using MetroLog;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
 using QWMS.Models.Orders;
 using System;

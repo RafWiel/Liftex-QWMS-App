@@ -82,6 +82,8 @@ namespace QWMS.ViewModels.Products
             {
                 IsBusy = true;
 
+                _logger.LogInformation("Pobieranie listy towarów");
+
                 var products = await _productsService.Get(_searchText, null);
                 if (products == null)
                 {

@@ -5,7 +5,6 @@ using Com.Cipherlab.Barcode;
 using Com.Cipherlab.Barcode.Decoder;
 using Com.Cipherlab.Barcode.Decoderparams;
 using Java.Util.Logging;
-using MetroLog;
 using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
 using System.Text.RegularExpressions;

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Core;
-using MetroLog;
 using Microsoft.Extensions.Logging;
 using QWMS.Enums;
 using QWMS.Interfaces;

@@ -1,6 +1,5 @@
 ﻿using Com.Cipherlab.Barcode.Decoderparams;
 using CommunityToolkit.Maui.Core;
-using MetroLog;
 using Microsoft.Extensions.Logging;
 using QWMS.Interfaces;
 using QWMS.Models.Orders;
