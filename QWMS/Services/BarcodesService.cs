@@ -40,6 +40,8 @@ namespace QWMS.Services
                     { "page", page?.ToString() },
                 };
 
+                _logger.LogInformation($"Pobieranie listy kodów kreskowych towaru id {productId}");
+
                 var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/barcodes", query));
                 if (!response.IsSuccessStatusCode)
                     return null;

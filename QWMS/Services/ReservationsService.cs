@@ -39,6 +39,8 @@ namespace QWMS.Services
                     { "page", page?.ToString() },
                 };
 
+                _logger.LogInformation($"Pobieranie listy rezerwacji towaru id {productId}");
+
                 var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/reservations", query));
                 if (!response.IsSuccessStatusCode)
                     return null;

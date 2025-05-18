@@ -30,7 +30,7 @@ namespace QWMS.Services
         }
 
         public async Task<List<OrderListModel>?> Get(string? search, int? page)
-        {
+        {            
             try
             {
                 var query = new Dictionary<string, string?>
@@ -38,7 +38,9 @@ namespace QWMS.Services
                     { "search", search },
                     { "page", page?.ToString() },
                 };
-                
+
+                _logger.LogInformation("Pobieranie listy zamówień");
+
                 var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/orders", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -68,6 +70,8 @@ namespace QWMS.Services
 
             try
             {
+                _logger.LogInformation("Tworzenie nagłówka zamówienia");
+
                 var response = await _httpClient.PostAsync(
                     $"{_configuration.ApiUrl}/v1/orders/test/header",
                     null);
@@ -109,6 +113,8 @@ namespace QWMS.Services
                     Encoding.UTF8,
                     "application/json");
 
+                _logger.LogInformation("Dodawanie towaru do zamówienia");
+
                 var response = await _httpClient.PostAsync(
                     $"{_configuration.ApiUrl}/v1/orders/test/item",
                     content);
@@ -139,6 +145,8 @@ namespace QWMS.Services
                     JsonConvert.SerializeObject(requestDto),
                     Encoding.UTF8,
                     "application/json");
+
+                _logger.LogInformation("Zamykanie zamówienia");
 
                 var response = await _httpClient.PostAsync(
                     $"{_configuration.ApiUrl}/v1/orders/test/close",

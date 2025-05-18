@@ -39,6 +39,8 @@ namespace QWMS.Services
                     { "page", page?.ToString() },
                 };
 
+                _logger.LogInformation("Pobieranie listy towarów");
+
                 var response = await _httpClient.GetAsync(Tools.BuildUrl($"{_configuration.ApiUrl}/v1/products", query));
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -61,7 +63,9 @@ namespace QWMS.Services
             {
                 { "id", id.ToString() }
             };
-            
+
+            _logger.LogInformation($"Pobieranie towaru id {id}");
+
             return await GetSingle(query);
         }
 
@@ -71,6 +75,8 @@ namespace QWMS.Services
             {
                 { "ean", ean }
             };
+
+            _logger.LogInformation($"Pobieranie towaru ean {ean}");
 
             return await GetSingle(query);
         }

@@ -1,5 +1,8 @@
 Tryb ciemny - Za jasny kolor w datagrid
 
+*** 0.2.5 - 2025.05.18
+- Rozszerzone logi
+
 *** 0.2.0 - 2025.05.05
 - W³¹czyæ dodawanie ZS, ale pojedyncze i 10 pozycji towaru.
 
